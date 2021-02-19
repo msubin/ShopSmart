@@ -5,14 +5,10 @@
 * [Contents](#content)
 
 ## General Info
-<<<<<<< HEAD
-Brian is causing a conflict
-=======
 Brian: index.html
->>>>>>> fad027f0a5fbdab6b6a3ec399aae464f36f016ab
-Lukasz is causing a conflict
-Subin is causing a conflict
-Brian is still causing trouble
+Lukasz: pantry.html
+Subin: item-detail.html
+Simron: shared_lists.html
 	
 ## Technologies
 Technologies used for this project:
