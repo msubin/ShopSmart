@@ -5,13 +5,10 @@
 * [Contents](#content)
 
 ## General Info
-Brian is causing a conflict
-<<<<<<< HEAD
+Brian: index.html
 Lukasz is causing a conflict
-=======
 Subin is causing a conflict
 Brian is still causing trouble
->>>>>>> 745679d962720a917081fa3da8f886c8b7152fea
 	
 ## Technologies
 Technologies used for this project:
