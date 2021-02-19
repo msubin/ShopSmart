@@ -5,10 +5,10 @@
 * [Contents](#content)
 
 ## General Info
-Brian is causing a conflict
-Lukasz is causing a conflict
-Subin is causing a conflict
-Brian is still causing trouble
+Brian: index.html
+Lukasz: pantry.html
+Subin: item-detail.html
+Simron: shared_lists.html
 	
 ## Technologies
 Technologies used for this project:
