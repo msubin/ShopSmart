@@ -5,7 +5,11 @@
 * [Contents](#content)
 
 ## General Info
+<<<<<<< HEAD
 Brian is causing a conflict
+=======
+Brian: index.html
+>>>>>>> fad027f0a5fbdab6b6a3ec399aae464f36f016ab
 Lukasz is causing a conflict
 Subin is causing a conflict
 Brian is still causing trouble
