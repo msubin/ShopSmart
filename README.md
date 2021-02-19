@@ -5,7 +5,7 @@
 * [Contents](#content)
 
 ## General Info
-This browser based web application to ...
+Brian is causing a conflict
 	
 ## Technologies
 Technologies used for this project:
