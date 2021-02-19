@@ -26,7 +26,7 @@
     <!-- Header Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-warning">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">ShopSmart</a>
+            <a class="navbar-brand" href="#">My Shopping List</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -34,16 +34,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Features</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Pricing</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                        <button type="button" class="btn btn-success">New List</button>
                     </li>
                 </ul>
             </div>
@@ -51,13 +42,15 @@
     </nav>
 
     <div class="container">
-        <h1 class="display-4" >Hello, World! This is The Pantry List Page</h1>
+        <div class="form-outline">
+            <input type="search" id="form1" class="form-control" placeholder="Add Item" aria-label="Search" />
+          </div>
     </div>
 
 <footer>
-    <nav class="navbar fixed-bottom navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light navbar fixed-bottom">
         <div class="container-fluid">
-          <a class="navbar-brand" href="#">B</a>
+          <a class="navbar-brand" href="#">ShopSmart</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -67,10 +60,10 @@
                 <a class="nav-link active" aria-current="page" href="#">Shopping List</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link active" href="#">Pantry List</a>
+                <a class="nav-link" href="#">Pantry</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link active" href="#">More</a>
+                <a class="nav-link" href="#">More</a>
               </li>
             </ul>
           </div>
