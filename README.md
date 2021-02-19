@@ -6,6 +6,7 @@
 
 ## General Info
 Brian is causing a conflict
+Subin is causing a conflict
 	
 ## Technologies
 Technologies used for this project:
