@@ -1,0 +1,9 @@
+#itemName, #itemDetail {
+    padding: 20px 40px;
+}
+
+#saveBtn {
+    background-color: #6AA392;
+    border: #6AA392;
+    padding: 10px 20px;
+}
