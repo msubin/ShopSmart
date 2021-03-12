@@ -19,23 +19,25 @@
   </header>
 
   <form id='itemDetail'>
-    <div class="itemQuantity input-group mb-3">
-      <label for="inputQuantity" class="col-sm-2 col-form-label">Quantity</label>
-      <input type="number" class="form-control" placeholder="Quantity" aria-label="Quantity">
-      <select class='form-select' id='inputGroupSelectUnit'>
-        <option value='not_specified'></option>
-        <option value="percentage">%</option>
-        <option value="each">ea</option>
-        <option value="pieces">pcs</option>
-        <option value="bag">bag</option>
-        <option value="bottle">bottle</option>
-        <option value="box">box</option>
-        <option value="case">case</option>
-        <option value="pack">pack</option>
-        <option value="roll">roll</option>
-        <option value="dozen">dozen</option>
-        <option value="cup">cup</option>
-      </select>
+    <div class="itemQuantity mb-3">
+      <label for="inputQuantity" class="col-sm-2 col-form-label">I have: </label>
+      <div class="input-group">
+        <input type="number" class="inputQuantity form-control" placeholder="Quantity" aria-label="Quantity">
+        <select class='inputQuantity form-select' id='inputGroupSelectUnit'>
+          <option value='not_specified'></option>
+          <option value="percentage">%</option>
+          <option value="each">ea</option>
+          <option value="pieces">pcs</option>
+          <option value="bag">bag</option>
+          <option value="bottle">bottle</option>
+          <option value="box">box</option>
+          <option value="case">case</option>
+          <option value="pack">pack</option>
+          <option value="roll">roll</option>
+          <option value="dozen">dozen</option>
+          <option value="cup">cup</option>
+        </select>
+      </div>
     </div>
 
     <div class="itemCategory row mb-3">
