@@ -42,7 +42,7 @@
       /* --bs-table-active-color: #2b463c; */
     }
 
-    li>i {
+    /* li>i {
       color: #f4f1e9;
       padding-top: 0.6rem;
     }
@@ -53,7 +53,7 @@
 
     button>i {
       color: #2b463c;
-    }
+    } */
 
     .text_box_style {
       background-color: #b1d182;
@@ -88,8 +88,9 @@
     }
 
     .inline {
-      display: inline-flex;
+      display: inline-block;
       margin-top: 1em;
+      vertical-align: middle;
     }
 
     .item_spacing {
@@ -103,11 +104,6 @@
     .checked_header {
       width: 100%;
       padding: 0.25rem 0 0.25rem 5rem;
-      /* padding-right: var(--bs-gutter-x, 0.75rem);
-      padding-left: var(--bs-gutter-x, 0.75rem); */
-      /* margin-right: auto;
-      margin-left: auto;
-      margin-top: 8em; */
       margin: 6em auto 0 auto;
       background-color: #dd614a;
       color: #f4f1e9;
@@ -140,8 +136,19 @@
 
     .dots_more {
       float: right;
-      margin-left: 0;
-      margin-top: 0.75em;
+      margin-top: 1.25em;
+    }
+
+    .fixed_bottom_nav_width {
+      width: 33.3vw;
+    }
+
+    a>h5 {
+      color: #f4f1e9;
+    }
+
+    footer i {
+      color: #f4f1e9;
     }
 
   </style>
@@ -189,10 +196,18 @@
       <input type="search" id="form1" class="form-control text_box_style" placeholder="Add Item" aria-label="Search" />
     </div>
 
-    <div>
-      <i class="far fa-square fa-2x"></i>
+    <div class="">
+
+      <button type="button" class="btn inline">
+        <i class="far fa-square fa-2x"></i>
+      </button>
+
       <h3 class="item_text inline">Milk</h3>
-      <i class="fas fa-ellipsis-h fa-2x dots_more"></i>
+
+      <button type="button" class="btn dots_more">
+        <i class="fas fa-ellipsis-h fa-2x"></i>
+      </button>
+
       <div class="btn-group quantity_buttons" role="group" aria-label="Basic checkbox toggle button group">
 
         <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
@@ -207,9 +222,15 @@
 
     <div>
 
-      <i class="far fa-square fa-2x"></i>
+      <button type="button" class="btn inline">
+        <i class="far fa-square fa-2x"></i>
+      </button>
+
       <h3 class="item_text inline">Spinach</h3>
-      <i class="fas fa-ellipsis-h fa-2x dots_more"></i>
+
+      <button type="button" class="btn dots_more">
+        <i class="fas fa-ellipsis-h fa-2x"></i>
+      </button>
 
       <div class="btn-group quantity_buttons" role="group" aria-label="Basic checkbox toggle button group">
         <input type="radio" class="btn-check" name="btnradio3" id="btnradio1" autocomplete="off" checked>
@@ -233,12 +254,16 @@
     <div class="container">
 
       <div>
-        <i class="far fa-check-square fa-2x"></i>
+        <button type="button" class="btn inline">
+          <i class="far fa-check-square fa-2x"></i>
+        </button>
         <h3 class="item_text inline"><del>Broccoli</del</h3> 
       </div> <hr>
 
       <div>
-        <i class="far fa-check-square fa-2x"></i>
+        <button type="button" class="btn inline">
+          <i class="far fa-check-square fa-2x"></i>
+        </button>
         <h3 class="item_text inline"><del>Cheese</del></h3> 
       </div> <hr>
 
@@ -256,7 +281,22 @@
 
     <ul class="nav nav-pills nav-fill fixed-bottom footer_color">
 
-      <li class="nav-item">
+      <a class="btn nav-item fixed_bottom_nav_width" href="/index.html" role="button">
+        <i class="fas fa-shopping-cart fa-2x"></i>
+        <h5>Shopping List</h5>
+      </a>
+      
+      <a class="btn nav-item active_section fixed_bottom_nav_width" href="/pantry.html" role="button">
+        <i class="fas fa-archive fa-2x active"></i>
+        <h5>Pantry List</h5>
+      </a>
+
+      <a class="btn nav-item fixed_bottom_nav_width" href="#" role="button">
+        <i class="fas fa-ellipsis-h fa-2x"></i>
+        <h5>More</h5>
+      </a>
+
+      <!-- <li class="nav-item">
         <i class="fas fa-shopping-cart fa-2x"></i>
         <a class="nav-link" aria-current="page" href="#">Shopping List</a>
       </li>
@@ -269,7 +309,7 @@
       <li class="nav-item">
         <i class="fas fa-ellipsis-h fa-2x"></i>
         <a class="nav-link" href="#">More</a>
-      </li>
+      </li> -->
 
     </ul>
 
