@@ -33,7 +33,7 @@ function writeNewItem(item) {
         current_list = document.getElementById('current-list').textContent;
 
         db.collection('users').doc(user.uid)
-            .collection('lists').doc('shopping')
+            .collection('lists').doc('pantry')
             .collection(current_list)
             .add({
                 item: item
@@ -67,7 +67,7 @@ document.getElementById('create-new-list').addEventListener('click', function (e
 function writeList(text) {
     firebase.auth().onAuthStateChanged(function (user) {
         db.collection('users').doc(user.uid)
-            .collection('lists').doc('shopping')
+            .collection('lists').doc('pantry')
             .collection(text)
             .set({
                 list_name: text
@@ -81,7 +81,7 @@ function itemsQuery(){
         current_list = document.getElementById('current-list').textContent;
 
         db.collection('users').doc(user.uid)
-        .collection('lists').doc('shopping')
+        .collection('lists').doc('pantry')
         .collection(current_list)
         .get()
         .then(function(snap){

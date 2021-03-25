@@ -1,332 +1,90 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-  <meta charset="utf-8">
-  <title>My BCIT Project</title>
-  <meta name="comp1800 boilerplate code" content="my bcit project">
-  <meta name="author" content="BCIT">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopSmart</title>
 
-  <!-- Bootstrap for Mobile-first, and JQuery -->
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <!-- Bootstrap for Mobile-first, and JQuery -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+        <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.6.1/firebase-ui-auth.css" />
 
-
-  <!-- Optional styles and scripts of your own -->
-
-  <style>
-    .page_color {
-      background-color: #f4f1e9;
-    }
-
-    #add_button {
-      border-style: solid;
-      border-width: 0.1rem;
-      border-color: black;
-      border-radius: 50% !important;
-      background-color: transparent;
-    }
-
-    .content_title {
-      text-align: center;
-      float: right;
-    }
-
-    .footer_color {
-      background-color: #6ba292;
-    }
-
-    .active_section {
-      background-color: #2b463c;
-      /* --bs-table-active-color: #2b463c; */
-    }
-
-    /* li>i {
-      color: #f4f1e9;
-      padding-top: 0.6rem;
-    }
-
-    li>a {
-      color: #f4f1e9;
-    }
-
-    button>i {
-      color: #2b463c;
-    } */
-
-    .text_box_style {
-      background-color: #b1d182;
-      color: black;
-    }
-
-    #list_spacing {
-      margin: 0 auto;
-    }
-
-    .dropdown-menu {
-      position: absolute;
-      top: 100%;
-      z-index: 1000;
-      display: none;
-      min-width: 10rem;
-      padding: 0.5rem 0;
-      margin: 0;
-      font-size: 1rem;
-      color: #212529;
-      text-align: left;
-      list-style: none;
-      background-color: #fff;
-      background-clip: padding-box;
-      border: 1px solid rgba(0, 0, 0, 0.15);
-      border-radius: 0.25rem;
-    }
-
-    .carrot {
-      color: #ed9121;
-      padding-top: 0;
-    }
-
-    .inline {
-      display: inline-block;
-      margin-top: 1em;
-      vertical-align: middle;
-    }
-
-    .item_spacing {
-      margin-top: 2em;
-    }
-
-    .item_text {
-      padding-left: 2em;
-    }
-
-    .checked_header {
-      width: 100%;
-      padding: 0.25rem 0 0.25rem 5rem;
-      margin: 6em auto 0 auto;
-      background-color: #dd614a;
-      color: #f4f1e9;
-    }
-
-    del {
-      color: gray;
-    }
-
-    .checked_buttons {
-      margin-top: 4em;
-      margin-left: 1em;
-      margin-right: 1em;
-      /* margin: 1.25em 1em; */
-    }
-
-    .to_right {
-      float: right;
-    }
-
-    .quantity_buttons {
-      float: right;
-      margin-top: 1.3em;
-      margin-right: 1em;
-    }
-
-    hr {
-      margin-bottom: 0;
-    }
-
-    .dots_more {
-      float: right;
-      margin-top: 1.25em;
-    }
-
-    .fixed_bottom_nav_width {
-      width: 33.3vw;
-    }
-
-    a>h5 {
-      color: #f4f1e9;
-    }
-
-    footer i {
-      color: #f4f1e9;
-    }
-
-  </style>
-
+    
+        <link rel="stylesheet" href="./styles/shopping-list.css">
 </head>
 
-<body class="page_color">
+<body>
+    <!-- Stuff at the Top -->
+    <div class="d-flex justify-content-center" style="padding-top: 10px;">
 
-  <!-------------------------------------->
-  <!-- The following is HTML for layout -->
-  <!-------------------------------------->
+        <i class="fas fa-carrot fa-2x carrot" style="color: #ed9121; padding-right: 5px; padding-top: 5px;"></i>
 
-  <!-- Header Navigation Bar -->
-  <nav class="navbar navbar-expand-lg navbar-light container">
-    <div>
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <button type="button" class="btn">
-            <i class="fas fa-plus-circle fa-2x"></i>
-          </button>
-        </li>
+        <div class="btn-group">
+            <button id="current-list" type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown"
+                data-bs-display="static" aria-expanded="false">
+                My Pantry List
+            </button>
+            <ul id="dropdown-menu-ul" class="dropdown-menu dropdown-menu-lg-end">
+                <li><button id="create-new-list" class="dropdown-item" type="button">+ Create New List</button></li>
+            </ul>
+        </div>
+    </div>
+
+    <!--Page content is here-->
+    <div id="list-content">
+        <div class="input-group mb-3">
+            <input type="text" id="add_item_input" class="form-control" placeholder="Add Item" aria-label="Add Item"
+                aria-describedby="basic-addon2">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" id="add_item_button" type="button">Add</button>
+            </div>
+        </div>
+
+
+
+    </div>
+    <!-- Bottom Nav -->
+    <footer class="navbar fixed-bottom">
+
+      <ul class="nav nav-pills nav-fill fixed-bottom footer_color">
+
+          <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="./shopping-list.html"><i class="fas fa-shopping-cart fa-2x"></i><br>Shopping List</a>
+          </li>
+
+          <li class="nav-item active_section">
+              <a class="nav-link" href="./pantry.html"><i class="fas fa-archive fa-2x"></i><br>Pantry List</a>
+          </li>
+
+          <li class="nav-item">
+              <a class="nav-link" href="#"><i class="fas fa-ellipsis-h fa-2x"></i><br>More</a>
+          </li>
+
       </ul>
-    </div>
-
-    <div class="position-absolute top-50 start-50 translate-middle">
-      <i class="fas fa-carrot fa-2x carrot position-absolute top-50 end-100 translate-middle"></i>
-      <a class="btn btn-secondary dropdown-toggle btn-lg" id="" href="#" role="button" id="dropdownMenuLink"
-        data-bs-toggle="dropdown" aria-expanded="false">
-        My Pantry List
-      </a>
-
-      <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-        <li><a class="dropdown-item" href="#">Action</a></li>
-        <li><a class="dropdown-item" href="#">Another action</a></li>
-        <li><a class="dropdown-item" href="#">Something else here</a></li>
-      </ul>
-
-    </div>
-  </nav>
-
-  <!-- Items Container -->
-  <div class="container">
-
-    <div class="form-outline">
-      <input type="search" id="form1" class="form-control text_box_style" placeholder="Add Item" aria-label="Search" />
-    </div>
-
-    <div class="">
-
-      <button type="button" class="btn inline">
-        <i class="far fa-square fa-2x"></i>
-      </button>
-
-      <h3 class="item_text inline">Milk</h3>
-
-      <button type="button" class="btn dots_more">
-        <i class="fas fa-ellipsis-h fa-2x"></i>
-      </button>
-
-      <div class="btn-group quantity_buttons" role="group" aria-label="Basic checkbox toggle button group">
-
-        <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
-        <label class="btn btn-outline-secondary" for="btnradio1">Low</label>
-
-        <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
-        <label class="btn btn-outline-secondary" for="btnradio2">Full</label>
-      </div>
-    </div>
-
-    <hr>
-
-    <div>
-
-      <button type="button" class="btn inline">
-        <i class="far fa-square fa-2x"></i>
-      </button>
-
-      <h3 class="item_text inline">Spinach</h3>
-
-      <button type="button" class="btn dots_more">
-        <i class="fas fa-ellipsis-h fa-2x"></i>
-      </button>
-
-      <div class="btn-group quantity_buttons" role="group" aria-label="Basic checkbox toggle button group">
-        <input type="radio" class="btn-check" name="btnradio3" id="btnradio1" autocomplete="off" checked>
-        <label class="btn btn-outline-secondary" for="btnradio3">Low</label>
-
-        <input type="radio" class="btn-check" name="btnradio3" id="btnradio2" autocomplete="off">
-        <label class="btn btn-outline-secondary" for="btnradio4">Full</label>
-      </div>
-
-    </div>
-
-    <hr>
-
-  </div>
-
-  <!-- Checked Items -->
-  <div>
-
-    <h3 class="checked_header">Checked Items</h3>
-
-    <div class="container">
-
-      <div>
-        <button type="button" class="btn inline">
-          <i class="far fa-check-square fa-2x"></i>
-        </button>
-        <h3 class="item_text inline"><del>Broccoli</del</h3> 
-      </div> <hr>
-
-      <div>
-        <button type="button" class="btn inline">
-          <i class="far fa-check-square fa-2x"></i>
-        </button>
-        <h3 class="item_text inline"><del>Cheese</del></h3> 
-      </div> <hr>
-
-      <div class="container checked_buttons">
-        <button type="button" class="btn btn-secondary btn-lg">Add to Shopping List</button>
-        <button type="button" class="btn btn-secondary btn-lg">Remove Checked Items</button>
-      </div>
-
-    </div>
-
-  </div>
-
-  <!-- Bottom Nav -->
-  <footer class="navbar fixed-bottom">
-
-    <ul class="nav nav-pills nav-fill fixed-bottom footer_color">
-
-      <a class="btn nav-item fixed_bottom_nav_width" href="/index.html" role="button">
-        <i class="fas fa-shopping-cart fa-2x"></i>
-        <h5>Shopping List</h5>
-      </a>
-      
-      <a class="btn nav-item active_section fixed_bottom_nav_width" href="/pantry.html" role="button">
-        <i class="fas fa-archive fa-2x active"></i>
-        <h5>Pantry List</h5>
-      </a>
-
-      <a class="btn nav-item fixed_bottom_nav_width" href="#" role="button">
-        <i class="fas fa-ellipsis-h fa-2x"></i>
-        <h5>More</h5>
-      </a>
-
-      <!-- <li class="nav-item">
-        <i class="fas fa-shopping-cart fa-2x"></i>
-        <a class="nav-link" aria-current="page" href="#">Shopping List</a>
-      </li>
-
-      <li class="nav-item active_section">
-        <i class="fas fa-archive fa-2x active"></i>
-        <a class="nav-link" href="#">Pantry List</a>
-      </li>
-
-      <li class="nav-item">
-        <i class="fas fa-ellipsis-h fa-2x"></i>
-        <a class="nav-link" href="#">More</a>
-      </li> -->
-
-    </ul>
 
   </footer>
 
-  <!----------------------------------------------->
-  <!-- JS: Boostrap, Firebase, API related    -->
-  <!----------------------------------------------->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous">
-  </script>
+    <!----------------------------------------------->
+    <!-- JS: Boostrap, Firebase, API related    -->
+    <!----------------------------------------------->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous">
+        </script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/ui/4.6.1/firebase-ui-auth.js"></script>
+    <script src="https://kit.fontawesome.com/26da0e4274.js" crossorigin="anonymous"></script>
 
-  <script src="https://kit.fontawesome.com/26da0e4274.js" crossorigin="anonymous"></script>
-
-  <!--------------------------------------------------------------------->
-  <!-- JS files: Your own JavaScript functions included here    -->
-  <!--------------------------------------------------------------------->
+    <script src="./server/firebase_api_team48.js"></script>
+    <!--------------------------------------------------------------------->
+    <!-- JS files: Your own JavaScript functions included here    -->
+    <!--------------------------------------------------------------------->
+    <script src="./scripts/pantry.js"></script>
 
 </body>
 
