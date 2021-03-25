@@ -1,0 +1,37 @@
+body {
+    background-color: #f4f1e9;
+}
+
+#list-content {
+    padding-top: 10px;
+    width: 90vw;
+    margin: 0 auto;
+}
+
+#add_item_button {
+    background-color: #9cb17e;
+    float: right;
+}
+
+#add_item_input {
+    background-color: #b1d182;
+    padding-right: -10px;
+}
+
+.footer_color {
+    background-color: #6ba292;
+    color: white;
+}
+
+.active_section {
+    background-color: #2b463c;
+}
+
+.nav-link {
+    color: white;
+}
+
+.nav-item > i {
+    color: #f4f1e9;
+    padding-top: 10px;
+  }
