@@ -1,67 +1,69 @@
 const itemListForm = document.querySelector(".js-itemListForm"),
     itemListInput = itemListForm.querySelector("input"),
     itemList = document.querySelector(".js-itemList"),
+    checkedItemList = document.querySelector(".js-checkedItemList")
 
 
-const TODOS_LS = 'toDos';
+const ITEMLIST_LS = "items";
+const CHECKEDITEMLIST_LS = "checkeditems";
 
-let toDos = [];
+let items = [];
 
-function deletToDo(event.target.parentNode) {
+function deletItem(event) {
     const btn = event.target;
     const li = btn.parentNode;
-    toDoList.removeChild(li);
-    const cleanToDos = toDos.filter(function (toDo) {
-        return toDo.id !== parseInt(li.id);
+    itemList.removeChild(li);
+    const cleanItems = items.filter(function (item) {
+        return item.id !== parseInt(li.id);
     }); // return the array with all the item with a check of function(toDo)
-    toDos = cleanToDos;
-    saveToDos();
+    items = cleanItems;
+    saveItems();
 }
 
-function saveToDos() {
-    localStorage.setItem(TODOS_LS, JSON.stringify(toDos));
+function saveItems() {
+    localStorage.setItem(ITEMLIST_LS, JSON.stringify(items));
 }
 
-function paintToDo(text) {
+function paintItem(text) {
     const li = document.createElement("li");
     const delBtn = document.createElement("button");
-    const newId = toDos.length + 1
-    delBtn.innerText = "❌"; // add <meta charset="utf-8" /> to <head> of HTML
-    delBtn.addEventListener("click", deletToDo);
     const span = document.createElement("span");
-    span.innerText = text
+    const newId = items.length + 1
+    delBtn.innerText = "❌"; // add <meta charset="utf-8" /> to <head> of HTML
+    delBtn.addEventListener("click", deletItem);
+    span.innerText = text;
     li.appendChild(span);
     li.appendChild(delBtn);
     li.id = newId;
-    toDoList.appendChild(li);
-    const toDoObj = {
+    itemList.appendChild(li);
+    const itemObj = {
         text: text,
         id: newId
     };
-    toDos.push(toDoObj);
-    saveToDos();
+    items.push(itemObj);
+    saveItems();
 }
 
 function handleSubmit(event) {
     event.preventDefault();
-    const currentValue = toDoInput.value;
-    paintToDo(currentValue)
-    toDoInput.value = "";
+    const currentValue = itemListInput.value;
+    paintItem(currentValue);
+    itemListInput.value = "";
 }
 
-function loadToDos() {
-    const loadedToDos = localStorage.getItem(TODOS_LS);
-    if (loadedToDos !== null) {
-        const parsedToDos = JSON.parse(loadedToDos);
-        parsedToDos.forEach(function (toDo) {
-            paintToDo(toDo.text);
+function loadItemList() {
+    const loadedItems = localStorage.getItem(ITEMLIST_LS);
+    if (loadedItems !== null) {
+        const parsedItems = JSON.parse(loadedItems);
+        parsedItems.forEach(function (item) {
+            paintItem(item.text);
         });
     }
 }
 
 function init() {
-    loadToDos();
-    toDoForm.addEventListener("Submit".handleSubmit)
+    loadItemList();
+    itemListForm.addEventListener("Submit", handleSubmit)
 }
 
 init();
