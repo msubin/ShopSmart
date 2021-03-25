@@ -1,7 +1,7 @@
-document.getElementById('add_item_button').addEventListener('click', function(event){
+document.getElementById('add_item_button').addEventListener('click', function (event) {
     let item_name = document.getElementById('add_item_input');
 
-    writeNewItem(item_name)
+    writeNewItem(item_name.value)
 
     let new_item_div = document.createElement('div');
     new_item_div.setAttribute('class', 'form-check');
@@ -27,9 +27,12 @@ document.getElementById('add_item_button').addEventListener('click', function(ev
 })
 
 function writeNewItem(item) {
-    let itemRef = db.collection('items');
-
-    itemRef.add({
-        name: item.value
+    firebase.auth().onAuthStateChanged(function (user) {
+        db.collection('users')
+            .doc(user.uid)
+            .collection('shopping_list')
+            .add({
+                item: item
+            })
     })
 }
