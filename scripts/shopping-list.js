@@ -69,7 +69,7 @@ function writeList(text) {
         db.collection('users').doc(user.uid)
             .collection('lists').doc('shopping')
             .collection(text)
-            .set({
+            .add({
                 list_name: text
             })
     })
