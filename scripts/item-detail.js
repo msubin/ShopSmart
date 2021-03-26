@@ -39,37 +39,34 @@ function writeFoodGroup() {
 // Add the category automatically if the product name === input product name
 // otherwise, make an input block
 
-function replacedInput() {
-    const input = document.createElement("input");
-    input.setAttribute("type", "text");
-    input.setAttribute("class", "form-control");
-    input.setAttribute("id", "js-inputFoodGroup");
-
-    const div = document.getElementById("inputFoodGroup");
-
-    const span = document.getElementById("js-foodGroup");
-    span.remove();
-
-    div.appendChild(input);
-}
-
 function displayFoodGroup() {
     db.collection("FoodGroup").get()
         .then(function (snap) {
             snap.forEach(function (doc) {
                 var n = doc.data().name;
-                console.log(n);
                 var group = doc.data().foodGroup;
-                console.log(group);
                 const itemName = document.getElementById("js-itemName").innerText
                 if (itemName != n) {
-                    replacedInput();
+
                 }
                 else {
-                    document.getElementById("js-foodGroup").textContent = group;
+                    document.getElementById('js-inputFoodGroup').remove();
+
+                    input_div = document.getElementById('inputFoodGroup');
+
+                    span = document.createElement('span');
+                    span.setAttribute('id', 'js-Foodgroup');
+                    span.textContent = group;
+
+                    input_div.append(span);
                 }
             })
+            // if (itemName != n) {
+            //     replacedInput();
+            // }
+            // else {
+            //     document.getElementById("js-foodGroup").textContent = group;
+            // }
         })
 }
-
 displayFoodGroup();
