@@ -24,14 +24,12 @@
         <i class="fas fa-carrot fa-2x carrot" style="color: #ed9121; padding-right: 5px; padding-top: 5px;"></i>
 
         <div class="btn-group">
-            <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown"
+            <button id="current-list" type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown"
                 data-bs-display="static" aria-expanded="false">
                 My Shopping List
             </button>
-            <ul class="dropdown-menu dropdown-menu-lg-end">
-                <li><button class="dropdown-item" type="button">Action</button></li>
-                <li><button class="dropdown-item" type="button">Another action</button></li>
-                <li><button class="dropdown-item" type="button">Something else here</button></li>
+            <ul id="dropdown-menu-ul" class="dropdown-menu dropdown-menu-lg-end">
+                <li><button id="create-new-list" class="dropdown-item" type="button">+ Create New List</button></li>
             </ul>
         </div>
     </div>
@@ -55,18 +53,15 @@
         <ul class="nav nav-pills nav-fill fixed-bottom footer_color">
 
             <li class="nav-item active_section">
-                <i class="fas fa-shopping-cart fa-2x active"></i>
-                <a class="nav-link" aria-current="page" href="#">Shopping List</a>
+                <a class="nav-link" aria-current="page" href="#"><i class="fas fa-shopping-cart fa-2x"></i><br>Shopping List</a>
             </li>
 
             <li class="nav-item">
-                <i class="fas fa-archive fa-2x"></i>
-                <a class="nav-link" href="./pantry.html">Pantry List</a>
+                <a class="nav-link" href="./pantry.html"><i class="fas fa-archive fa-2x"></i><br>Pantry List</a>
             </li>
 
             <li class="nav-item">
-                <i class="fas fa-ellipsis-h fa-2x"></i>
-                <a class="nav-link" href="#">More</a>
+                <a class="nav-link" href="#"><i class="fas fa-ellipsis-h fa-2x"></i><br>More</a>
             </li>
 
         </ul>
