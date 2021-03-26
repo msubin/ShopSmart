@@ -95,7 +95,7 @@ function itemsQuery(){
                 checkbox_new_item.setAttribute('class', 'form-check-input');
                 checkbox_new_item.setAttribute('type', 'checkbox');
                 checkbox_new_item.setAttribute('value', '');
-                checkbox_new_item.setAttribute('id', 'flexCheckDefault');
+                checkbox_new_item.setAttribute('id', 'flexCheckDefault' + item);
             
                 let label_checkbox = document.createElement('label');
                 label_checkbox.setAttribute('class', 'form-check-label');
