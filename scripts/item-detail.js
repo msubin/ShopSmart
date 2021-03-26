@@ -61,6 +61,12 @@ function displayFoodGroup() {
                     input_div.append(span);
                 }
             })
+            // if (itemName != n) {
+            //     replacedInput();
+            // }
+            // else {
+            //     document.getElementById("js-foodGroup").textContent = group;
+            // }
         })
 }
 displayFoodGroup();
