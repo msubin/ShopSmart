@@ -41,13 +41,16 @@ function writeFoodGroup() {
 
 function replacedInput() {
     const input = document.createElement("input");
-    const div = document.getElementById("inputFoodGroup");
-    const span = document.getElementById("js-foodGroup");
-    span.remove();
-    div.appendChild(input);
     input.setAttribute("type", "text");
     input.setAttribute("class", "form-control");
     input.setAttribute("id", "js-inputFoodGroup");
+
+    const div = document.getElementById("inputFoodGroup");
+
+    const span = document.getElementById("js-foodGroup");
+    span.remove();
+
+    div.appendChild(input);
 }
 
 function displayFoodGroup() {
