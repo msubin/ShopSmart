@@ -100,6 +100,7 @@ function itemsQuery(){
                 let label_checkbox = document.createElement('label');
                 label_checkbox.setAttribute('class', 'form-check-label');
                 label_checkbox.setAttribute('for', 'flexCheckDefault');
+                label_checkbox.setAttribute('id', 'flexCheckDefault' + item + 'item');
                 label_checkbox.textContent = item;
                         
                 new_item_div.appendChild(checkbox_new_item);
@@ -108,8 +109,58 @@ function itemsQuery(){
             
                 place_to_add_item = document.getElementById('list-content')
                 place_to_add_item.append(new_item_div);
+
+                let move = document.getElementById("flexCheckDefaultpeasitem");
+                console.log(move);
             })
         })
     })
 }
+
 itemsQuery();
+
+window.onload = function(){
+
+    let move = document.getElementById("flexCheckDefaultpeasitem");
+    console.log(move);
+
+    let checked = document.getElementById("flexCheckDefaultpeas");
+    console.log(checked);
+
+    let created_elems = document.getElementsByClassName("form-check");
+    console.log(created_elems)
+
+    let whatever = document.getElementsByClassName("form-check-input");
+    console.log(whatever);
+
+}
+
+
+
+
+
+
+// window.onload = function(){
+//     document.getElementById("flexCheckDefaultpeasitem").appendChild(elem)
+// }
+
+
+// let items = document.getElementsByClassName('form-check-label');
+// let checked_item = items[0];
+
+// var myDiv = document.createElement('div');
+// myDiv.id = 'myDiv';
+// document.body.appendChild(myDiv);
+// document.getElementById('myDiv').innerHTML = move;
+// document.getElementById('myDiv').innerHTML = 'this should have worked...';
+
+// var elem = document.createElement("span");
+// var node = document.createTextNode("haha");
+
+// elem.appendChild(node);
+
+// var write_section = document.getElementById('checked-section');
+// write_section.appendChild(elem);
+
+// function getCheckbox() {}
+
