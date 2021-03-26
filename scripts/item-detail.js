@@ -54,19 +54,33 @@ function displayFoodGroup() {
     db.collection("FoodGroup").get()
         .then(function (snap) {
             snap.forEach(function (doc) {
-                var n = doc.data().name;
-                console.log(n);
-                var group = doc.data().foodGroup;
-                console.log(group);
+                const item = doc.data().name;
+                const group = doc.data().foodGroup;
                 const itemName = document.getElementById("js-itemName").innerText
-                if (itemName != n) {
-                    replacedInput();
+                if (itemName == item) {
+                    document.getElementById("js-foodGroup").textContent = group;
+                    return true
                 }
                 else {
-                    document.getElementById("js-foodGroup").textContent = group;
+                    return false
                 }
             })
+            // if (itemName != n) {
+            //     replacedInput();
+            // }
+            // else {
+            //     document.getElementById("js-foodGroup").textContent = group;
+            // }
         })
 }
 
-displayFoodGroup();
+function init() {
+    if (displayFoodGroup() === true) {
+        displayFoodGroup();
+    }
+    else {
+        replacedInput();
+    }
+}
+
+init();
