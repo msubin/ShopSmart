@@ -6,6 +6,8 @@ body {
     padding-top: 10px;
     width: 90vw;
     margin: 0 auto;
+    height: 600px;
+    overflow: auto;
 }
 
 #add_item_button {
@@ -16,6 +18,17 @@ body {
 #add_item_input {
     background-color: #b1d182;
     padding-right: -10px;
+}
+
+#remove-button {
+    background-color: teal;
+    color: white;
+    height: 50px;
+    width: 125px;
+    text-align: center;
+    position: absolute;
+    left: 70px;
+    top: 600px;
 }
 
 .footer_color {
