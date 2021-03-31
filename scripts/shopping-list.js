@@ -34,10 +34,12 @@ document.getElementById('add_item_button').addEventListener('click', function (e
 
     checkbox_new_item.addEventListener('click', function () {
         if (checkbox_new_item.checked === true) {
-            console.log(this.nextSibling.textContent + ' is checked!')
+            console.log(this.nextSibling.textContent + ' is checked!');
+            checkCheckBoxes();
         }
         else if (checkbox_new_item.checked === false) {
-            console.log(this.nextSibling.textContent + ' is not checked!')
+            console.log(this.nextSibling.textContent + ' is not checked!');
+            checkCheckBoxes();
         }
     })
 })
@@ -49,8 +51,8 @@ function writeNewItem(item) {
 
         db.collection('users').doc(user.uid)
             .collection('lists').doc('shopping')
-            .collection(current_list)
-            .add({
+            .collection(current_list).doc(item)
+            .set({
                 item: item
             })
     })
@@ -237,13 +239,47 @@ function itemsQuery() {
 
                     checkbox_new_item.addEventListener('click', function () {
                         if (checkbox_new_item.checked === true) {
-                            console.log(this.nextSibling.textContent + ' is checked!')
+                            console.log(this.nextSibling.textContent + ' is checked!');
+                            checkCheckBoxes();
                         }
                         else if (checkbox_new_item.checked === false) {
-                            console.log(this.nextSibling.textContent + ' is not checked!')
+                            console.log(this.nextSibling.textContent + ' is not checked!');
+                            checkCheckBoxes();
                         }
                     })
                 })
             })
     })
 }
+
+// Makes remove button appear or disappear
+function checkCheckBoxes() {
+    remove_button = document.getElementById('remove-button')
+    if ($('input[type="checkbox"]:checked').length > 0) {
+        console.log('A checkbox is still checked.')
+        remove_button.setAttribute('style', 'visibility: visible;')
+    } else {
+        console.log('No more checked boxes.')
+        remove_button.setAttribute('style', 'visibility: hidden;')
+    }
+}
+
+document.getElementById('remove-button').addEventListener('click', function () {
+    firebase.auth().onAuthStateChanged(function (user) {
+        
+        var current_list = document.getElementById('current-list').textContent;
+        var checkboxes = document.getElementsByClassName('form-check-input');
+
+        Array.from(checkboxes).forEach((box) => {
+            if (box.checked === true) {
+                box.parentNode.remove();
+                db.collection('users').doc(user.uid)
+                    .collection('lists').doc('shopping')
+                    .collection(current_list).doc(box.nextSibling.textContent)
+                    .delete()
+            }
+        })
+        remove_button = document.getElementById('remove-button')
+        remove_button.setAttribute('style', 'visibility: hidden;')
+    })
+});
