@@ -18,10 +18,16 @@ document.getElementById('add_item_button').addEventListener('click', function (e
     label_checkbox.setAttribute('for', 'flexCheckDefault');
     label_checkbox.textContent = item_name.value;
 
+    more_button = document.createElement('i');
+    more_button.setAttribute('class', 'fas fa-ellipsis-h');
+    more_button.setAttribute('id', 'more-button-' + item_name.value)
+    more_button.setAttribute('style', 'float: right; width: 25px; height: 25px;')
+
     item_name.value = '';
 
     new_item_div.appendChild(checkbox_new_item);
     new_item_div.appendChild(label_checkbox);
+    new_item_div.appendChild(more_button);
     new_item_div.appendChild(document.createElement('hr'));
 
     this.parentNode.parentNode.parentNode.append(new_item_div);
@@ -216,8 +222,14 @@ function itemsQuery() {
                     label_checkbox.setAttribute('for', 'flexCheckDefault');
                     label_checkbox.textContent = item;
 
+                    more_button = document.createElement('i');
+                    more_button.setAttribute('class', 'fas fa-ellipsis-h');
+                    more_button.setAttribute('id', 'more-button-' + item)
+                    more_button.setAttribute('style', 'float: right; width: 25px; height: 25px;')
+
                     new_item_div.appendChild(checkbox_new_item);
                     new_item_div.appendChild(label_checkbox);
+                    new_item_div.appendChild(more_button);
                     new_item_div.appendChild(document.createElement('hr'));
 
                     place_to_add_item = document.getElementById('list-content')
