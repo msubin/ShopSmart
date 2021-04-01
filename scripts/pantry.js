@@ -26,13 +26,6 @@ document.getElementById('add_item_button').addEventListener('click', function (e
 
         item_name.value = '';
 
-        new_item_div.appendChild(checkbox_new_item);
-        new_item_div.appendChild(label_checkbox);
-        new_item_div.appendChild(more_button);
-        new_item_div.appendChild(document.createElement('hr'));
-
-        this.parentNode.parentNode.parentNode.append(new_item_div);
-
         checkbox_new_item.addEventListener('click', function () {
             if (checkbox_new_item.checked === true) {
                 console.log(this.nextSibling.textContent + ' is checked!');
@@ -43,6 +36,13 @@ document.getElementById('add_item_button').addEventListener('click', function (e
                 checkCheckBoxes();
             }
         })
+
+        new_item_div.appendChild(checkbox_new_item);
+        new_item_div.appendChild(label_checkbox);
+        new_item_div.appendChild(more_button);
+        new_item_div.appendChild(document.createElement('hr'));
+
+        this.parentNode.parentNode.parentNode.append(new_item_div);
     }
 });
 
@@ -52,10 +52,11 @@ function writeNewItem(item) {
         let current_list = document.getElementById('current-list').textContent;
 
         db.collection('users').doc(user.uid)
-            .collection('lists').doc('pantry')
-            .collection(current_list).doc(item)
-            .set({
-                item: item
+            .collection('lists')
+            .add({
+                'name': item,
+                'list_name': current_list,
+                'category': 'pantry'
             })
     })
 };
@@ -73,24 +74,17 @@ document.getElementById('create-new-list').addEventListener('click', function (e
         span = document.createElement('span')
         span.innerHTML = list_name
 
-        divider = document.createElement('hr')
-        divider.setAttribute('class', 'dropdown-divider')
-
         dropdown_menu_ul.appendChild(new_li)
         new_li.appendChild(span)
-        new_li.appendChild(divider)
 
-        span.addEventListener('click', function () {
+        new_li.addEventListener('click', function () {
             var other_list_items = document.getElementsByClassName('form-check');
 
             while (other_list_items[0]) {
                 other_list_items[0].parentNode.removeChild(other_list_items[0])
             }
-
-            let current_list = document.getElementById('current-list').textContent;
-            document.getElementById('current-list').textContent = span.textContent
-            span.textContent = current_list
-
+            checkCheckBoxes();
+            changeLists(this);
             itemsQuery();
         })
         writeList(list_name)
@@ -101,10 +95,11 @@ document.getElementById('create-new-list').addEventListener('click', function (e
 function writeList(text) {
     firebase.auth().onAuthStateChanged(function (user) {
         db.collection('users').doc(user.uid)
-            .collection('lists').doc('pantry')
-            .collection(text).doc('list_name')
+            .collection('lists').doc(text)
             .set({
-                list_name: text
+                'list_name': text,
+                'category': 'pantry',
+                'list': true
             })
     })
 };
@@ -113,13 +108,13 @@ function writeList(text) {
 function listsQuery() {
     firebase.auth().onAuthStateChanged(function (user) {
         db.collection('users').doc(user.uid)
-            .collection('lists').doc('pantry')
-            .collection('brian')
-            .where('list_name', '!=', 'undefined')
+            .collection('lists')
+            .where('category', '==', 'pantry')
+            .where('list', "==", true)
             .get()
             .then(function (snap) {
-                snap.forEach(function (coll) {
-                    let list = coll.data().list_name
+                snap.forEach(function (doc) {
+                    let list = doc.data().list_name
                     let dropdown_menu_ul = document.getElementById("dropdown-menu-ul")
 
                     new_li = document.createElement("li")
@@ -128,24 +123,17 @@ function listsQuery() {
                     span = document.createElement('span')
                     span.innerHTML = list
 
-                    divider = document.createElement('hr')
-                    divider.setAttribute('class', 'dropdown-divider')
-
                     dropdown_menu_ul.appendChild(new_li)
                     new_li.appendChild(span)
-                    new_li.appendChild(divider)
 
-                    span.addEventListener('click', function () {
+                    new_li.addEventListener('click', function () {
                         var other_list_items = document.getElementsByClassName('form-check');
 
                         while (other_list_items[0]) {
                             other_list_items[0].parentNode.removeChild(other_list_items[0])
                         }
-
-                        let current_list = document.getElementById('current-list').textContent;
-                        document.getElementById('current-list').textContent = span.textContent
-                        span.textContent = current_list
-
+                        checkCheckBoxes();
+                        changeLists(this);
                         itemsQuery();
                     })
                 })
@@ -153,19 +141,27 @@ function listsQuery() {
     })
 };
 
+// Swaps text for current list with selected list
+function changeLists(current_object) {
+    let current_list = document.getElementById('current-list').textContent;
+    document.getElementById('current-list').textContent = current_object.firstChild.textContent;
+    current_object.firstChild.textContent = current_list;
+}
+
 // Populates list with items from firestore
 function itemsQuery() {
     firebase.auth().onAuthStateChanged(function (user) {
         current_list = document.getElementById('current-list').textContent;
 
         db.collection('users').doc(user.uid)
-            .collection('lists').doc('pantry')
-            .collection(current_list)
-            .where('item', '!=', 'undefined')
+            .collection('lists')
+            .where('list_name', '==', current_list)
+            .where('category', '==', 'pantry')
+            .where('name', '!=', 'undefined')
             .get()
             .then(function (snap) {
                 snap.forEach(function (doc) {
-                    let item = doc.data().item;
+                    let item = doc.data().name;
 
                     let new_item_div = document.createElement('div');
                     new_item_div.setAttribute('class', 'form-check');
@@ -174,7 +170,6 @@ function itemsQuery() {
                     checkbox_new_item.setAttribute('class', 'form-check-input');
                     checkbox_new_item.setAttribute('type', 'checkbox');
                     checkbox_new_item.setAttribute('value', '');
-                    checkbox_new_item.setAttribute('id', 'flexCheckDefault');
 
                     let label_checkbox = document.createElement('label');
                     label_checkbox.setAttribute('class', 'form-check-label');
@@ -186,14 +181,6 @@ function itemsQuery() {
                     more_button.setAttribute('id', 'more-button-' + item)
                     more_button.setAttribute('style', 'float: right; width: 25px; height: 25px;')
 
-                    new_item_div.appendChild(checkbox_new_item);
-                    new_item_div.appendChild(label_checkbox);
-                    new_item_div.appendChild(more_button);
-                    new_item_div.appendChild(document.createElement('hr'));
-
-                    place_to_add_item = document.getElementById('list-content')
-                    place_to_add_item.append(new_item_div);
-
                     checkbox_new_item.addEventListener('click', function () {
                         if (checkbox_new_item.checked === true) {
                             console.log(this.nextSibling.textContent + ' is checked!');
@@ -204,6 +191,14 @@ function itemsQuery() {
                             checkCheckBoxes();
                         }
                     })
+
+                    new_item_div.appendChild(checkbox_new_item);
+                    new_item_div.appendChild(label_checkbox);
+                    new_item_div.appendChild(more_button);
+                    new_item_div.appendChild(document.createElement('hr'));
+
+                    place_to_add_item = document.getElementById('list-content')
+                    place_to_add_item.append(new_item_div);
                 })
             })
     })
@@ -235,9 +230,15 @@ document.getElementById('remove-button').addEventListener('click', function () {
             if (box.checked === true) {
                 box.parentNode.remove();
                 db.collection('users').doc(user.uid)
-                    .collection('lists').doc('pantry')
-                    .collection(current_list).doc(box.nextSibling.textContent)
-                    .delete()
+                    .collection('lists')
+                    .where('name', '==', box.nextSibling.textContent)
+                    .where('list_name', '==', current_list)
+                    .get()
+                    .then(function (snap) {
+                        snap.forEach(function (doc) {
+                            doc.ref.delete();
+                        })
+                    })
             }
         })
         document.getElementById('remove-button').setAttribute('style', 'visibility: hidden;');
@@ -258,16 +259,23 @@ document.getElementById('move-button').addEventListener('click', function () {
                 box.parentNode.remove();
 
                 db.collection('users').doc(user.uid)
-                    .collection('lists').doc('shopping')
-                    .collection('My Shopping List').doc(box.nextSibling.textContent)
-                    .set({
-                        item: box.nextSibling.textContent
+                    .collection('lists')
+                    .add({
+                        'name': box.nextSibling.textContent,
+                        'list_name': 'My Shopping List',
+                        'category': 'shopping'
                     })
 
                 db.collection('users').doc(user.uid)
-                    .collection('lists').doc('pantry')
-                    .collection(current_list).doc(box.nextSibling.textContent)
-                    .delete()
+                    .collection('lists')
+                    .where('name', '==', box.nextSibling.textContent)
+                    .where('list_name', '==', current_list)
+                    .get()
+                    .then(function (snap) {
+                        snap.forEach(function (doc) {
+                            doc.ref.delete();
+                        })
+                    })
             }
         })
         document.getElementById('remove-button').setAttribute('style', 'visibility: hidden;');
