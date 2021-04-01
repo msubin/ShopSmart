@@ -2,46 +2,50 @@
 document.getElementById('add_item_button').addEventListener('click', function (event) {
     let item_name = document.getElementById('add_item_input');
 
-    writeNewItem(item_name.value)
+    if (item_name.value != '') {
+        writeNewItem(item_name.value)
 
-    let new_item_div = document.createElement('div');
-    new_item_div.setAttribute('class', 'form-check');
+        let new_item_div = document.createElement('div');
+        new_item_div.setAttribute('class', 'form-check');
 
-    let checkbox_new_item = document.createElement('input');
-    checkbox_new_item.setAttribute('class', 'form-check-input');
-    checkbox_new_item.setAttribute('type', 'checkbox');
-    checkbox_new_item.setAttribute('value', '');
-    checkbox_new_item.setAttribute('id', 'flexCheckDefault');
+        let checkbox_new_item = document.createElement('input');
+        checkbox_new_item.setAttribute('class', 'form-check-input');
+        checkbox_new_item.setAttribute('type', 'checkbox');
+        checkbox_new_item.setAttribute('value', '');
+        checkbox_new_item.setAttribute('id', 'flexCheckDefault');
 
-    let label_checkbox = document.createElement('label');
-    label_checkbox.setAttribute('class', 'form-check-label');
-    label_checkbox.setAttribute('for', 'flexCheckDefault');
-    label_checkbox.textContent = item_name.value;
+        let label_checkbox = document.createElement('label');
+        label_checkbox.setAttribute('class', 'form-check-label');
+        label_checkbox.setAttribute('for', 'flexCheckDefault');
+        label_checkbox.textContent = item_name.value;
 
-    more_button = document.createElement('i');
-    more_button.setAttribute('class', 'fas fa-ellipsis-h');
-    more_button.setAttribute('id', 'more-button-' + item_name.value)
-    more_button.setAttribute('style', 'float: right; width: 25px; height: 25px;')
+        more_button = document.createElement('i');
+        more_button.setAttribute('class', 'fas fa-ellipsis-h');
+        more_button.setAttribute('id', 'more-button-' + item_name.value)
+        more_button.setAttribute('style', 'float: right; width: 25px; height: 25px;')
 
-    item_name.value = '';
+        item_name.value = '';
 
-    new_item_div.appendChild(checkbox_new_item);
-    new_item_div.appendChild(label_checkbox);
-    new_item_div.appendChild(more_button);
-    new_item_div.appendChild(document.createElement('hr'));
+        new_item_div.appendChild(checkbox_new_item);
+        new_item_div.appendChild(label_checkbox);
+        new_item_div.appendChild(more_button);
+        new_item_div.appendChild(document.createElement('hr'));
 
-    this.parentNode.parentNode.parentNode.append(new_item_div);
+        this.parentNode.parentNode.parentNode.append(new_item_div);
 
-    checkbox_new_item.addEventListener('click', function () {
-        if (checkbox_new_item.checked === true) {
-            console.log(this.nextSibling.textContent + ' is checked!');
-            checkCheckBoxes();
-        }
-        else if (checkbox_new_item.checked === false) {
-            console.log(this.nextSibling.textContent + ' is not checked!');
-            checkCheckBoxes();
-        }
-    })
+        checkbox_new_item.addEventListener('click', function () {
+            if (checkbox_new_item.checked === true) {
+                console.log(this.nextSibling.textContent + ' is checked!');
+                checkCheckBoxes();
+            }
+            else if (checkbox_new_item.checked === false) {
+                console.log(this.nextSibling.textContent + ' is not checked!');
+                checkCheckBoxes();
+            }
+        })
+    }
+
+
 })
 
 // Writes inputted item to firestore under user's current list
@@ -266,7 +270,7 @@ function checkCheckBoxes() {
 
 document.getElementById('remove-button').addEventListener('click', function () {
     firebase.auth().onAuthStateChanged(function (user) {
-        
+
         var current_list = document.getElementById('current-list').textContent;
         var checkboxes = document.getElementsByClassName('form-check-input');
 
