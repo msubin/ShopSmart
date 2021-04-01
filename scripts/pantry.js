@@ -2,65 +2,99 @@
 document.getElementById('add_item_button').addEventListener('click', function (event) {
     let item_name = document.getElementById('add_item_input');
 
-    writeNewItem(item_name.value)
+    if (item_name.value != '') {
+        writeNewItem(item_name.value)
 
-    let new_item_div = document.createElement('div');
-    new_item_div.setAttribute('class', 'form-check');
+        let new_item_div = document.createElement('div');
+        new_item_div.setAttribute('class', 'form-check');
 
-    let checkbox_new_item = document.createElement('input');
-    checkbox_new_item.setAttribute('class', 'form-check-input');
-    checkbox_new_item.setAttribute('type', 'checkbox');
-    checkbox_new_item.setAttribute('value', '');
-    checkbox_new_item.setAttribute('id', 'flexCheckDefault');
+        let checkbox_new_item = document.createElement('input');
+        checkbox_new_item.setAttribute('class', 'form-check-input');
+        checkbox_new_item.setAttribute('type', 'checkbox');
+        checkbox_new_item.setAttribute('value', '');
+        checkbox_new_item.setAttribute('id', 'flexCheckDefault');
 
-    let label_checkbox = document.createElement('label');
-    label_checkbox.setAttribute('class', 'form-check-label');
-    label_checkbox.setAttribute('for', 'flexCheckDefault');
-    label_checkbox.textContent = item_name.value;
+        let label_checkbox = document.createElement('label');
+        label_checkbox.setAttribute('class', 'form-check-label');
+        label_checkbox.setAttribute('for', 'flexCheckDefault');
+        label_checkbox.textContent = item_name.value;
 
-    item_name.value = '';
+        more_button = document.createElement('i');
+        more_button.setAttribute('class', 'fas fa-ellipsis-h');
+        more_button.setAttribute('id', 'more-button-' + item_name.value)
+        more_button.setAttribute('style', 'float: right; width: 25px; height: 25px;')
 
-    new_item_div.appendChild(checkbox_new_item);
-    new_item_div.appendChild(label_checkbox);
-    new_item_div.appendChild(document.createElement('hr'));
+        item_name.value = '';
 
-    this.parentNode.parentNode.parentNode.append(new_item_div);
-})
+        new_item_div.appendChild(checkbox_new_item);
+        new_item_div.appendChild(label_checkbox);
+        new_item_div.appendChild(more_button);
+        new_item_div.appendChild(document.createElement('hr'));
+
+        this.parentNode.parentNode.parentNode.append(new_item_div);
+
+        checkbox_new_item.addEventListener('click', function () {
+            if (checkbox_new_item.checked === true) {
+                console.log(this.nextSibling.textContent + ' is checked!');
+                checkCheckBoxes();
+            }
+            else if (checkbox_new_item.checked === false) {
+                console.log(this.nextSibling.textContent + ' is not checked!');
+                checkCheckBoxes();
+            }
+        })
+    }
+});
 
 // Writes inputted item to firestore under user's current list
 function writeNewItem(item) {
     firebase.auth().onAuthStateChanged(function (user) {
-        current_list = document.getElementById('current-list').textContent;
+        let current_list = document.getElementById('current-list').textContent;
 
         db.collection('users').doc(user.uid)
             .collection('lists').doc('pantry')
-            .collection(current_list)
-            .add({
+            .collection(current_list).doc(item)
+            .set({
                 item: item
             })
     })
-}
+};
 
 // Creates new HTML for new list
 document.getElementById('create-new-list').addEventListener('click', function (event) {
     let list_name = prompt("Please enter a name for your new list:")
 
-    let dropdown_menu_ul = document.getElementById("dropdown-menu-ul")
+    if (list_name != null) {
+        let dropdown_menu_ul = document.getElementById("dropdown-menu-ul")
 
-    new_li = document.createElement("li")
-    new_li.setAttribute('class', 'dropdown-item')
+        new_li = document.createElement("li")
+        new_li.setAttribute('class', 'dropdown-item')
 
-    a1 = document.createElement('a')
-    a1.innerHTML = list_name
+        span = document.createElement('span')
+        span.innerHTML = list_name
 
-    divider = document.createElement('hr')
-    divider.setAttribute('class', 'dropdown-divider')
+        divider = document.createElement('hr')
+        divider.setAttribute('class', 'dropdown-divider')
 
-    dropdown_menu_ul.appendChild(new_li)
-    new_li.appendChild(a1)
-    new_li.appendChild(divider)
+        dropdown_menu_ul.appendChild(new_li)
+        new_li.appendChild(span)
+        new_li.appendChild(divider)
 
-    writeList(list_name)
+        span.addEventListener('click', function () {
+            var other_list_items = document.getElementsByClassName('form-check');
+
+            while (other_list_items[0]) {
+                other_list_items[0].parentNode.removeChild(other_list_items[0])
+            }
+
+            let current_list = document.getElementById('current-list').textContent;
+            document.getElementById('current-list').textContent = span.textContent
+            span.textContent = current_list
+
+            itemsQuery();
+        })
+        writeList(list_name)
+    }
 });
 
 // Creates new shopping list in firestore
@@ -68,99 +102,175 @@ function writeList(text) {
     firebase.auth().onAuthStateChanged(function (user) {
         db.collection('users').doc(user.uid)
             .collection('lists').doc('pantry')
-            .collection(text)
+            .collection(text).doc('list_name')
             .set({
                 list_name: text
             })
     })
 };
 
+// Populates page with previously made lists
+function listsQuery() {
+    firebase.auth().onAuthStateChanged(function (user) {
+        db.collection('users').doc(user.uid)
+            .collection('lists').doc('pantry')
+            .collection('brian')
+            .where('list_name', '!=', 'undefined')
+            .get()
+            .then(function (snap) {
+                snap.forEach(function (coll) {
+                    let list = coll.data().list_name
+                    let dropdown_menu_ul = document.getElementById("dropdown-menu-ul")
+
+                    new_li = document.createElement("li")
+                    new_li.setAttribute('class', 'dropdown-item')
+
+                    span = document.createElement('span')
+                    span.innerHTML = list
+
+                    divider = document.createElement('hr')
+                    divider.setAttribute('class', 'dropdown-divider')
+
+                    dropdown_menu_ul.appendChild(new_li)
+                    new_li.appendChild(span)
+                    new_li.appendChild(divider)
+
+                    span.addEventListener('click', function () {
+                        var other_list_items = document.getElementsByClassName('form-check');
+
+                        while (other_list_items[0]) {
+                            other_list_items[0].parentNode.removeChild(other_list_items[0])
+                        }
+
+                        let current_list = document.getElementById('current-list').textContent;
+                        document.getElementById('current-list').textContent = span.textContent
+                        span.textContent = current_list
+
+                        itemsQuery();
+                    })
+                })
+            })
+    })
+};
+
 // Populates list with items from firestore
-function itemsQuery(){
+function itemsQuery() {
     firebase.auth().onAuthStateChanged(function (user) {
         current_list = document.getElementById('current-list').textContent;
 
         db.collection('users').doc(user.uid)
-        .collection('lists').doc('pantry')
-        .collection(current_list)
-        .get()
-        .then(function(snap){
-            snap.forEach(function(doc){
-                let item = doc.data().item;
-            
-                let new_item_div = document.createElement('div');
-                new_item_div.setAttribute('class', 'form-check');
-            
-                let checkbox_new_item = document.createElement('input');
-                checkbox_new_item.setAttribute('class', 'form-check-input');
-                checkbox_new_item.setAttribute('type', 'checkbox');
-                checkbox_new_item.setAttribute('value', '');
-                checkbox_new_item.setAttribute('id', 'flexCheckDefault' + item);
-            
-                let label_checkbox = document.createElement('label');
-                label_checkbox.setAttribute('class', 'form-check-label');
-                label_checkbox.setAttribute('for', 'flexCheckDefault');
-                label_checkbox.setAttribute('id', 'flexCheckDefault' + item + 'item');
-                label_checkbox.textContent = item;
-                        
-                new_item_div.appendChild(checkbox_new_item);
-                new_item_div.appendChild(label_checkbox);
-                new_item_div.appendChild(document.createElement('hr'));
-            
-                place_to_add_item = document.getElementById('list-content')
-                place_to_add_item.append(new_item_div);
+            .collection('lists').doc('pantry')
+            .collection(current_list)
+            .where('item', '!=', 'undefined')
+            .get()
+            .then(function (snap) {
+                snap.forEach(function (doc) {
+                    let item = doc.data().item;
 
-                let move = document.getElementById("flexCheckDefaultpeasitem");
-                console.log(move);
+                    let new_item_div = document.createElement('div');
+                    new_item_div.setAttribute('class', 'form-check');
+
+                    let checkbox_new_item = document.createElement('input');
+                    checkbox_new_item.setAttribute('class', 'form-check-input');
+                    checkbox_new_item.setAttribute('type', 'checkbox');
+                    checkbox_new_item.setAttribute('value', '');
+                    checkbox_new_item.setAttribute('id', 'flexCheckDefault');
+
+                    let label_checkbox = document.createElement('label');
+                    label_checkbox.setAttribute('class', 'form-check-label');
+                    label_checkbox.setAttribute('for', 'flexCheckDefault');
+                    label_checkbox.textContent = item;
+
+                    more_button = document.createElement('i');
+                    more_button.setAttribute('class', 'fas fa-ellipsis-h');
+                    more_button.setAttribute('id', 'more-button-' + item)
+                    more_button.setAttribute('style', 'float: right; width: 25px; height: 25px;')
+
+                    new_item_div.appendChild(checkbox_new_item);
+                    new_item_div.appendChild(label_checkbox);
+                    new_item_div.appendChild(more_button);
+                    new_item_div.appendChild(document.createElement('hr'));
+
+                    place_to_add_item = document.getElementById('list-content')
+                    place_to_add_item.append(new_item_div);
+
+                    checkbox_new_item.addEventListener('click', function () {
+                        if (checkbox_new_item.checked === true) {
+                            console.log(this.nextSibling.textContent + ' is checked!');
+                            checkCheckBoxes();
+                        }
+                        else if (checkbox_new_item.checked === false) {
+                            console.log(this.nextSibling.textContent + ' is not checked!');
+                            checkCheckBoxes();
+                        }
+                    })
+                })
             })
-        })
     })
-}
+};
 
-itemsQuery();
+// Makes remove button appear or disappear
+function checkCheckBoxes() {
+    remove_button = document.getElementById('remove-button')
+    move_button = document.getElementById('move-button')
+    if ($('input[type="checkbox"]:checked').length > 0) {
+        console.log('A checkbox is still checked.')
+        remove_button.setAttribute('style', 'visibility: visible;')
+        move_button.setAttribute('style', 'visibility: visible;')
+    } else {
+        console.log('No more checked boxes.')
+        remove_button.setAttribute('style', 'visibility: hidden;')
+        move_button.setAttribute('style', 'visibility: hidden;')
+    }
+};
 
-window.onload = function(){
+// If user clicks the Remove Checked Items button, will delete the items from list and firestore
+document.getElementById('remove-button').addEventListener('click', function () {
+    firebase.auth().onAuthStateChanged(function (user) {
 
-    let move = document.getElementById("flexCheckDefaultpeasitem");
-    console.log(move);
+        var current_list = document.getElementById('current-list').textContent;
+        var checkboxes = document.getElementsByClassName('form-check-input');
 
-    let checked = document.getElementById("flexCheckDefaultpeas");
-    console.log(checked);
+        Array.from(checkboxes).forEach((box) => {
+            if (box.checked === true) {
+                box.parentNode.remove();
+                db.collection('users').doc(user.uid)
+                    .collection('lists').doc('pantry')
+                    .collection(current_list).doc(box.nextSibling.textContent)
+                    .delete()
+            }
+        })
+        document.getElementById('remove-button').setAttribute('style', 'visibility: hidden;');
+        document.getElementById('move-button').setAttribute('style', 'visibility: hidden;');
+    })
+});
 
-    let created_elems = document.getElementsByClassName("form-check");
-    console.log(created_elems)
+// If user clicks the Move Checked Items to Shopping List button, will delete the items from this list and firestore
+// and add them to My Shopping List
+document.getElementById('move-button').addEventListener('click', function () {
+    firebase.auth().onAuthStateChanged(function (user) {
 
-    let whatever = document.getElementsByClassName("form-check-input");
-    console.log(whatever);
+        var current_list = document.getElementById('current-list').textContent;
+        var checkboxes = document.getElementsByClassName('form-check-input');
 
-}
+        Array.from(checkboxes).forEach((box) => {
+            if (box.checked === true) {
+                box.parentNode.remove();
 
+                db.collection('users').doc(user.uid)
+                    .collection('lists').doc('shopping')
+                    .collection('My Shopping List').doc(box.nextSibling.textContent)
+                    .set({
+                        item: box.nextSibling.textContent
+                    })
 
-
-
-
-
-// window.onload = function(){
-//     document.getElementById("flexCheckDefaultpeasitem").appendChild(elem)
-// }
-
-
-// let items = document.getElementsByClassName('form-check-label');
-// let checked_item = items[0];
-
-// var myDiv = document.createElement('div');
-// myDiv.id = 'myDiv';
-// document.body.appendChild(myDiv);
-// document.getElementById('myDiv').innerHTML = move;
-// document.getElementById('myDiv').innerHTML = 'this should have worked...';
-
-// var elem = document.createElement("span");
-// var node = document.createTextNode("haha");
-
-// elem.appendChild(node);
-
-// var write_section = document.getElementById('checked-section');
-// write_section.appendChild(elem);
-
-// function getCheckbox() {}
-
+                db.collection('users').doc(user.uid)
+                    .collection('lists').doc('pantry')
+                    .collection(current_list).doc(box.nextSibling.textContent)
+                    .delete()
+            }
+        })
+        document.getElementById('remove-button').setAttribute('style', 'visibility: hidden;');
+        document.getElementById('move-button').setAttribute('style', 'visibility: hidden;');
+    })
+});
