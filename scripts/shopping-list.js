@@ -44,9 +44,7 @@ document.getElementById('add_item_button').addEventListener('click', function (e
             }
         })
     }
-
-
-})
+});
 
 // Writes inputted item to firestore under user's current list
 function writeNewItem(item) {
@@ -60,7 +58,7 @@ function writeNewItem(item) {
                 item: item
             })
     })
-}
+};
 
 // Creates new HTML for new list
 document.getElementById('create-new-list').addEventListener('click', function (event) {
@@ -104,56 +102,12 @@ function writeList(text) {
     firebase.auth().onAuthStateChanged(function (user) {
         db.collection('users').doc(user.uid)
             .collection('lists').doc('shopping')
-            .collection(text)
-            .add({
+            .collection(text).doc('list_name')
+            .set({
                 list_name: text
             })
     })
 };
-
-function testerQuery() {
-    firebase.auth().onAuthStateChanged(function (user) {
-        db.collection('users').doc(user.uid)
-            .collection('lists').doc('shopping')
-            .collection('brian')
-            .where('list_name', '!=', 'undefined')
-            .get()
-            .then(function (snap) {
-                snap.forEach(function (coll) {
-                    let list = coll.data().list_name
-                    console.log(list)
-                    let dropdown_menu_ul = document.getElementById("dropdown-menu-ul")
-
-                    new_li = document.createElement("li")
-                    new_li.setAttribute('class', 'dropdown-item')
-
-                    span = document.createElement('span')
-                    span.innerHTML = list
-
-                    divider = document.createElement('hr')
-                    divider.setAttribute('class', 'dropdown-divider')
-
-                    dropdown_menu_ul.appendChild(new_li)
-                    new_li.appendChild(span)
-                    new_li.appendChild(divider)
-
-                    span.addEventListener('click', function () {
-                        var other_list_items = document.getElementsByClassName('form-check');
-
-                        while (other_list_items[0]) {
-                            other_list_items[0].parentNode.removeChild(other_list_items[0])
-                        }
-
-                        let current_list = document.getElementById('current-list').textContent;
-                        document.getElementById('current-list').textContent = span.textContent
-                        span.textContent = current_list
-
-                        itemsQuery();
-                    })
-                })
-            })
-    })
-}
 
 // Populates page with previously made lists
 function listsQuery() {
@@ -166,7 +120,6 @@ function listsQuery() {
             .then(function (snap) {
                 snap.forEach(function (coll) {
                     let list = coll.data().list_name
-                    console.log(list)
                     let dropdown_menu_ul = document.getElementById("dropdown-menu-ul")
 
                     new_li = document.createElement("li")
@@ -198,7 +151,7 @@ function listsQuery() {
                 })
             })
     })
-}
+};
 
 // Populates list with items from firestore
 function itemsQuery() {
@@ -254,20 +207,24 @@ function itemsQuery() {
                 })
             })
     })
-}
+};
 
 // Makes remove button appear or disappear
 function checkCheckBoxes() {
     remove_button = document.getElementById('remove-button')
+    move_button = document.getElementById('move-button')
     if ($('input[type="checkbox"]:checked').length > 0) {
         console.log('A checkbox is still checked.')
         remove_button.setAttribute('style', 'visibility: visible;')
+        move_button.setAttribute('style', 'visibility: visible;')
     } else {
         console.log('No more checked boxes.')
         remove_button.setAttribute('style', 'visibility: hidden;')
+        move_button.setAttribute('style', 'visibility: hidden;')
     }
-}
+};
 
+// If user clicks the Remove Checked Items button, will delete the items from list and firestore
 document.getElementById('remove-button').addEventListener('click', function () {
     firebase.auth().onAuthStateChanged(function (user) {
 
@@ -283,7 +240,37 @@ document.getElementById('remove-button').addEventListener('click', function () {
                     .delete()
             }
         })
-        remove_button = document.getElementById('remove-button')
-        remove_button.setAttribute('style', 'visibility: hidden;')
+        document.getElementById('remove-button').setAttribute('style', 'visibility: hidden;');
+        document.getElementById('move-button').setAttribute('style', 'visibility: hidden;');
+    })
+});
+
+// If user clicks the Move Checked Items to Pantry button, will delete the items from this list and firestore
+// and add them to My Pantry List
+document.getElementById('move-button').addEventListener('click', function () {
+    firebase.auth().onAuthStateChanged(function (user) {
+
+        var current_list = document.getElementById('current-list').textContent;
+        var checkboxes = document.getElementsByClassName('form-check-input');
+
+        Array.from(checkboxes).forEach((box) => {
+            if (box.checked === true) {
+                box.parentNode.remove();
+
+                db.collection('users').doc(user.uid)
+                    .collection('lists').doc('pantry')
+                    .collection('My Pantry List').doc(box.nextSibling.textContent)
+                    .set({
+                        item: box.nextSibling.textContent
+                    })
+
+                db.collection('users').doc(user.uid)
+                    .collection('lists').doc('shopping')
+                    .collection(current_list).doc(box.nextSibling.textContent)
+                    .delete()
+            }
+        })
+        document.getElementById('remove-button').setAttribute('style', 'visibility: hidden;');
+        document.getElementById('move-button').setAttribute('style', 'visibility: hidden;');
     })
 });
