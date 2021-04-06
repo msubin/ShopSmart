@@ -24,6 +24,29 @@ document.getElementById('add_item_button').addEventListener('click', function (e
         more_button.setAttribute('id', 'more-button-' + item_name.value)
         more_button.setAttribute('style', 'float: right; width: 25px; height: 25px;')
 
+        quantity_number = document.createElement('input');
+        quantity_number.type = 'number';
+        quantity_number.value = 1;
+        quantity_number.setAttribute('style', 'float: right; width: 25px;');
+
+        minus_quantity = document.createElement('input');
+        minus_quantity.type = 'button';
+        minus_quantity.value = '-';
+        minus_quantity.setAttribute('style', 'float: right; width: 25px;');
+
+        minus_quantity.addEventListener('click', function() {
+            decrementCounter(this);
+        })
+
+        plus_quantity = document.createElement('input');
+        plus_quantity.type = 'button';
+        plus_quantity.value = '+';
+        plus_quantity.setAttribute('style', 'float: right; width: 25px; margin-right: 10px;');
+
+        plus_quantity.addEventListener('click', function() {
+            incrementCounter(this);
+        })
+
         item_name.value = '';
 
         checkbox_new_item.addEventListener('click', function () {
@@ -40,6 +63,9 @@ document.getElementById('add_item_button').addEventListener('click', function (e
         new_item_div.appendChild(checkbox_new_item);
         new_item_div.appendChild(label_checkbox);
         new_item_div.appendChild(more_button);
+        new_item_div.appendChild(plus_quantity);
+        new_item_div.appendChild(quantity_number);
+        new_item_div.appendChild(minus_quantity);
         new_item_div.appendChild(document.createElement('hr'));
 
         this.parentNode.parentNode.parentNode.append(new_item_div);
@@ -52,11 +78,12 @@ function writeNewItem(item) {
         let current_list = document.getElementById('current-list').textContent;
 
         db.collection('users').doc(user.uid)
-            .collection('lists')
-            .add({
+            .collection('lists').doc(current_list + '-' + item)
+            .set({
                 'name': item,
                 'list_name': current_list,
-                'category': 'pantry'
+                'category': 'pantry',
+                'quantity': 1
             })
     })
 };
@@ -162,6 +189,7 @@ function itemsQuery() {
             .then(function (snap) {
                 snap.forEach(function (doc) {
                     let item = doc.data().name;
+                    let quantity_value = doc.data().quantity;
 
                     let new_item_div = document.createElement('div');
                     new_item_div.setAttribute('class', 'form-check');
@@ -175,6 +203,29 @@ function itemsQuery() {
                     label_checkbox.setAttribute('class', 'form-check-label');
                     label_checkbox.setAttribute('for', 'flexCheckDefault');
                     label_checkbox.textContent = item;
+
+                    quantity_number = document.createElement('input');
+                    quantity_number.type = 'number';
+                    quantity_number.value = quantity_value;
+                    quantity_number.setAttribute('style', 'float: right; width: 25px;');
+
+                    minus_quantity = document.createElement('input');
+                    minus_quantity.type = 'button';
+                    minus_quantity.value = '-';
+                    minus_quantity.setAttribute('style', 'float: right; width: 25px;');
+
+                    minus_quantity.addEventListener('click', function() {
+                        decrementCounter(this);
+                    })
+
+                    plus_quantity = document.createElement('input');
+                    plus_quantity.type = 'button';
+                    plus_quantity.value = '+';
+                    plus_quantity.setAttribute('style', 'float: right; width: 25px; margin-right: 10px;');
+
+                    plus_quantity.addEventListener('click', function() {
+                        incrementCounter(this);
+                    })
 
                     more_button = document.createElement('i');
                     more_button.setAttribute('class', 'fas fa-ellipsis-h');
@@ -195,14 +246,57 @@ function itemsQuery() {
                     new_item_div.appendChild(checkbox_new_item);
                     new_item_div.appendChild(label_checkbox);
                     new_item_div.appendChild(more_button);
+                    new_item_div.appendChild(plus_quantity);
+                    new_item_div.appendChild(quantity_number);
+                    new_item_div.appendChild(minus_quantity);
                     new_item_div.appendChild(document.createElement('hr'));
 
                     place_to_add_item = document.getElementById('list-content')
                     place_to_add_item.append(new_item_div);
+
+
                 })
             })
     })
 };
+
+// Increment counter
+function incrementCounter(current_object) {
+    let current_num = current_object.nextSibling.value;
+    let incremented_num = (parseInt(current_num) + 1)
+    current_object.nextSibling.value = incremented_num
+
+    firebase.auth().onAuthStateChanged(function (user) {
+        let current_list = document.getElementById('current-list').textContent;
+        let item = current_object.previousSibling.previousSibling.textContent;
+
+        db.collection('users').doc(user.uid)
+            .collection('lists').doc(current_list + '-' + item)
+            .update({
+                'quantity': incremented_num
+            })
+    })
+}
+
+// Decrement counter
+function decrementCounter(current_object) {
+    let current_num = current_object.previousSibling.value;
+    if (current_num >= 2) {
+        let decremented_num = (parseInt(current_num) - 1)
+        current_object.previousSibling.value = decremented_num
+
+        firebase.auth().onAuthStateChanged(function (user) {
+            let current_list = document.getElementById('current-list').textContent;
+            let item = current_object.previousSibling.previousSibling.previousSibling.previousSibling.textContent;
+    
+            db.collection('users').doc(user.uid)
+                .collection('lists').doc(current_list + '-' + item)
+                .update({
+                    'quantity': decremented_num
+                })
+        })
+    }
+}
 
 // Makes remove button appear or disappear
 function checkCheckBoxes() {
@@ -246,7 +340,7 @@ document.getElementById('remove-button').addEventListener('click', function () {
     })
 });
 
-// If user clicks the Move Checked Items to Shopping List button, will delete the items from this list and firestore
+// If user clicks the Move Checked Items to Pantry button, will delete the items from this list and firestore
 // and add them to My Shopping List
 document.getElementById('move-button').addEventListener('click', function () {
     firebase.auth().onAuthStateChanged(function (user) {
@@ -256,19 +350,24 @@ document.getElementById('move-button').addEventListener('click', function () {
 
         Array.from(checkboxes).forEach((box) => {
             if (box.checked === true) {
+                console.log(box)
+                let quantity_value = parseInt(box.nextSibling.nextSibling.nextSibling.nextSibling.value);
+                console.log(quantity_value)
+                let item_name = box.nextSibling.textContent;
                 box.parentNode.remove();
 
                 db.collection('users').doc(user.uid)
-                    .collection('lists')
-                    .add({
-                        'name': box.nextSibling.textContent,
+                    .collection('lists').doc('My Shopping List-' + item_name)
+                    .set({
+                        'name': item_name,
                         'list_name': 'My Shopping List',
-                        'category': 'shopping'
+                        'category': 'shopping',
+                        'quantity': quantity_value
                     })
 
                 db.collection('users').doc(user.uid)
                     .collection('lists')
-                    .where('name', '==', box.nextSibling.textContent)
+                    .where('name', '==', item_name)
                     .where('list_name', '==', current_list)
                     .get()
                     .then(function (snap) {
