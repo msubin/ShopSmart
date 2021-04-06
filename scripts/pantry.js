@@ -350,9 +350,7 @@ document.getElementById('move-button').addEventListener('click', function () {
 
         Array.from(checkboxes).forEach((box) => {
             if (box.checked === true) {
-                console.log(box)
                 let quantity_value = parseInt(box.nextSibling.nextSibling.nextSibling.nextSibling.value);
-                console.log(quantity_value)
                 let item_name = box.nextSibling.textContent;
                 box.parentNode.remove();
 

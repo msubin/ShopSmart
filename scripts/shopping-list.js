@@ -198,7 +198,6 @@ function itemsQuery() {
                     checkbox_new_item.setAttribute('class', 'form-check-input');
                     checkbox_new_item.setAttribute('type', 'checkbox');
                     checkbox_new_item.setAttribute('value', '');
-                    //checkbox_new_item.setAttribute('id', 'flexCheckDefault');
 
                     let label_checkbox = document.createElement('label');
                     label_checkbox.setAttribute('class', 'form-check-label');
@@ -351,9 +350,7 @@ document.getElementById('move-button').addEventListener('click', function () {
 
         Array.from(checkboxes).forEach((box) => {
             if (box.checked === true) {
-                console.log(box)
                 let quantity_value = parseInt(box.nextSibling.nextSibling.nextSibling.nextSibling.value);
-                console.log(quantity_value)
                 let item_name = box.nextSibling.textContent;
                 box.parentNode.remove();
 
