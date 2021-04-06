@@ -27,7 +27,7 @@ document.getElementById('add_item_button').addEventListener('click', function (e
         quantity_number = document.createElement('input');
         quantity_number.type = 'number';
         quantity_number.value = 1;
-        quantity_number.setAttribute('style', 'float: right; width: 25px;');
+        quantity_number.setAttribute('style', 'float: right; width: 25px; text-align: center;');
 
         minus_quantity = document.createElement('input');
         minus_quantity.type = 'button';
@@ -207,7 +207,7 @@ function itemsQuery() {
                     quantity_number = document.createElement('input');
                     quantity_number.type = 'number';
                     quantity_number.value = quantity_value;
-                    quantity_number.setAttribute('style', 'float: right; width: 25px;');
+                    quantity_number.setAttribute('style', 'float: right; width: 25px; text-align: center;');
 
                     minus_quantity = document.createElement('input');
                     minus_quantity.type = 'button';
