@@ -3,37 +3,22 @@ save the food API (category) data in firebase
 read the data from category, and add item search bar
 */
 
-// Save FoodGroup data 
-function writeFoodGroup() {
-    var foodGroupsRef = db.collection("FoodGroup");
-
-    foodGroupsRef.add({
-        name: "Peanut",
-        foodGroup: "Nuts",
-    });
-    foodGroupsRef.add({
-        name: "Red rice",
-        foodGroup: "Cereals",
-    });
-    foodGroupsRef.add({
-        name: "Banana",
-        foodGroup: "Fruits",
-    });
-    foodGroupsRef.add({
-        name: "Cucumber",
-        foodGroup: "Gourds",
-    });
-    foodGroupsRef.add({
-        name: "Kiwi",
-        foodGroup: "Fruits",
-    });
-    foodGroupsRef.add({
-        name: "Milk",
-        foodGroup: "Dairy",
-    });
+function readLocalJSON() {
+    fetch("food.json")
+        .then(function (response) {
+            response.json()
+                .then(function (data) {
+                    data.forEach(function (item) {
+                        var food = {
+                            "name": item["name"],
+                            "food-group": item["food_subgroup"]
+                        }
+                        db.collection("foods")
+                            .add(food);
+                    })
+                })
+        })
 }
-
-// writeFoodGroup();
 
 
 // Add the category automatically if the product name === input product name
@@ -61,12 +46,6 @@ function displayFoodGroup() {
                     input_div.append(span);
                 }
             })
-            // if (itemName != n) {
-            //     replacedInput();
-            // }
-            // else {
-            //     document.getElementById("js-foodGroup").textContent = group;
-            // }
         })
 }
 displayFoodGroup();
