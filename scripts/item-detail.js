@@ -11,7 +11,7 @@ function readLocalJSON() {
                     data.forEach(function (item) {
                         var food = {
                             "name": item["name"],
-                            "food-group": item["food_subgroup"]
+                            "food-group": item["food_group"]
                         }
                         db.collection("foods")
                             .add(food);
@@ -25,13 +25,13 @@ function readLocalJSON() {
 // otherwise, make an input block
 
 function displayFoodGroup() {
-    db.collection("FoodGroup").get()
+    db.collection("foods").get()
         .then(function (snap) {
             snap.forEach(function (doc) {
-                var n = doc.data().name;
-                var group = doc.data().foodGroup;
+                var name = doc.data()["name"];
+                var group = doc.data()["food-group"];
                 const itemName = document.getElementById("js-itemName").innerText
-                if (itemName != n) {
+                if (itemName != name) {
 
                 }
                 else {
