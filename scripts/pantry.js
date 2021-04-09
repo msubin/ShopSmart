@@ -43,7 +43,7 @@ document.getElementById('add_item_button').addEventListener('click', function (e
         minus_quantity.value = '-';
         minus_quantity.setAttribute('style', 'float: right; width: 25px;');
 
-        minus_quantity.addEventListener('click', function() {
+        minus_quantity.addEventListener('click', function () {
             decrementCounter(this);
         })
 
@@ -52,7 +52,7 @@ document.getElementById('add_item_button').addEventListener('click', function (e
         plus_quantity.value = '+';
         plus_quantity.setAttribute('style', 'float: right; width: 25px; margin-right: 10px;');
 
-        plus_quantity.addEventListener('click', function() {
+        plus_quantity.addEventListener('click', function () {
             incrementCounter(this);
         })
 
@@ -223,7 +223,7 @@ function itemsQuery() {
                     minus_quantity.value = '-';
                     minus_quantity.setAttribute('style', 'float: right; width: 25px;');
 
-                    minus_quantity.addEventListener('click', function() {
+                    minus_quantity.addEventListener('click', function () {
                         decrementCounter(this);
                     })
 
@@ -232,7 +232,7 @@ function itemsQuery() {
                     plus_quantity.value = '+';
                     plus_quantity.setAttribute('style', 'float: right; width: 25px; margin-right: 10px;');
 
-                    plus_quantity.addEventListener('click', function() {
+                    plus_quantity.addEventListener('click', function () {
                         incrementCounter(this);
                     })
 
@@ -338,7 +338,7 @@ function decrementCounter(current_object) {
         firebase.auth().onAuthStateChanged(function (user) {
             let current_list = document.getElementById('current-list').textContent;
             let item = current_object.previousSibling.previousSibling.previousSibling.previousSibling.textContent;
-    
+
             db.collection('users').doc(user.uid)
                 .collection('lists').doc(current_list + '-' + item)
                 .update({
