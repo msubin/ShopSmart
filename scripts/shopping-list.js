@@ -19,11 +19,6 @@ document.getElementById('add_item_button').addEventListener('click', function (e
         label_checkbox.setAttribute('for', 'flexCheckDefault');
         label_checkbox.textContent = item_name.value;
 
-        more_button = document.createElement('i');
-        more_button.setAttribute('class', 'fas fa-ellipsis-h');
-        more_button.setAttribute('id', 'more-button-' + item_name.value)
-        more_button.setAttribute('style', 'float: right; width: 25px; height: 25px;')
-
         quantity_number = document.createElement('input');
         quantity_number.type = 'number';
         quantity_number.value = 1;
@@ -34,7 +29,7 @@ document.getElementById('add_item_button').addEventListener('click', function (e
         minus_quantity.value = '-';
         minus_quantity.setAttribute('style', 'float: right; width: 25px;');
 
-        minus_quantity.addEventListener('click', function() {
+        minus_quantity.addEventListener('click', function () {
             decrementCounter(this);
         })
 
@@ -43,7 +38,7 @@ document.getElementById('add_item_button').addEventListener('click', function (e
         plus_quantity.value = '+';
         plus_quantity.setAttribute('style', 'float: right; width: 25px; margin-right: 10px;');
 
-        plus_quantity.addEventListener('click', function() {
+        plus_quantity.addEventListener('click', function () {
             incrementCounter(this);
         })
 
@@ -62,7 +57,6 @@ document.getElementById('add_item_button').addEventListener('click', function (e
 
         new_item_div.appendChild(checkbox_new_item);
         new_item_div.appendChild(label_checkbox);
-        new_item_div.appendChild(more_button);
         new_item_div.appendChild(plus_quantity);
         new_item_div.appendChild(quantity_number);
         new_item_div.appendChild(minus_quantity);
@@ -214,7 +208,7 @@ function itemsQuery() {
                     minus_quantity.value = '-';
                     minus_quantity.setAttribute('style', 'float: right; width: 25px;');
 
-                    minus_quantity.addEventListener('click', function() {
+                    minus_quantity.addEventListener('click', function () {
                         decrementCounter(this);
                     })
 
@@ -223,14 +217,9 @@ function itemsQuery() {
                     plus_quantity.value = '+';
                     plus_quantity.setAttribute('style', 'float: right; width: 25px; margin-right: 10px;');
 
-                    plus_quantity.addEventListener('click', function() {
+                    plus_quantity.addEventListener('click', function () {
                         incrementCounter(this);
                     })
-
-                    more_button = document.createElement('i');
-                    more_button.setAttribute('class', 'fas fa-ellipsis-h');
-                    more_button.setAttribute('id', 'more-button-' + item)
-                    more_button.setAttribute('style', 'float: right; width: 25px; height: 25px;')
 
                     checkbox_new_item.addEventListener('click', function () {
                         if (checkbox_new_item.checked === true) {
@@ -245,7 +234,6 @@ function itemsQuery() {
 
                     new_item_div.appendChild(checkbox_new_item);
                     new_item_div.appendChild(label_checkbox);
-                    new_item_div.appendChild(more_button);
                     new_item_div.appendChild(plus_quantity);
                     new_item_div.appendChild(quantity_number);
                     new_item_div.appendChild(minus_quantity);
@@ -268,7 +256,7 @@ function incrementCounter(current_object) {
 
     firebase.auth().onAuthStateChanged(function (user) {
         let current_list = document.getElementById('current-list').textContent;
-        let item = current_object.previousSibling.previousSibling.textContent;
+        let item = current_object.previousSibling.textContent;
 
         db.collection('users').doc(user.uid)
             .collection('lists').doc(current_list + '-' + item)
@@ -287,8 +275,8 @@ function decrementCounter(current_object) {
 
         firebase.auth().onAuthStateChanged(function (user) {
             let current_list = document.getElementById('current-list').textContent;
-            let item = current_object.previousSibling.previousSibling.previousSibling.previousSibling.textContent;
-    
+            let item = current_object.previousSibling.previousSibling.previousSibling.textContent;
+
             db.collection('users').doc(user.uid)
                 .collection('lists').doc(current_list + '-' + item)
                 .update({
@@ -350,7 +338,7 @@ document.getElementById('move-button').addEventListener('click', function () {
 
         Array.from(checkboxes).forEach((box) => {
             if (box.checked === true) {
-                let quantity_value = parseInt(box.nextSibling.nextSibling.nextSibling.nextSibling.value);
+                let quantity_value = parseInt(box.nextSibling.nextSibling.nextSibling.value);
                 let item_name = box.nextSibling.textContent;
                 box.parentNode.remove();
 
