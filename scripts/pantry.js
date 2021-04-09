@@ -283,7 +283,7 @@ function itemDetailsPage(current_object) {
     var item_name = current_object.previousSibling.textContent;
     document.getElementById('modal-header').textContent = item_name;
 
-    var plural_item = item_name.slice(0, item_name.length);
+    // var plural_item = item_name.slice(0, item_name.length);
 
     var quantity = current_object.nextSibling.nextSibling.value;
     document.getElementById('item-detail-quantity').value = quantity;
@@ -293,19 +293,33 @@ function itemDetailsPage(current_object) {
             snap.forEach(function (doc) {
                 var name = doc.data()["name"];
                 var group = doc.data()["food-group"];
-                if (item_name.toLowerCase() == name.toLowerCase() || plural_item.toLowerCase() == name.toLowerCase()) {
-                    document.getElementById('js-inputFoodGroup').remove();
+                if (item_name.toLowerCase() === name.toLowerCase()) {
+                    document.getElementById('js-inputFoodGroup').setAttribute('style', 'display: none;')
 
-                    input_div = document.getElementById('inputFoodGroup');
+                    // input_div = document.getElementById('inputFoodGroup');
 
-                    span = document.createElement('span');
-                    span.setAttribute('id', 'js-Foodgroup');
-                    span.textContent = group;
+                    // span = document.createElement('span');
+                    // span.setAttribute('id', 'js-FoodGroup');
+                    item = document.getElementById('js-FoodGroup')
+                    item.setAttribute('style', 'display: block;')
+                    item.textContent = group;
 
-                    input_div.append(span);
+                    // input_div.appendChild(span);
                 }
             })
         })
+
+    modal = document.getElementById('exampleModal');
+    modal.addEventListener('click', function () {
+        item.setAttribute('style', 'display: none;')
+        document.getElementById('js-inputFoodGroup').setAttribute('style', 'display: block;')
+    })
+
+    close_button = document.getElementById('closeBtn');
+    close_button.addEventListener('click', function () {
+        item.setAttribute('style', 'display: none;')
+        document.getElementById('js-inputFoodGroup').setAttribute('style', 'display: block;')
+    })
 }
 
 // Increment counter

@@ -2,6 +2,10 @@ body {
     background-color: #f4f1e9;
 }
 
+#js-FoodGroup {
+    display: none;
+}
+
 #list-content {
     padding-top: 10px;
     width: 90vw;
@@ -137,6 +141,11 @@ input[id^="add_item_input"]:-moz-placeholder {
         top: 50%;
     }
     }
+
+#modal-header {
+    font-weight: bold;
+    font-size: 1.3em;
+}
 
 #saveBtn {
     background-color: #6AA392;
