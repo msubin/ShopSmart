@@ -1,0 +1,145 @@
+/* .btn {
+    width: 33.33vw;
+    background-color: #6AA392;
+    border: none;
+  }
+
+  .btn.btn-secondary.account {
+    width: 80vw;
+    height: 26vh;
+    background-color: #6AA392;
+    right: 1.2vw;
+    border: 1.5px solid grey;
+    text-align: left;
+  }
+
+  .col-8 {
+    height: 80vh;
+  }
+
+  .col-4 {
+    background-color: #2B463C;
+  }
+
+
+  #more-button {
+    background-color: #2B463C;
+  }
+
+  .btn.btn-secondary.dropdown-toggle {
+    width: 10px;
+  }
+
+  .btn.btn-danger.dropdown-toggle.dropdown-toggle-split {
+    width: 2vw;
+
+    border-left: 2px solid #2B463C;
+  }
+
+  .btn.btn-danger.dropdown-toggle.dropdown-toggle-split.show {
+    width: 2vw;
+
+    border-left: 2px solid #2B463C;
+    background-color: black;
+  }
+
+
+  .dropdown-item {
+    background-color: #2B463C;
+    margin: 0px;
+    color: white;
+    border-radius: 5%;
+  }
+
+  .dropdown-item:hover {
+    background-color: #6AA392;
+    margin: 0px;
+    color: white;
+    border-radius: 5%;
+  }
+
+  .dropdown-divider {
+    background-color: red;
+    margin: 1px;
+  }
+
+  .dropdown-toggle-split:hover {
+    background-color: black;
+  }
+
+  .visually-hidden {
+    background-color: black;
+  }
+
+  ul.dropdown-menu.show {
+    position: relative;
+    right: 10vw;
+    height: 10em;
+    background-color: black;
+  }
+
+  .myshoppinglist:hover {
+    background-color: black;
+  }
+
+  .myshoppinglist:focus {
+    background-color: black;
+  }
+
+  .btn.btn-success:hover {
+    background-color: black;
+  }
+
+  div.btn-group {
+    position: relative;
+    left: 35%;
+    height: 10vh;
+
+  }
+
+  .list-group-item.list-group-item-action.active {
+    background-color: #2B463C;
+  }
+
+  .list-group-item.list-group-item-action {
+    background-color: #6AA392;
+  }
+
+  .navbar.navbar-expand-lg.navbar-light.bg-warning {
+    color: red;
+    background: red;
+  } */
+
+
+  div.row {
+    margin-top: 10px;
+    margin-left: 10px;
+  }
+
+  div.btn-group-vertical {
+    /* border: solid 5px red; */
+    width: 60vw;
+    height: 30vh;
+  }
+
+  div.col-4 {
+    padding: 1vh;
+  }
+
+  footer.navbar.fixed-bottom {
+    height: 70px;
+  }
+
+  .list-group-item.list-group-item-action {
+    background-color: #6AA392;
+  }
+
+  .list-group-item.list-group-item-action.active {
+    background-color: #2B463C;
+  }
+
+button.btn.btn-secondary.account {
+  /* border: solid 5px red; */
+  background-color: #b1d182;
+  color: black;
+}
