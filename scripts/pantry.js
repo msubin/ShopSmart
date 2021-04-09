@@ -22,7 +22,7 @@ document.getElementById('add_item_button').addEventListener('click', function (e
         more_button = document.createElement('i');
         more_button.setAttribute('class', 'fas fa-ellipsis-h');
         more_button.setAttribute('id', 'more-button-' + item_name.value)
-        more_button.setAttribute('style', 'float: right; width: 25px; height: 25px;')
+        more_button.setAttribute('style', 'float: right; width: 25px; height: 25px; cursor: pointer;')
 
         quantity_number = document.createElement('input');
         quantity_number.type = 'number';
@@ -34,7 +34,7 @@ document.getElementById('add_item_button').addEventListener('click', function (e
         minus_quantity.value = '-';
         minus_quantity.setAttribute('style', 'float: right; width: 25px;');
 
-        minus_quantity.addEventListener('click', function() {
+        minus_quantity.addEventListener('click', function () {
             decrementCounter(this);
         })
 
@@ -43,7 +43,7 @@ document.getElementById('add_item_button').addEventListener('click', function (e
         plus_quantity.value = '+';
         plus_quantity.setAttribute('style', 'float: right; width: 25px; margin-right: 10px;');
 
-        plus_quantity.addEventListener('click', function() {
+        plus_quantity.addEventListener('click', function () {
             incrementCounter(this);
         })
 
@@ -214,7 +214,7 @@ function itemsQuery() {
                     minus_quantity.value = '-';
                     minus_quantity.setAttribute('style', 'float: right; width: 25px;');
 
-                    minus_quantity.addEventListener('click', function() {
+                    minus_quantity.addEventListener('click', function () {
                         decrementCounter(this);
                     })
 
@@ -223,14 +223,14 @@ function itemsQuery() {
                     plus_quantity.value = '+';
                     plus_quantity.setAttribute('style', 'float: right; width: 25px; margin-right: 10px;');
 
-                    plus_quantity.addEventListener('click', function() {
+                    plus_quantity.addEventListener('click', function () {
                         incrementCounter(this);
                     })
 
                     more_button = document.createElement('i');
                     more_button.setAttribute('class', 'fas fa-ellipsis-h');
                     more_button.setAttribute('id', 'more-button-' + item)
-                    more_button.setAttribute('style', 'float: right; width: 25px; height: 25px;')
+                    more_button.setAttribute('style', 'float: right; width: 25px; height: 25px; cursor: pointer;')
 
                     checkbox_new_item.addEventListener('click', function () {
                         if (checkbox_new_item.checked === true) {
@@ -260,6 +260,22 @@ function itemsQuery() {
     })
 };
 
+// If the user click the more button on each item div, it leads to the detail page
+document.querySelector(".fa-ellipsis-h").addEventListener("click", function () {
+    let parent = document.querySelector(".modal-parent");
+    parent.style.display = "block"
+})
+
+document.querySelector(".X").addEventListener("click", function () {
+    parent.style.display = "none";
+})
+
+document.querySelector(".modal-parent").addEventListener("click", function (e) {
+    if (e.target.className == "modal-parent") {
+        parent.style.display = "none";
+    }
+})
+
 // Increment counter
 function incrementCounter(current_object) {
     let current_num = current_object.nextSibling.value;
@@ -288,7 +304,7 @@ function decrementCounter(current_object) {
         firebase.auth().onAuthStateChanged(function (user) {
             let current_list = document.getElementById('current-list').textContent;
             let item = current_object.previousSibling.previousSibling.previousSibling.previousSibling.textContent;
-    
+
             db.collection('users').doc(user.uid)
                 .collection('lists').doc(current_list + '-' + item)
                 .update({
