@@ -22,8 +22,17 @@ document.getElementById('add_item_button').addEventListener('click', function (e
         more_button = document.createElement('i');
         more_button.setAttribute('class', 'fas fa-ellipsis-h');
         more_button.setAttribute('id', 'more-button-' + item_name.value)
-        more_button.setAttribute('style', 'float: right; width: 25px; height: 25px;')
-
+        more_button.setAttribute('style', 'float: right; width: 25px; height: 25px; padding-top: 5px;')
+        more_button.type = 'button'
+        more_button.setAttribute('data-bs-toggle', 'modal')
+        more_button.setAttribute('data-bs-target', '#exampleModal')
+        
+        more_button.addEventListener('click', function () {
+            itemDetailsPage(this);
+            var test = document.getElementById('exampleModal');
+            test.focus();
+        })
+        
         quantity_number = document.createElement('input');
         quantity_number.type = 'number';
         quantity_number.value = 1;
@@ -230,7 +239,16 @@ function itemsQuery() {
                     more_button = document.createElement('i');
                     more_button.setAttribute('class', 'fas fa-ellipsis-h');
                     more_button.setAttribute('id', 'more-button-' + item)
-                    more_button.setAttribute('style', 'float: right; width: 25px; height: 25px;')
+                    more_button.setAttribute('style', 'float: right; width: 25px; height: 25px; padding-top: 5px;')
+                    more_button.type = 'button'
+                    more_button.setAttribute('data-bs-toggle', 'modal')
+                    more_button.setAttribute('data-bs-target', '#exampleModal')
+                    
+                    more_button.addEventListener('click', function () {
+                        itemDetailsPage(this);
+                        var test = document.getElementById('exampleModal');
+                        test.focus();
+                    })
 
                     checkbox_new_item.addEventListener('click', function () {
                         if (checkbox_new_item.checked === true) {
@@ -259,6 +277,38 @@ function itemsQuery() {
             })
     })
 };
+
+// Function for Item Details
+function itemDetailsPage(current_object) {
+    var item_name = current_object.previousSibling.textContent;
+    document.getElementById('modal-header').textContent = item_name;
+
+    var quantity = current_object.nextSibling.nextSibling.value;
+    document.getElementById('item-detail-quantity').value = quantity;
+
+    db.collection("foods").get()
+        .then(function (snap) {
+            snap.forEach(function (doc) {
+                var name = doc.data()["name"];
+                var group = doc.data()["food-group"];
+                if (item_name != name) {
+
+                }
+                else {
+                    document.getElementById('js-inputFoodGroup').remove();
+
+                    input_div = document.getElementById('inputFoodGroup');
+
+                    span = document.createElement('span');
+                    span.setAttribute('id', 'js-Foodgroup');
+                    span.textContent = group;
+
+                    input_div.append(span);
+                }
+            })
+        })
+
+}
 
 // Increment counter
 function incrementCounter(current_object) {
