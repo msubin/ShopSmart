@@ -22,15 +22,15 @@ body {
 }
 
 input[id^="add_item_input"]::-webkit-input-placeholder { 
-    color: white;
+color: white;
 }
 
 input[id^="add_item_input"]::-moz-placeholder { 
-    color: white;
+color: white;
 }
 
 input[id^="add_item_input"]:-ms-input-placeholder { 
-    color: white;
+color: white;
 }
 
 input[id^="add_item_input"]:-moz-placeholder { 
