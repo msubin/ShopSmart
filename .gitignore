@@ -5,3 +5,4 @@
 .firestore.rules
 ..firebasrc
 ./.firebase
+.vscode
