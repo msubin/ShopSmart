@@ -256,7 +256,7 @@ function incrementCounter(current_object) {
 
     firebase.auth().onAuthStateChanged(function (user) {
         let current_list = document.getElementById('current-list').textContent;
-        let item = current_object.previousSibling.previousSibling.textContent;
+        let item = current_object.previousSibling.textContent;
 
         db.collection('users').doc(user.uid)
             .collection('lists').doc(current_list + '-' + item)
@@ -275,7 +275,7 @@ function decrementCounter(current_object) {
 
         firebase.auth().onAuthStateChanged(function (user) {
             let current_list = document.getElementById('current-list').textContent;
-            let item = current_object.previousSibling.previousSibling.previousSibling.previousSibling.textContent;
+            let item = current_object.previousSibling.previousSibling.previousSibling.textContent;
 
             db.collection('users').doc(user.uid)
                 .collection('lists').doc(current_list + '-' + item)
@@ -338,7 +338,7 @@ document.getElementById('move-button').addEventListener('click', function () {
 
         Array.from(checkboxes).forEach((box) => {
             if (box.checked === true) {
-                let quantity_value = parseInt(box.nextSibling.nextSibling.nextSibling.nextSibling.value);
+                let quantity_value = parseInt(box.nextSibling.nextSibling.nextSibling.value);
                 let item_name = box.nextSibling.textContent;
                 box.parentNode.remove();
 
