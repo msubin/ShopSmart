@@ -86,7 +86,7 @@ function writeNewItem(item) {
 document.getElementById('create-new-list').addEventListener('click', function (event) {
     let list_name = prompt("Please enter a name for your new list:")
 
-    if (list_name != null) {
+    if (list_name != null && list_name.length != 0) {
         let dropdown_menu_ul = document.getElementById("dropdown-menu-ul")
 
         new_li = document.createElement("li")

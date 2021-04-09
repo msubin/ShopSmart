@@ -26,13 +26,13 @@ document.getElementById('add_item_button').addEventListener('click', function (e
         more_button.type = 'button'
         more_button.setAttribute('data-bs-toggle', 'modal')
         more_button.setAttribute('data-bs-target', '#exampleModal')
-        
+
         more_button.addEventListener('click', function () {
             itemDetailsPage(this);
             var test = document.getElementById('exampleModal');
             test.focus();
         })
-        
+
         quantity_number = document.createElement('input');
         quantity_number.type = 'number';
         quantity_number.value = 1;
@@ -243,7 +243,7 @@ function itemsQuery() {
                     more_button.type = 'button'
                     more_button.setAttribute('data-bs-toggle', 'modal')
                     more_button.setAttribute('data-bs-target', '#exampleModal')
-                    
+
                     more_button.addEventListener('click', function () {
                         itemDetailsPage(this);
                         var test = document.getElementById('exampleModal');
@@ -283,6 +283,8 @@ function itemDetailsPage(current_object) {
     var item_name = current_object.previousSibling.textContent;
     document.getElementById('modal-header').textContent = item_name;
 
+    var plural_item = item_name.slice(0, item_name.length);
+
     var quantity = current_object.nextSibling.nextSibling.value;
     document.getElementById('item-detail-quantity').value = quantity;
 
@@ -291,10 +293,7 @@ function itemDetailsPage(current_object) {
             snap.forEach(function (doc) {
                 var name = doc.data()["name"];
                 var group = doc.data()["food-group"];
-                if (item_name != name) {
-
-                }
-                else {
+                if (item_name.toLowerCase() == name.toLowerCase() || plural_item.toLowerCase() == name.toLowerCase()) {
                     document.getElementById('js-inputFoodGroup').remove();
 
                     input_div = document.getElementById('inputFoodGroup');
@@ -307,7 +306,6 @@ function itemDetailsPage(current_object) {
                 }
             })
         })
-
 }
 
 // Increment counter
