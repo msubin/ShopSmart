@@ -87,18 +87,22 @@
     </div>
   </div>
 
+<!-- the search box goes here -->
 
 
   <div class="row">
     <div class="col-4">
-      <div class="list-group" id="list-tab" role="tablist">
+      <div class="list-group list-group-horizontal" id="list-tab" role="tablist">
         <a class="list-group-item list-group-item-action active" id="list-home-list" data-toggle="list"
           href="#list-home" role="tab" aria-controls="home"><i class="bi bi-person-lines-fill"></i> My Account</a>
         <a class="list-group-item list-group-item-action" id="list-profile-list" data-toggle="list" href="#list-profile"
           role="tab" aria-controls="profile"><i class="bi bi-wrench"></i> Settings</a>
-        <a class="list-group-item list-group-item-action" id="list-messages-list" data-toggle="list"
+        <!-- <a class="list-group-item list-group-item-action" id="list-messages-list" data-toggle="list"
           href="#list-messages" role="tab" aria-controls="messages"><i class="bi bi-patch-question-fill"></i>
-          Support</a>
+          Support</a> -->
+          <a class="list-group-item list-group-item-action" id="list-messages-list" data-toggle="list"
+          href="#list-messages" role="tab" aria-controls="messages"><i class="bi bi-patch-question-fill"></i>
+          Recipes</a>
         <!-- <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings"><i class="bi bi-info-circle"></i> Tutorial</a> -->
       </div>
     </div>
@@ -129,10 +133,14 @@
         <div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">
           <div class="btn-group-vertical">
             <div class="btn-group-vertical" role="group" aria-label="Basic example">
-              <button type="button" id="FAQ-button" class="btn btn-secondary account"><i class="bi bi-patch-question-fill"></i>
-                Frequently Asked Questions</button>
-              <button type="button" class="btn btn-secondary account"><i class="bi bi-info-circle-fill"></i>
-                Tutorial</button>
+              <div type="button" id="recipe-search-div"class="btn btn-secondary account"><i class="bi bi-patch-question-fill"></i> 
+                <input type="text" id="text_from_input_field" placeholder="Search for your recipe">
+                <button onclick="selectText()" type="submit" id="recipe-search-button">Submit</button> </div>
+                <!-- <div><input type="text" placeholder="Search.."></div> -->
+                <!-- <input type="text" placeholder="Search.."> -->
+
+              <!-- <button type="button" class="btn btn-secondary account"><i class="bi bi-info-circle-fill"></i>
+                Tutorial</button> -->
             </div>
           </div>
         </div>
@@ -189,6 +197,24 @@
   <!--------------------------------------------------------------------->
   <!-- JS files: Your own JavaScript functions included here    -->
   <!--------------------------------------------------------------------->
+  <script>
+    // let submit_button = document.querySelector("#recipe-search-button")
+    // let text_from_input_field = document.querySelector("text_from_input_field").select()
+    // document.querySelector("#recipe-search-button").addEventListener("click", function() {
+    //   console.log("search recipe!")
+    //   console.log(text_from_input_field)
+    // })
+    function selectText() {
+      let input = document.querySelector("#text_from_input_field")
+      // input.focus()
+      console.log(input.value)
+      let input1 = input.value.replace(/\s/g, '+')
+      console.log(`https://www.google.com/search?q=${input1}+recipe`)
+      window.open(`https://www.google.com/search?q=${input1}+recipe`)
+    }
+
+  </script>
+
 
 </body>
 

@@ -112,8 +112,10 @@
 
 
   div.row {
+    /* width: 1200px; */
     margin-top: 10px;
     margin-left: 10px;
+    margin-right: 0;
   }
 
   div.btn-group-vertical {
@@ -142,4 +144,43 @@ button.btn.btn-secondary.account {
   /* border: solid 5px red; */
   background-color: #b1d182;
   color: black;
+}
+
+div.col-4 {
+  width: 900px;
+}
+
+/* div.col-8 {
+  width: 800px;
+} */
+
+div.btn-group-vertical{
+  /* margin: auto; */
+  /* color: red; */
+  width: 90vw;
+}
+
+#recipe-search-button {
+  /* height: 20vh; */
+  /* background-color: #b1d182; */
+  border-radius: 15%;
+  /* background-color: gray; */
+  position: relative;
+  top: 40%;
+}
+
+#text_from_input_field {
+  /* background-color: #b1d182; */
+  position: relative;
+  top: 40%;
+
+}
+
+#recipe-search-div {
+  background-color: #b1d182;
+}
+
+.bi.bi-patch-question-fill {
+  position: relative;
+  top: 40%;
 }
