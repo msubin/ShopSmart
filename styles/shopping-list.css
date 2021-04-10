@@ -160,3 +160,8 @@ input[id^="add_item_input"]:-moz-placeholder {
     color: teal;
 }
 
+#js-inputFoodGroup {
+    width: 91%;
+    margin-left: 4%;
+}
+
