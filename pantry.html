@@ -31,7 +31,8 @@
                 <div class="modal-body">
                     <form id='itemDetail'>
                         <div class="itemQuantity mb-3">
-                            <label for="inputQuantity" class="col-sm-2 col-form-label">I have: </label>
+                            <label for="inputQuantity" class="col-sm-2 col-form-label" id="quantity_input">I have:
+                            </label>
                             <div class="input-group">
                                 <input type="number" id="item-detail-quantity" class="inputQuantity form-control"
                                     placeholder="Quantity" aria-label="Quantity">
@@ -53,12 +54,14 @@
                         </div>
 
                         <div class="row mb-3" id="inputFoodGroup">
-                            <label for="inputFoodGroup" class="col-sm-2 col-form-label">Food Group: </label>
+                            <label for="inputFoodGroup" class="col-sm-2 col-form-label" id='foodGroupInput'>Food Group:
+                            </label>
                             <input type="text" class="form-control" id="js-inputFoodGroup">
                             <span id='js-FoodGroup'></span>
                         </div>
 
-                        <label for="itemShelfLife" class="itemShelfLife form-label">Recommended Shelf Life</label>
+                        <label for="itemShelfLife" class="itemShelfLife form-label" id="shelfLifeInput">Recommended
+                            Shelf Life</label>
                         <div class="itemShelfLife input-group mb-3">
                             <input type="number" class="form-control" aria-describedby="basic-addon3">
                             <span class="input-group-text" id="basic-addon3">days</span>
@@ -124,7 +127,8 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="./more-popup.html"><i class="fas fa-ellipsis-h fa-2x"></i><br>More Features</a>
+                <a class="nav-link" href="./more-popup.html"><i class="fas fa-ellipsis-h fa-2x"></i><br>More
+                    Features</a>
             </li>
 
         </ul>

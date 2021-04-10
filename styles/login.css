@@ -1,0 +1,54 @@
+body {
+    background-color: #f4f1e9;
+}
+
+#greeting {
+    margin: 0 auto 10%; 
+    text-align: center; 
+    padding-top: 20%;
+}
+
+img {
+    width: 80%;
+}
+
+.footer_copyright {
+    text-align: center;
+}
+
+#copyright {
+    position: absolute;
+    top: 94%;
+    left: 40%;
+}
+
+#firebaseui-auth-container {
+    margin: 10%;
+    background-color: #f4f1e9;
+}
+
+form {
+    background-color: white;
+}
+
+.firebaseui-card-header {
+    background-color: #7EB35F;
+}
+.firebaseui-title{
+    color: white;
+}
+
+/* next button */
+.mdl-button--raised.mdl-button--colored {
+    background-color: #7EB35F;
+}
+
+/* cancel button */
+.mdl-button--primary.mdl-button--primary {
+    color: #7EB35F;
+}
+
+/* policy */
+.firebaseui-tos {
+    display: none;
+}

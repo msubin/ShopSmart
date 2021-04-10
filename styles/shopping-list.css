@@ -88,13 +88,17 @@ input[id^="add_item_input"]:-moz-placeholder {
     float: inherit;
 }
 
+#remove-button, #move-button {
+    font-size: 0.9em;
+    text-align: center;
+    background-color: #7EB35F;
+}
+
 #remove-button:hover {
-    background-color: #2b463c;
-}   
+    background-color: #7EB35F;}   
 
 #move-button:hover {
-    background-color: #2b463c;
-}   
+    background-color: #7EB35F;}   
 
 .footer_color {
     background-color: #6ba292;
@@ -151,3 +155,8 @@ input[id^="add_item_input"]:-moz-placeholder {
     background-color: #6AA392;
     border: #6AA392;}
     
+
+#quantity_input, #foodGroupInput, #shelfLifeInput {
+    color: teal;
+}
+
