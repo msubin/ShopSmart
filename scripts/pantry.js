@@ -250,6 +250,7 @@ function itemsQuery() {
                         test.focus();
                     })
 
+
                     checkbox_new_item.addEventListener('click', function () {
                         if (checkbox_new_item.checked === true) {
                             console.log(this.nextSibling.textContent + ' is checked!');
@@ -278,32 +279,37 @@ function itemsQuery() {
     })
 };
 
+
 // Function for Item Details
 function itemDetailsPage(current_object) {
+
     var item_name = current_object.previousSibling.textContent;
     document.getElementById('modal-header').textContent = item_name;
 
     var quantity = current_object.nextSibling.nextSibling.value;
     document.getElementById('item-detail-quantity').value = quantity;
 
+    var item = document.getElementById('modal-header').textContent;
+
     // get user saved info
     firebase.auth().onAuthStateChanged(function (user) {
-        db.collection("users").doc(user.uid).collection('lists').doc(current_list + '-' + item_name).get()
-            .then(doc => {
-                if (doc.exists) {
-                    var scale = doc.data()["scale"];
-                    var food_group_by_user = doc.data()["food_group_by_user"];
-                    var shelf_life_user = doc.data()["shelf_life_user"];
-                    var notify_me = doc.data()["notify_me"];
+        db.collection("users").doc(user.uid).collection('lists')
+            .where('name', '==', item)
+            .where('list_name', '==', current_list)
+            .get()
+            .then(function (snap) {
+                snap.forEach(function (doc) {
+                    var scale = doc.data().scale;
+                    var food_group_by_user = doc.data().food_group_by_user;
+                    var shelf_life_user = doc.data().shelf_life_user;
+                    var name = doc.data().name;
 
-                    document.getElementsByClassName("inputGroupSelectUnit").value = scale;
-                    document.getElementsByClassName("js-inputFoodGroup").value = food_group_by_user;
-                    document.getElementsByClassName("js-inputShelfLife").value = shelf_life_user;
-                    document.getElementById("notify_me_switch").checked = notify_me;
-                }
-            })
-            .catch(err => {
-                console.log(err);
+                    if (item_name.toLowerCase() === name.toLowerCase()) {
+                        document.getElementById("inputGroupSelectUnit").value = scale;
+                        document.getElementById("js-inputFoodGroup").value = food_group_by_user;
+                        document.getElementById("js-inputShelfLife").value = shelf_life_user;
+                    }
+                })
             })
     })
 
@@ -323,43 +329,37 @@ function itemDetailsPage(current_object) {
             })
         })
 
-    // modal = document.getElementById('exampleModal');
-    // modal.addEventListener('click', function () {
-    //     item.setAttribute('style', 'display: none;')
-    //     document.getElementById('js-inputFoodGroup').setAttribute('style', 'display: block;')
-    // })
-
     close_button = document.getElementById('closeBtn');
     close_button.addEventListener('click', function () {
         item.setAttribute('style', 'display: none;')
         document.getElementById('js-inputFoodGroup').setAttribute('style', 'display: block;')
     })
-}
 
-// Save Changes
-document.getElementById("saveBtn").addEventListener("click", function (current_object) {
-    let scale = document.getElementById("inputGroupSelectUnit").value;
-    let input_food_group = document.getElementById("js-inputFoodGroup").value;
-    let input_shelf_life = document.getElementById("js-inputShelfLife").value;
-    let notify_switch = document.getElementById("notify_me_switch").checked;
+    // Save Changes
+    document.getElementById("saveBtn").addEventListener("click", function (current_object) {
+        let scale = document.getElementById("inputGroupSelectUnit").value;
+        let input_food_group = document.getElementById("js-inputFoodGroup").value;
+        let input_shelf_life = document.getElementById("js-inputShelfLife").value;
+        let notify_switch = document.getElementById("notify_me_switch").checked;
 
-    firebase.auth().onAuthStateChanged(function (user) {
-        let current_list = document.getElementById('current-list').textContent;
-        let item = document.getElementById("modal-header").textContent;
+        firebase.auth().onAuthStateChanged(function (user) {
+            let current_list = document.getElementById('current-list').textContent;
+            let item = document.getElementById("modal-header").textContent;
 
-        db.collection('users').doc(user.uid).collection('lists').doc(current_list + '-' + item).update({
-            'scale': scale,
-            'food_group_by_user': input_food_group,
-            'shelf_life_user': input_shelf_life,
-            'notify_me': notify_switch
+            db.collection('users').doc(user.uid).collection('lists').doc(current_list + '-' + item).update({
+                'scale': scale,
+                'food_group_by_user': input_food_group,
+                'shelf_life_user': input_shelf_life,
+                'notify_me': notify_switch
+            })
         })
-    })
-    item = document.getElementById('js-FoodGroup')
-    item.setAttribute('style', 'display: none;')
-    document.getElementById('js-inputFoodGroup').setAttribute('style', 'display: block;')
+        item = document.getElementById('js-FoodGroup')
+        item.setAttribute('style', 'display: none;')
+        document.getElementById('js-inputFoodGroup').setAttribute('style', 'display: block;')
 
-    $('#exampleModal').modal('hide');
-})
+        $('#exampleModal').modal('hide');
+    })
+}
 
 
 // Increment counter
