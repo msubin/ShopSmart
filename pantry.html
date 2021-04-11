@@ -21,12 +21,12 @@
 
 <body>
     <!--Pop Up Item Details Modal-->
-    <div class="modal" id="exampleModal" tabindex="-1">
+    <div class="modal" id="exampleModal" tabindex="-1" data-backdrop='static'>
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header" id="modal-header">
                     <h5 class="modal-title">Modal title</h5>
-                    <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+
                 </div>
                 <div class="modal-body">
                     <form id='itemDetail'>
@@ -63,12 +63,13 @@
                         <label for="itemShelfLife" class="itemShelfLife form-label" id="shelfLifeInput">Recommended
                             Shelf Life</label>
                         <div class="itemShelfLife input-group mb-3">
-                            <input type="number" class="form-control" aria-describedby="basic-addon3">
+                            <input type="number" class="form-control" id="js-inputShelfLife"
+                                aria-describedby="basic-addon3">
                             <span class="input-group-text" id="basic-addon3">days</span>
                         </div>
 
                         <div class="form-check form-switch">
-                            <input class="notification form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+                            <input class="notification form-check-input" type="checkbox" id="notify_me_switch">
                             <label class="notificationLabel form-check-label" for="flexSwitchCheckDefault">Notify
                                 Me</label>
                         </div>

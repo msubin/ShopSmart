@@ -165,3 +165,7 @@ input[id^="add_item_input"]:-moz-placeholder {
     margin-left: 4%;
 }
 
+.form-switch .form-check-input:checked {
+    background-color: #6AA392;
+}
+

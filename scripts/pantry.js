@@ -283,11 +283,31 @@ function itemDetailsPage(current_object) {
     var item_name = current_object.previousSibling.textContent;
     document.getElementById('modal-header').textContent = item_name;
 
-    // var plural_item = item_name.slice(0, item_name.length);
-
     var quantity = current_object.nextSibling.nextSibling.value;
     document.getElementById('item-detail-quantity').value = quantity;
 
+    // get user saved info
+    firebase.auth().onAuthStateChanged(function (user) {
+        db.collection("users").doc(user.uid).collection('lists').doc(current_list + '-' + item_name).get()
+            .then(doc => {
+                if (doc.exists) {
+                    var scale = doc.data()["scale"];
+                    var food_group_by_user = doc.data()["food_group_by_user"];
+                    var shelf_life_user = doc.data()["shelf_life_user"];
+                    var notify_me = doc.data()["notify_me"];
+
+                    document.getElementsByClassName("inputGroupSelectUnit").value = scale;
+                    document.getElementsByClassName("js-inputFoodGroup").value = food_group_by_user;
+                    document.getElementsByClassName("js-inputShelfLife").value = shelf_life_user;
+                    document.getElementById("notify_me_switch").checked = notify_me;
+                }
+            })
+            .catch(err => {
+                console.log(err);
+            })
+    })
+
+    // get preset food group from db
     db.collection("foods").get()
         .then(function (snap) {
             snap.forEach(function (doc) {
@@ -296,24 +316,18 @@ function itemDetailsPage(current_object) {
                 if (item_name.toLowerCase() === name.toLowerCase()) {
                     document.getElementById('js-inputFoodGroup').setAttribute('style', 'display: none;')
 
-                    // input_div = document.getElementById('inputFoodGroup');
-
-                    // span = document.createElement('span');
-                    // span.setAttribute('id', 'js-FoodGroup');
                     item = document.getElementById('js-FoodGroup')
                     item.setAttribute('style', 'display: block;')
                     item.textContent = group;
-
-                    // input_div.appendChild(span);
                 }
             })
         })
 
-    modal = document.getElementById('exampleModal');
-    modal.addEventListener('click', function () {
-        item.setAttribute('style', 'display: none;')
-        document.getElementById('js-inputFoodGroup').setAttribute('style', 'display: block;')
-    })
+    // modal = document.getElementById('exampleModal');
+    // modal.addEventListener('click', function () {
+    //     item.setAttribute('style', 'display: none;')
+    //     document.getElementById('js-inputFoodGroup').setAttribute('style', 'display: block;')
+    // })
 
     close_button = document.getElementById('closeBtn');
     close_button.addEventListener('click', function () {
@@ -321,6 +335,32 @@ function itemDetailsPage(current_object) {
         document.getElementById('js-inputFoodGroup').setAttribute('style', 'display: block;')
     })
 }
+
+// Save Changes
+document.getElementById("saveBtn").addEventListener("click", function (current_object) {
+    let scale = document.getElementById("inputGroupSelectUnit").value;
+    let input_food_group = document.getElementById("js-inputFoodGroup").value;
+    let input_shelf_life = document.getElementById("js-inputShelfLife").value;
+    let notify_switch = document.getElementById("notify_me_switch").checked;
+
+    firebase.auth().onAuthStateChanged(function (user) {
+        let current_list = document.getElementById('current-list').textContent;
+        let item = document.getElementById("modal-header").textContent;
+
+        db.collection('users').doc(user.uid).collection('lists').doc(current_list + '-' + item).update({
+            'scale': scale,
+            'food_group_by_user': input_food_group,
+            'shelf_life_user': input_shelf_life,
+            'notify_me': notify_switch
+        })
+    })
+    item = document.getElementById('js-FoodGroup')
+    item.setAttribute('style', 'display: none;')
+    document.getElementById('js-inputFoodGroup').setAttribute('style', 'display: block;')
+
+    $('#exampleModal').modal('hide');
+})
+
 
 // Increment counter
 function incrementCounter(current_object) {

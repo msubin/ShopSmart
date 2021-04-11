@@ -21,31 +21,33 @@ function readLocalJSON() {
 }
 
 
+
+
 // Add the category automatically if the product name === input product name
 // otherwise, make an input block
 
-function displayFoodGroup() {
-    db.collection("foods").get()
-        .then(function (snap) {
-            snap.forEach(function (doc) {
-                var name = doc.data()["name"];
-                var group = doc.data()["food-group"];
-                const itemName = document.getElementById("js-itemName").innerText
-                if (itemName != name) {
+// function displayFoodGroup() {
+//     db.collection("foods").get()
+//         .then(function (snap) {
+//             snap.forEach(function (doc) {
+//                 var name = doc.data()["name"];
+//                 var group = doc.data()["food-group"];
+//                 const itemName = document.getElementById("js-itemName").innerText
+//                 if (itemName != name) {
 
-                }
-                else {
-                    document.getElementById('js-inputFoodGroup').remove();
+//                 }
+//                 else {
+//                     document.getElementById('js-inputFoodGroup').remove();
 
-                    input_div = document.getElementById('inputFoodGroup');
+//                     input_div = document.getElementById('inputFoodGroup');
 
-                    span = document.createElement('span');
-                    span.setAttribute('id', 'js-Foodgroup');
-                    span.textContent = group;
+//                     span = document.createElement('span');
+//                     span.setAttribute('id', 'js-Foodgroup');
+//                     span.textContent = group;
 
-                    input_div.append(span);
-                }
-            })
-        })
-}
-displayFoodGroup();
+//                     input_div.append(span);
+//                 }
+//             })
+//         })
+// }
+// displayFoodGroup();
