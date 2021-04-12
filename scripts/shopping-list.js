@@ -46,11 +46,9 @@ document.getElementById('add_item_button').addEventListener('click', function (e
 
         checkbox_new_item.addEventListener('click', function () {
             if (checkbox_new_item.checked === true) {
-                console.log(this.nextSibling.textContent + ' is checked!');
                 checkCheckBoxes();
             }
             else if (checkbox_new_item.checked === false) {
-                console.log(this.nextSibling.textContent + ' is not checked!');
                 checkCheckBoxes();
             }
         })
@@ -223,11 +221,9 @@ function itemsQuery() {
 
                     checkbox_new_item.addEventListener('click', function () {
                         if (checkbox_new_item.checked === true) {
-                            console.log(this.nextSibling.textContent + ' is checked!');
                             checkCheckBoxes();
                         }
                         else if (checkbox_new_item.checked === false) {
-                            console.log(this.nextSibling.textContent + ' is not checked!');
                             checkCheckBoxes();
                         }
                     })
@@ -288,14 +284,12 @@ function decrementCounter(current_object) {
 
 // Makes remove button appear or disappear
 function checkCheckBoxes() {
-    remove_button = document.getElementById('remove-button')
-    move_button = document.getElementById('move-button')
+    let remove_button = document.getElementById('remove-button');
+    let move_button = document.getElementById('move-button');
     if ($('input[type="checkbox"]:checked').length > 0) {
-        console.log('A checkbox is still checked.')
         remove_button.setAttribute('style', 'visibility: visible;')
         move_button.setAttribute('style', 'visibility: visible;')
     } else {
-        console.log('No more checked boxes.')
         remove_button.setAttribute('style', 'visibility: hidden;')
         move_button.setAttribute('style', 'visibility: hidden;')
     }
