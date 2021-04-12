@@ -331,7 +331,6 @@ function itemDetailsPage(current_object) {
 
     close_button = document.getElementById('closeBtn');
     close_button.addEventListener('click', function () {
-        item.setAttribute('style', 'display: none;')
         document.getElementById('js-inputFoodGroup').setAttribute('style', 'display: block;')
     })
 
