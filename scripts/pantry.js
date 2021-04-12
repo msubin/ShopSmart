@@ -320,19 +320,11 @@ function itemDetailsPage(current_object) {
                 var name = doc.data()["name"];
                 var group = doc.data()["food-group"];
                 if (item_name.toLowerCase() === name.toLowerCase()) {
-                    document.getElementById('js-inputFoodGroup').setAttribute('style', 'display: none;')
-
-                    item = document.getElementById('js-FoodGroup')
-                    item.setAttribute('style', 'display: block;')
-                    item.textContent = group;
+                    document.getElementById('js-inputFoodGroup').setAttribute('placeholder', group);
+                    document.getElementById('js-inputFoodGroup').setAttribute('value', group);
                 }
             })
         })
-
-    close_button = document.getElementById('closeBtn');
-    close_button.addEventListener('click', function () {
-        document.getElementById('js-inputFoodGroup').setAttribute('style', 'display: block;')
-    })
 
     // Save Changes
     document.getElementById("saveBtn").addEventListener("click", function (current_object) {
