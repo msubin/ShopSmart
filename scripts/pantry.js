@@ -393,16 +393,17 @@ function decrementCounter(current_object) {
 
 // Makes remove button appear or disappear
 function checkCheckBoxes() {
-    remove_button = document.getElementById('remove-button')
-    move_button = document.getElementById('move-button')
+    let remove_button = document.getElementById('remove-button');
+    let move_button = document.getElementById('move-button');
+    let recipes_button = document.getElementById('recipes-button');
     if ($('input[type="checkbox"]:checked').length > 0) {
-        console.log('A checkbox is still checked.')
-        remove_button.setAttribute('style', 'visibility: visible;')
-        move_button.setAttribute('style', 'visibility: visible;')
+        remove_button.setAttribute('style', 'visibility: visible;');
+        move_button.setAttribute('style', 'visibility: visible;');
+        recipes_button.setAttribute('style', 'visibility: visible;');
     } else {
-        console.log('No more checked boxes.')
-        remove_button.setAttribute('style', 'visibility: hidden;')
-        move_button.setAttribute('style', 'visibility: hidden;')
+        remove_button.setAttribute('style', 'visibility: hidden;');
+        move_button.setAttribute('style', 'visibility: hidden;');
+        recipes_button.setAttribute('style', 'visibility: hidden;');
     }
 };
 
@@ -430,6 +431,7 @@ document.getElementById('remove-button').addEventListener('click', function () {
         })
         document.getElementById('remove-button').setAttribute('style', 'visibility: hidden;');
         document.getElementById('move-button').setAttribute('style', 'visibility: hidden;');
+        document.getElementById('recipes-button').setAttribute('style', 'visibility: hidden;');
     })
 });
 
@@ -470,5 +472,23 @@ document.getElementById('move-button').addEventListener('click', function () {
         })
         document.getElementById('remove-button').setAttribute('style', 'visibility: hidden;');
         document.getElementById('move-button').setAttribute('style', 'visibility: hidden;');
+        document.getElementById('recipes-button').setAttribute('style', 'visibility: hidden;');
     })
+});
+
+// Search for recipe inspiration with checked items
+document.getElementById('recipes-button').addEventListener('click', function() {
+    let recipe_search = [];
+    var checkboxes = document.getElementsByClassName('form-check-input');
+    var search_url = 'https://www.google.com/search?q=';
+    Array.from(checkboxes).forEach((box) => {
+        if (box.checked === true) {
+            recipe_search.push(box.nextSibling.textContent);
+        }
+    })
+    for (let i = 0; i < recipe_search.length; i++) {
+        search_url += recipe_search[i];
+        search_url += '+';
+    }
+    window.open(search_url + 'recipe')
 });
