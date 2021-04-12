@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>My BCIT Project</title>
+    <title>ShopSmart Login</title>
     <meta name="comp1800 boilerplate code" content="my bcit project">
     <meta name="author" content="BCIT">
 
@@ -18,23 +18,29 @@
         integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
     <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.6.1/firebase-ui-auth.css" />
 
-
+    <link rel="stylesheet" href="./styles/login.css">
 </head>
 
-<body style="background-color: #f4f1e9">
+<body>
 
     <!-------------------------------------->
     <!-- The following is HTML for layout -->
     <!-------------------------------------->
 
-    <div class="container" style="margin: 0 auto; text-align: center; padding-top: 50px;">
-        <h1 class="display-4">Welcome to ShopSmart!</h1>
-        <h1 class="display-4">Let's Login!</h1>
+    <div class="container" id="greeting">
+        <!-- <h1 class="display-4">Welcome to ShopSmart!</h1>
+        <h1 class="display-4">Let's Login!</h1> -->
+        <img src="./images/Logo.png" alt="ShopSmart Logo">
     </div>
+
     <div id="firebaseui-auth-container"></div>
     <div id="loader">Loading...</div>
 
-       <!----------------------------------------------->
+    <div class="footer_copyright">
+        <p id="copyright">&#169; Team 48</p>
+    </div>
+
+    <!----------------------------------------------->
     <!-- JS: Boostrap, JQuery, Firebase, API related    -->
     <!----------------------------------------------->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
@@ -73,12 +79,12 @@
                     var user = authResult.user;
                     if (authResult.additionalUserInfo.isNewUser) {         //if new user
                         db.collection("users").doc(user.uid).set({         //write to firestore
-                                name: user.displayName,                    //"users" collection
-                                email: user.email                          //with authenticated user's ID (user.uid)
-                            }).then(function () {
-                                console.log("New user added to firestore");
-                                window.location.assign("shopping-list.html");       //re-direct to main.html after signup
-                            })
+                            name: user.displayName,                    //"users" collection
+                            email: user.email                          //with authenticated user's ID (user.uid)
+                        }).then(function () {
+                            console.log("New user added to firestore");
+                            window.location.assign("shopping-list.html");       //re-direct to main.html after signup
+                        })
                             .catch(function (error) {
                                 console.log("Error adding new user: " + error);
                             });
