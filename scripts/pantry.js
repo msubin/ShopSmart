@@ -392,14 +392,17 @@ function checkCheckBoxes() {
     let remove_button = document.getElementById('remove-button');
     let move_button = document.getElementById('move-button');
     let recipes_button = document.getElementById('recipes-button');
+    let list_content = document.getElementById('list-content');
     if ($('input[type="checkbox"]:checked').length > 0) {
         remove_button.setAttribute('style', 'visibility: visible;');
         move_button.setAttribute('style', 'visibility: visible;');
         recipes_button.setAttribute('style', 'visibility: visible;');
+        list_content.setAttribute('style', 'height: 500px')
     } else {
         remove_button.setAttribute('style', 'visibility: hidden;');
         move_button.setAttribute('style', 'visibility: hidden;');
         recipes_button.setAttribute('style', 'visibility: hidden;');
+        list_content.setAttribute('style', 'height: 600px')
     }
 };
 
