@@ -60,11 +60,9 @@ document.getElementById('add_item_button').addEventListener('click', function (e
 
         checkbox_new_item.addEventListener('click', function () {
             if (checkbox_new_item.checked === true) {
-                console.log(this.nextSibling.textContent + ' is checked!');
                 checkCheckBoxes();
             }
             else if (checkbox_new_item.checked === false) {
-                console.log(this.nextSibling.textContent + ' is not checked!');
                 checkCheckBoxes();
             }
         })
@@ -253,11 +251,9 @@ function itemsQuery() {
 
                     checkbox_new_item.addEventListener('click', function () {
                         if (checkbox_new_item.checked === true) {
-                            console.log(this.nextSibling.textContent + ' is checked!');
                             checkCheckBoxes();
                         }
                         else if (checkbox_new_item.checked === false) {
-                            console.log(this.nextSibling.textContent + ' is not checked!');
                             checkCheckBoxes();
                         }
                     })
@@ -400,7 +396,6 @@ function checkCheckBoxes() {
         remove_button.setAttribute('style', 'visibility: visible;');
         move_button.setAttribute('style', 'visibility: visible;');
         recipes_button.setAttribute('style', 'visibility: visible;');
-        styleRecipeButton();
     } else {
         remove_button.setAttribute('style', 'visibility: hidden;');
         move_button.setAttribute('style', 'visibility: hidden;');
@@ -476,14 +471,6 @@ document.getElementById('move-button').addEventListener('click', function () {
         document.getElementById('recipes-button').setAttribute('style', 'visibility: hidden;');
     })
 });
-
-
-// Style recipe button
-function styleRecipeButton() {
-    recipe_button = document.getElementById('recipes-button')
-    recipe_button.setAttribute('style', 'float: right; margin-right: 5%;')
-}
-
 
 // Search for recipe inspiration with checked items
 document.getElementById('recipes-button').addEventListener('click', function () {

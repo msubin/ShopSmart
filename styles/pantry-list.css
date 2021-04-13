@@ -7,7 +7,7 @@ body {
     padding-top: 10px;
     width: 90vw;
     margin: 0 auto;
-    /* height: 77%; */
+    height: 600px;
     overflow: auto;
 }
 
@@ -93,6 +93,11 @@ input[id^="add_item_input"]:-moz-placeholder {
     float: inherit;
 }
 
+#recipes-button {
+    float: right;
+    margin-right: 5%;
+}
+
 .fa-question-circle {
     font-size: 1.3em;
 }
@@ -100,11 +105,6 @@ input[id^="add_item_input"]:-moz-placeholder {
 #remove-button, #move-button {
     font-size: 0.9em;
     text-align: center;
-    background-color: #7EB35F;
-}
-
-#recipes-button:hover {
-    color: white;
     background-color: #7EB35F;
 }
 
