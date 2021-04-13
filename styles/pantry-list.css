@@ -3,6 +3,10 @@ body {
     height: 100vh;
 }
 
+#current-list {
+    background-color: #2B463C;
+  }
+
 #list-content {
     padding-top: 10px;
     width: 90vw;
