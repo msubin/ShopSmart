@@ -60,7 +60,8 @@
               <button type="button" class="btn btn-secondary account"><i class="bi bi-key-fill"></i> <a
                   href="managePassword.html" style="text-decoration: none; color: black;">Manage
                   password</a></button>
-              <button type="button" class="btn btn-secondary account"><i class="bi bi-arrow-down-left-square-fill"></i>
+              <button type="button" id="logoutButton" class="btn btn-secondary account"><i
+                  class="bi bi-arrow-down-left-square-fill"></i>
                 Log out</button>
             </div>
           </div>
@@ -127,6 +128,12 @@
     integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous">
     </script>
   <script src="https://kit.fontawesome.com/26da0e4274.js" crossorigin="anonymous"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/ui/4.6.1/firebase-ui-auth.js"></script>
+  <script src="https://kit.fontawesome.com/26da0e4274.js" crossorigin="anonymous"></script>
+  <script src="./server/firebase_api_team48.js"></script>
   <!--------------------------------------------------------------------->
   <!-- JS files: Your own JavaScript functions included here    -->
   <!--------------------------------------------------------------------->
@@ -137,6 +144,16 @@
       window.open(`https://www.google.com/search?q=${input1}+recipe`)
     }
 
+    let logOutButton = document.querySelector("#logoutButton")
+    logOutButton.addEventListener('click', logOut)
+    function logOut() {
+      firebase.auth().signOut().then(() => {
+        // Sign-out successful.
+      }).catch((error) => {
+        // An error happened.
+      });
+      location.href = "index.html"
+    }
   </script>
 
 </body>
