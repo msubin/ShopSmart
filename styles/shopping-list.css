@@ -95,6 +95,7 @@ input[id^="add_item_input"]:-moz-placeholder {
 
 #move-button:hover {
     background-color: #7EB35F;}  
+    
 
 .footer_color {
     background-color: #6ba292;
@@ -112,4 +113,4 @@ input[id^="add_item_input"]:-moz-placeholder {
 .nav-item > i {
     color: #f4f1e9;
     padding-top: 10px;
-  }
+}
