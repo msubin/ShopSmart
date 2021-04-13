@@ -61,6 +61,15 @@ div.btn-group-vertical{
   color: black;
 }
 
+/* CHANGE PASSWORD PAGE */
+#goBackBtn {
+  border: none;
+  position: absolute;
+  font-size: 1.5em;
+  top: 27px;
+  left: 30px;
+}
+
 #changePasswordForm {
   margin: 10% auto;
   padding: 10%;
