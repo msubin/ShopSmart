@@ -87,32 +87,8 @@ input[id^="add_item_input"]:-moz-placeholder {
     transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
     float: inherit;
 }
-/* this needs help */
-#recipes_button {
-    background-color: teal;
-    color: white;
-    text-align: center;
-    line-height: 1.2rem;
-    position: absolute;
-    height: 50px;
-    width: 125px;
-    right: 50%;
-    top: 40%;
-    text-align: center;
-    text-decoration: none;
-    vertical-align: middle;
-    cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    user-select: none;
-    /* padding: 0.25em 0.75em; */
-    font-size: 1rem;
-    border-radius: 0.25rem;
-    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-    float: inherit;
-}
 
-#remove-button, #move-button, #recipes-button {
+#remove-button, #move-button {
     font-size: 0.9em;
     text-align: center;
     background-color: #7EB35F;
@@ -124,9 +100,6 @@ input[id^="add_item_input"]:-moz-placeholder {
 #move-button:hover {
     background-color: #7EB35F;}  
     
-#recipes-button:hover {
-    background-color: #7EB35F;
-}
 
 .footer_color {
     background-color: #6ba292;
