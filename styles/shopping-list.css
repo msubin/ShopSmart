@@ -2,10 +2,6 @@ body {
     background-color: #f4f1e9;
 }
 
-#js-FoodGroup {
-    display: none;
-}
-
 #list-content {
     padding-top: 10px;
     width: 90vw;
@@ -87,32 +83,8 @@ input[id^="add_item_input"]:-moz-placeholder {
     transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
     float: inherit;
 }
-/* this needs help */
-#recipes_button {
-    background-color: teal;
-    color: white;
-    text-align: center;
-    line-height: 1.2rem;
-    position: absolute;
-    height: 50px;
-    width: 125px;
-    right: 50%;
-    top: 40%;
-    text-align: center;
-    text-decoration: none;
-    vertical-align: middle;
-    cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    user-select: none;
-    /* padding: 0.25em 0.75em; */
-    font-size: 1rem;
-    border-radius: 0.25rem;
-    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-    float: inherit;
-}
 
-#remove-button, #move-button, #recipes-button {
+#remove-button, #move-button {
     font-size: 0.9em;
     text-align: center;
     background-color: #7EB35F;
@@ -123,10 +95,6 @@ input[id^="add_item_input"]:-moz-placeholder {
 
 #move-button:hover {
     background-color: #7EB35F;}  
-    
-#recipes-button:hover {
-    background-color: #7EB35F;
-}
 
 .footer_color {
     background-color: #6ba292;
@@ -145,55 +113,3 @@ input[id^="add_item_input"]:-moz-placeholder {
     color: #f4f1e9;
     padding-top: 10px;
   }
-
-.modal-parent {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100vh;
-    width: 100%;
-    display: block;
-}
-
-.modal {
-    padding: 30px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    animation: 1s drop;
-}
-
-@keyframes drop {
-    0% {
-        top: -100px;
-    }
-
-    100% {
-        top: 50%;
-    }
-    }
-
-#modal-header {
-    font-weight: bold;
-    font-size: 1.3em;
-}
-
-#saveBtn {
-    background-color: #6AA392;
-    border: #6AA392;}
-    
-
-#quantity_input, #foodGroupInput, #shelfLifeInput {
-    color: teal;
-}
-
-#js-inputFoodGroup {
-    width: 91%;
-    margin-left: 4%;
-}
-
-.form-switch .form-check-input:checked {
-    background-color: #6AA392;
-}
-

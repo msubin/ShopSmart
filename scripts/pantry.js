@@ -400,6 +400,7 @@ function checkCheckBoxes() {
         remove_button.setAttribute('style', 'visibility: visible;');
         move_button.setAttribute('style', 'visibility: visible;');
         recipes_button.setAttribute('style', 'visibility: visible;');
+        styleRecipeButton();
     } else {
         remove_button.setAttribute('style', 'visibility: hidden;');
         move_button.setAttribute('style', 'visibility: hidden;');
@@ -476,8 +477,16 @@ document.getElementById('move-button').addEventListener('click', function () {
     })
 });
 
+
+// Style recipe button
+function styleRecipeButton() {
+    recipe_button = document.getElementById('recipes-button')
+    recipe_button.setAttribute('style', 'float: right; margin-right: 5%;')
+}
+
+
 // Search for recipe inspiration with checked items
-document.getElementById('recipes-button').addEventListener('click', function() {
+document.getElementById('recipes-button').addEventListener('click', function () {
     let recipe_search = [];
     var checkboxes = document.getElementsByClassName('form-check-input');
     var search_url = 'https://www.google.com/search?q=';
