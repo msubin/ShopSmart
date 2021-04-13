@@ -1,21 +1,22 @@
-## My Web Application (Title)
+## My Web Application (ShopSmart)
 
 * [General info](#general-info)
 * [Technologies](#technologies)
 * [Contents](#content)
 
 ## General Info
-Brian: index.html
-Lukasz: pantry.html
-Subin: item-detail.html
-Simron: shared_lists.html
+Team Member:
+* Brian: index.html
+* Lukasz: pantry.html
+* Subin: item-detail.html
+* Simron: shared_lists.html
 	
 ## Technologies
 Technologies used for this project:
 * HTML, CSS
 * JavaScript
 * Bootstrap 
-* ...
+* Firebase
 	
 ## Content
 Content of the project folder:

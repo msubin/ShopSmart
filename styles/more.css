@@ -60,3 +60,30 @@ div.btn-group-vertical{
   top: 40%;
   color: black;
 }
+
+#changePasswordForm {
+  margin: 10% auto;
+  padding: 10%;
+  text-align: center;
+}
+
+.display-6.change_password {
+  margin: 10% auto 5%;
+  font-weight: bold;
+  color: #2B463C;
+}
+
+#currentPassword {
+  margin: 15% auto;
+}
+
+
+#newPassword {
+  margin: 7% auto;
+}
+
+#savePassword {
+  padding: 3%;
+  width: 30%;
+  background-color: #6AA392;
+}
