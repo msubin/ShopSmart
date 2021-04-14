@@ -16,8 +16,8 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css">
 
   <!-- Optional styles and scripts of your own -->
-  <link rel="stylesheet" href="./styles/shopping-list.css">
-  <link rel="stylesheet" href="./styles/more.css">
+  <link rel="stylesheet" href="../styles/shopping-list.css">
+  <link rel="stylesheet" href="../styles/more.css">
 </head>
 
 
@@ -58,7 +58,7 @@
               <button type="button" class="btn btn-secondary account"><i class="bi bi-person-bounding-box"> </i> Change
                 picture</button>
               <button type="button" class="btn btn-secondary account"><i class="bi bi-key-fill"></i> <a
-                  href="./views/managePassword.html" style="text-decoration: none; color: black;">Manage
+                  href="./managePassword.html" style="text-decoration: none; color: black;">Manage
                   password</a></button>
               <button type="button" id="logoutButton" class="btn btn-secondary account"><i
                   class="bi bi-arrow-down-left-square-fill"></i>
@@ -95,15 +95,15 @@
   <footer class="navbar fixed-bottom">
     <ul class="nav nav-pills nav-fill fixed-bottom nav-justified footer_color">
       <li class="nav-item">
-        <a class="nav-link" aria-current="page" href="./views/shopping-list.html"><i
+        <a class="nav-link" aria-current="page" href="./shopping-list.html"><i
             class="fas fa-shopping-cart fa-2x"></i><br>Shopping
           List</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="./views/pantry.html"><i class="fas fa-archive fa-2x"></i><br>Pantry List</a>
+        <a class="nav-link" href="./pantry.html"><i class="fas fa-archive fa-2x"></i><br>Pantry List</a>
       </li>
       <li class="nav-item active_section">
-        <a class="nav-link" href="./views/more-popup.html"><i class="fas fa-ellipsis-h fa-2x"></i><br>More Features</a>
+        <a class="nav-link" href="./more-popup.html"><i class="fas fa-ellipsis-h fa-2x"></i><br>More Features</a>
       </li>
     </ul>
   </footer>
@@ -133,7 +133,7 @@
   <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-firestore.js"></script>
   <script src="https://www.gstatic.com/firebasejs/ui/4.6.1/firebase-ui-auth.js"></script>
   <script src="https://kit.fontawesome.com/26da0e4274.js" crossorigin="anonymous"></script>
-  <script src="./server/firebase_api_team48.js"></script>
+  <script src="../server/firebase_api_team48.js"></script>
   <!--------------------------------------------------------------------->
   <!-- JS files: Your own JavaScript functions included here    -->
   <!--------------------------------------------------------------------->
@@ -152,7 +152,7 @@
       }).catch((error) => {
         // An error happened.
       });
-      location.href = "./views/index.html"
+      location.href = "./index.html"
     }
   </script>
 

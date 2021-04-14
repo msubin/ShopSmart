@@ -4,7 +4,7 @@ read the data from category, and add item search bar
 */
 
 function readLocalJSON() {
-    fetch("./database/food.json")
+    fetch("../database/food.json")
         .then(function (response) {
             response.json()
                 .then(function (data) {

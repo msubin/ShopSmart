@@ -18,7 +18,7 @@
         integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
     <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.6.1/firebase-ui-auth.css" />
 
-    <link rel="stylesheet" href="./styles/login.css">
+    <link rel="stylesheet" href="../styles/login.css">
 </head>
 
 <body>
@@ -30,7 +30,7 @@
     <div class="container" id="greeting">
         <!-- <h1 class="display-4">Welcome to ShopSmart!</h1>
         <h1 class="display-4">Let's Login!</h1> -->
-        <img src="./images/Logo.png" alt="ShopSmart Logo">
+        <img src="../images/Logo.png" alt="ShopSmart Logo">
     </div>
 
     <div id="firebaseui-auth-container"></div>
@@ -53,7 +53,7 @@
     <script src="https://www.gstatic.com/firebasejs/ui/4.6.1/firebase-ui-auth.js"></script>
 
     <!-- Link to the api keys for your firebase project -->
-    <script src="./server/firebase_api_team48.js"></script>
+    <script src="../server/firebase_api_team48.js"></script>
 
     <!--------------------------------------------------------------------->
     <!-- JS files: Your own JavaScript functions included here    -->
@@ -83,7 +83,7 @@
                             email: user.email                          //with authenticated user's ID (user.uid)
                         }).then(function () {
                             console.log("New user added to firestore");
-                            window.location.assign("./views/shopping-list.html");       //re-direct to main.html after signup
+                            window.location.assign("./shopping-list.html");       //re-direct to main.html after signup
                         })
                             .catch(function (error) {
                                 console.log("Error adding new user: " + error);
@@ -101,7 +101,7 @@
             },
             // Will use popup for IDP Providers sign-in flow instead of the default, redirect.
             signInFlow: 'popup',
-            signInSuccessUrl: './views/shopping-list.html',
+            signInSuccessUrl: './shopping-list.html',
             signInOptions: [
                 // Leave the lines as is for the providers you want to offer your users.
                 //firebase.auth.GoogleAuthProvider.PROVIDER_ID,
