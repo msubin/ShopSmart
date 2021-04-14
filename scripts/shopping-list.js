@@ -24,10 +24,9 @@ function createCheckboxLabel(item) {
 
 // Create quantity box to increment/decrement
 function createQuantityBox(value) {
-    let quantity_number = document.createElement('input');
-    quantity_number.type = 'number';
-    quantity_number.value = value;
-    quantity_number.setAttribute('style', 'float: right; width: 25px; text-align: center;');
+    let quantity_number = document.createElement('span');
+    quantity_number.textContent = value
+    quantity_number.setAttribute('style', 'float: right; width: 25px; height: 30px; text-align: center; border: 1px solid grey;');
     return quantity_number;
 };
 
@@ -256,9 +255,9 @@ function changeLists(current_object) {
 
 // Increment counter
 function incrementCounter(current_object) {
-    let current_num = current_object.nextSibling.value;
+    let current_num = current_object.nextSibling.textContent;
     let incremented_num = (parseInt(current_num) + 1)
-    current_object.nextSibling.value = incremented_num
+    current_object.nextSibling.textContent = incremented_num
 
     firebase.auth().onAuthStateChanged(function (user) {
         let current_list = document.getElementById('current-list').textContent;
@@ -274,10 +273,10 @@ function incrementCounter(current_object) {
 
 // Decrement counter
 function decrementCounter(current_object) {
-    let current_num = current_object.previousSibling.value;
+    let current_num = current_object.previousSibling.textContent;
     if (current_num >= 2) {
         let decremented_num = (parseInt(current_num) - 1)
-        current_object.previousSibling.value = decremented_num
+        current_object.previousSibling.textContent = decremented_num
 
         firebase.auth().onAuthStateChanged(function (user) {
             let current_list = document.getElementById('current-list').textContent;
@@ -342,7 +341,7 @@ document.getElementById('move-button').addEventListener('click', function () {
 
         Array.from(checkboxes).forEach((box) => {
             if (box.checked === true) {
-                let quantity_value = parseInt(box.nextSibling.nextSibling.nextSibling.value);
+                let quantity_value = parseInt(box.nextSibling.nextSibling.nextSibling.textContent);
                 let item_name = box.nextSibling.textContent;
                 box.parentNode.remove();
 
