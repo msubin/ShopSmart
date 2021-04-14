@@ -101,3 +101,18 @@ div.btn-group-vertical{
   background-color: #6AA392;
   border-color: #6AA392;
 }
+
+#passwordChangedNotification {
+  /* position: relative; */
+  /* left: auto; */
+  /* right: auto; */
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 50px;
+  color: #3f7840;
+  background-color: #dff1d8;
+  width: 270px;
+  height: 30px;
+  visibility: hidden;
+}
