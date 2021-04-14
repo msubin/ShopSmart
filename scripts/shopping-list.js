@@ -25,24 +25,31 @@ function createCheckboxLabel(item) {
 // Create quantity box to increment/decrement
 function createQuantityBox(value) {
     let quantity_number = document.createElement('span');
-    quantity_number.textContent = value
-    quantity_number.setAttribute('style', 'float: right; width: 25px; height: 30px; text-align: center; border: 1px solid grey;');
+    quantity_number.textContent = value;
+    quantity_number.setAttribute('id', 'quantity-number');
+    quantity_number.setAttribute('style', 'float: right; width: 30px; height: 30px; text-align: center; border-bottom: 1px solid black;');
     return quantity_number;
 };
 
 // Create in/decrement button
 function createPlusOrMinusButton(button_value) {
     if (button_value === '-') {
-        let minus_quantity = document.createElement('input');
+        let minus_quantity = document.createElement('button');
         minus_quantity.type = 'button';
         minus_quantity.value = '-';
-        minus_quantity.setAttribute('style', 'float: right; width: 25px;');
+        let minus_icon = document.createElement('i');
+        minus_icon.className = 'fas fa-minus';
+        minus_quantity.appendChild(minus_icon);
+        minus_quantity.setAttribute('style', 'float: right; width: 25px; background-color: #f4f1e9; border: none;');
         return minus_quantity;
     } else if (button_value === '+') {
-        let plus_quantity = document.createElement('input');
+        let plus_quantity = document.createElement('button');
         plus_quantity.type = 'button';
         plus_quantity.value = '+';
-        plus_quantity.setAttribute('style', 'float: right; width: 25px; margin-right: 10px;');
+        let plus_icon = document.createElement('i');
+        plus_icon.className = 'fas fa-plus';
+        plus_quantity.appendChild(plus_icon);
+        plus_quantity.setAttribute('style', 'float: right; width: 25px; margin-right: 10px; background-color: #f4f1e9; border: none;');
         return plus_quantity;
     }
 };
