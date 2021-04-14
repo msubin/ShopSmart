@@ -17,44 +17,41 @@ function createCheckbox() {
 function createCheckboxLabel(item) {
     let label_checkbox = document.createElement('label');
     label_checkbox.setAttribute('class', 'form-check-label');
-    label_checkbox.setAttribute('for', 'flexCheckDefault');
     label_checkbox.textContent = item;
+    label_checkbox.setAttribute('data-bs-toggle', 'modal')
+    label_checkbox.setAttribute('data-bs-target', '#exampleModal')
+    label_checkbox.setAttribute('style', 'font-size: 1.05em; margin-left: 2%;')
     return label_checkbox;
-};
-
-// Create "more" button for new items
-function createMoreButton(item){
-    let more_button = document.createElement('i');
-    more_button.setAttribute('class', 'fas fa-ellipsis-h');
-    more_button.setAttribute('id', 'more-button-' + item)
-    more_button.setAttribute('style', 'float: right; width: 25px; height: 25px; padding-top: 5px;')
-    more_button.type = 'button'
-    more_button.setAttribute('data-bs-toggle', 'modal')
-    more_button.setAttribute('data-bs-target', '#exampleModal')
-    return more_button;
 };
 
 // Create quantity box to increment/decrement
 function createQuantityBox(value) {
     let quantity_number = document.createElement('span');
-    quantity_number.textContent = value
-    quantity_number.setAttribute('style', 'float: right; width: 25px; height: 30px; text-align: center; border: 1px solid grey;');
+    quantity_number.textContent = value;
+    quantity_number.setAttribute('id', 'quantity-number');
+    quantity_number.setAttribute('style', 'float: right; width: 30px; height: 30px; text-align: center; border-bottom: 1px solid black;');
     return quantity_number;
 };
 
 // Create in/decrement button
 function createPlusOrMinusButton(button_value) {
     if (button_value === '-') {
-        let minus_quantity = document.createElement('input');
+        let minus_quantity = document.createElement('button');
         minus_quantity.type = 'button';
         minus_quantity.value = '-';
-        minus_quantity.setAttribute('style', 'float: right; width: 25px;');
+        let minus_icon = document.createElement('i');
+        minus_icon.className = 'fas fa-minus';
+        minus_quantity.appendChild(minus_icon);
+        minus_quantity.setAttribute('style', 'float: right; width: 25px; background-color: #f4f1e9; border: none;');
         return minus_quantity;
     } else if (button_value === '+') {
-        let plus_quantity = document.createElement('input');
+        let plus_quantity = document.createElement('button');
         plus_quantity.type = 'button';
         plus_quantity.value = '+';
-        plus_quantity.setAttribute('style', 'float: right; width: 25px; margin-right: 10px;');
+        let plus_icon = document.createElement('i');
+        plus_icon.className = 'fas fa-plus';
+        plus_quantity.appendChild(plus_icon);
+        plus_quantity.setAttribute('style', 'float: right; width: 25px; margin-right: 10px; background-color: #f4f1e9; border: none;');
         return plus_quantity;
     }
 };
@@ -72,9 +69,8 @@ document.getElementById('add_item_button').addEventListener('click', function (e
 
         let checkbox_new_item = createCheckbox();
         let label_checkbox = createCheckboxLabel(item_name);
-        let more_button = createMoreButton(item_name);
 
-        more_button.addEventListener('click', function () {
+        label_checkbox.addEventListener('click', function () {
             itemDetailsPage(this);
             var modal = document.getElementById('exampleModal');
             modal.focus();
@@ -105,7 +101,6 @@ document.getElementById('add_item_button').addEventListener('click', function (e
 
         new_item_div.appendChild(checkbox_new_item);
         new_item_div.appendChild(label_checkbox);
-        new_item_div.appendChild(more_button);
         new_item_div.appendChild(plus_quantity);
         new_item_div.appendChild(quantity_number);
         new_item_div.appendChild(minus_quantity);
@@ -126,7 +121,10 @@ function writeNewItem(item) {
                 'name': item,
                 'list_name': current_list,
                 'category': 'pantry',
-                'quantity': 1
+                'quantity': 1,
+                'food-group': 'N/A',
+                'food_group_by_user': 'N/A',
+                'scale': 'N/A'
             })
     })
 };
@@ -164,9 +162,8 @@ function itemsQuery() {
                         incrementCounter(this);
                     })
 
-                    let more_button = createMoreButton(item);
 
-                    more_button.addEventListener('click', function () {
+                    label_checkbox.addEventListener('click', function () {
                         itemDetailsPage(this);
                         var test = document.getElementById('exampleModal');
                         test.focus();
@@ -183,7 +180,6 @@ function itemsQuery() {
 
                     new_item_div.appendChild(checkbox_new_item);
                     new_item_div.appendChild(label_checkbox);
-                    new_item_div.appendChild(more_button);
                     new_item_div.appendChild(plus_quantity);
                     new_item_div.appendChild(quantity_number);
                     new_item_div.appendChild(minus_quantity);
@@ -286,10 +282,10 @@ function changeLists(current_object) {
 // Function for Item Details
 function itemDetailsPage(current_object) {
 
-    var item_name = current_object.previousSibling.textContent;
+    var item_name = current_object.textContent;
     document.getElementById('modal-header').textContent = item_name;
 
-    var quantity = current_object.nextSibling.nextSibling.value;
+    var quantity = current_object.nextSibling.nextSibling.textContent;
     document.getElementById('item-detail-quantity').value = quantity;
 
     var item = document.getElementById('modal-header').textContent;
@@ -308,9 +304,11 @@ function itemDetailsPage(current_object) {
                     var name = doc.data().name;
 
                     if (item_name.toLowerCase() === name.toLowerCase()) {
-                        document.getElementById("inputGroupSelectUnit").value = scale;
-                        document.getElementById("js-inputFoodGroup").value = food_group_by_user;
-                        document.getElementById("js-inputShelfLife").value = shelf_life_user;
+                        if (food_group_by_user != "N/A" && shelf_life_user != "N/A") {
+                            document.getElementById("inputGroupSelectUnit").value = scale;
+                            document.getElementById("js-inputFoodGroup").value = food_group_by_user;
+                            document.getElementById("js-inputShelfLife").value = shelf_life_user;
+                        }
                     }
                 })
             })
@@ -331,6 +329,7 @@ function itemDetailsPage(current_object) {
 
     // Save Changes
     document.getElementById("saveBtn").addEventListener("click", function (current_object) {
+        let quantity = document.getElementById("item-detail-quantity").value;
         let scale = document.getElementById("inputGroupSelectUnit").value;
         let input_food_group = document.getElementById("js-inputFoodGroup").value;
         let input_shelf_life = document.getElementById("js-inputShelfLife").value;
@@ -341,6 +340,7 @@ function itemDetailsPage(current_object) {
             let item = document.getElementById("modal-header").textContent;
 
             db.collection('users').doc(user.uid).collection('lists').doc(current_list + '-' + item).update({
+                'quantity': quantity,
                 'scale': scale,
                 'food_group_by_user': input_food_group,
                 'shelf_life_user': input_shelf_life,

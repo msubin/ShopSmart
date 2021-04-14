@@ -130,6 +130,8 @@ input[id^="add_item_input"]:-moz-placeholder {
     padding-top: 10px;
   }
 
+
+/* MODAL */
   .modal-parent {
     position: fixed;
     top: 0;
