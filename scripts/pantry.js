@@ -1,62 +1,99 @@
+// Capitalize first letter of input item
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+};
+
+// Create checkbox for new item
+function createCheckbox() {
+    let checkbox_new_item = document.createElement('input');
+    checkbox_new_item.setAttribute('class', 'form-check-input');
+    checkbox_new_item.setAttribute('type', 'checkbox');
+    checkbox_new_item.setAttribute('value', '');
+    checkbox_new_item.setAttribute('id', 'flexCheckDefault');
+    return checkbox_new_item;
+};
+
+// Create checkbox label for new item
+function createCheckboxLabel(item) {
+    let label_checkbox = document.createElement('label');
+    label_checkbox.setAttribute('class', 'form-check-label');
+    label_checkbox.setAttribute('for', 'flexCheckDefault');
+    label_checkbox.textContent = item;
+    return label_checkbox;
+};
+
+// Create "more" button for new items
+function createMoreButton(item){
+    let more_button = document.createElement('i');
+    more_button.setAttribute('class', 'fas fa-ellipsis-h');
+    more_button.setAttribute('id', 'more-button-' + item)
+    more_button.setAttribute('style', 'float: right; width: 25px; height: 25px; padding-top: 5px;')
+    more_button.type = 'button'
+    more_button.setAttribute('data-bs-toggle', 'modal')
+    more_button.setAttribute('data-bs-target', '#exampleModal')
+    return more_button;
+};
+
+// Create quantity box to increment/decrement
+function createQuantityBox(value) {
+    let quantity_number = document.createElement('input');
+    quantity_number.type = 'number';
+    quantity_number.value = value;
+    quantity_number.setAttribute('style', 'float: right; width: 25px; text-align: center;');
+    return quantity_number;
+};
+
+// Create in/decrement button
+function createPlusOrMinusButton(button_value) {
+    if (button_value === '-') {
+        let minus_quantity = document.createElement('input');
+        minus_quantity.type = 'button';
+        minus_quantity.value = '-';
+        minus_quantity.setAttribute('style', 'float: right; width: 25px;');
+        return minus_quantity;
+    } else if (button_value === '+') {
+        let plus_quantity = document.createElement('input');
+        plus_quantity.type = 'button';
+        plus_quantity.value = '+';
+        plus_quantity.setAttribute('style', 'float: right; width: 25px; margin-right: 10px;');
+        return plus_quantity;
+    }
+};
+
 // Creates new item from input
 document.getElementById('add_item_button').addEventListener('click', function (event) {
-    let item_name = document.getElementById('add_item_input');
+    let item_name = document.getElementById('add_item_input').value;
 
-    if (item_name.value != '') {
-        writeNewItem(item_name.value)
+    if (item_name != '') {
+        item_name = capitalizeFirstLetter(item_name)
+        writeNewItem(item_name)
 
         let new_item_div = document.createElement('div');
         new_item_div.setAttribute('class', 'form-check');
 
-        let checkbox_new_item = document.createElement('input');
-        checkbox_new_item.setAttribute('class', 'form-check-input');
-        checkbox_new_item.setAttribute('type', 'checkbox');
-        checkbox_new_item.setAttribute('value', '');
-        checkbox_new_item.setAttribute('id', 'flexCheckDefault');
-
-        let label_checkbox = document.createElement('label');
-        label_checkbox.setAttribute('class', 'form-check-label');
-        label_checkbox.setAttribute('for', 'flexCheckDefault');
-        label_checkbox.textContent = item_name.value;
-
-        more_button = document.createElement('i');
-        more_button.setAttribute('class', 'fas fa-ellipsis-h');
-        more_button.setAttribute('id', 'more-button-' + item_name.value)
-        more_button.setAttribute('style', 'float: right; width: 25px; height: 25px; padding-top: 5px;')
-        more_button.type = 'button'
-        more_button.setAttribute('data-bs-toggle', 'modal')
-        more_button.setAttribute('data-bs-target', '#exampleModal')
+        let checkbox_new_item = createCheckbox();
+        let label_checkbox = createCheckboxLabel(item_name);
+        let more_button = createMoreButton(item_name);
 
         more_button.addEventListener('click', function () {
             itemDetailsPage(this);
-            var test = document.getElementById('exampleModal');
-            test.focus();
+            var modal = document.getElementById('exampleModal');
+            modal.focus();
         })
 
-        quantity_number = document.createElement('input');
-        quantity_number.type = 'number';
-        quantity_number.value = 1;
-        quantity_number.setAttribute('style', 'float: right; width: 25px; text-align: center;');
-
-        minus_quantity = document.createElement('input');
-        minus_quantity.type = 'button';
-        minus_quantity.value = '-';
-        minus_quantity.setAttribute('style', 'float: right; width: 25px;');
+        let quantity_number = createQuantityBox(1);
+        let minus_quantity = createPlusOrMinusButton('-');
+        let plus_quantity = createPlusOrMinusButton('+');
 
         minus_quantity.addEventListener('click', function () {
             decrementCounter(this);
         })
 
-        plus_quantity = document.createElement('input');
-        plus_quantity.type = 'button';
-        plus_quantity.value = '+';
-        plus_quantity.setAttribute('style', 'float: right; width: 25px; margin-right: 10px;');
-
         plus_quantity.addEventListener('click', function () {
             incrementCounter(this);
         })
 
-        item_name.value = '';
+        document.getElementById('add_item_input').value = '';
 
         checkbox_new_item.addEventListener('click', function () {
             if (checkbox_new_item.checked === true) {
@@ -85,7 +122,7 @@ function writeNewItem(item) {
         let current_list = document.getElementById('current-list').textContent;
 
         db.collection('users').doc(user.uid)
-            .collection('lists').doc(current_list + '-' + item)
+            .collection('pantry').doc(current_list + '-' + item)
             .set({
                 'name': item,
                 'list_name': current_list,
@@ -95,11 +132,76 @@ function writeNewItem(item) {
     })
 };
 
+// Populates list with items from firestore
+function itemsQuery() {
+    firebase.auth().onAuthStateChanged(function (user) {
+        current_list = document.getElementById('current-list').textContent;
+
+        db.collection('users').doc(user.uid)
+            .collection('pantry')
+            .where('list_name', '==', current_list)
+            .where('category', '==', 'pantry')
+            .where('name', '!=', 'undefined')
+            .get()
+            .then(function (snap) {
+                snap.forEach(function (doc) {
+                    let item = doc.data().name;
+                    let quantity_value = doc.data().quantity;
+
+                    let new_item_div = document.createElement('div');
+                    new_item_div.setAttribute('class', 'form-check');
+
+                    let checkbox_new_item = createCheckbox()
+                    let label_checkbox = createCheckboxLabel(item);
+                    let quantity_number = createQuantityBox(quantity_value);
+                    let minus_quantity = createPlusOrMinusButton('-');
+                    let plus_quantity = createPlusOrMinusButton('+')
+
+                    minus_quantity.addEventListener('click', function () {
+                        decrementCounter(this);
+                    })
+
+                    plus_quantity.addEventListener('click', function () {
+                        incrementCounter(this);
+                    })
+
+                    let more_button = createMoreButton(item);
+
+                    more_button.addEventListener('click', function () {
+                        itemDetailsPage(this);
+                        var test = document.getElementById('exampleModal');
+                        test.focus();
+                    })
+
+                    checkbox_new_item.addEventListener('click', function () {
+                        if (checkbox_new_item.checked === true) {
+                            checkCheckBoxes();
+                        }
+                        else if (checkbox_new_item.checked === false) {
+                            checkCheckBoxes();
+                        }
+                    })
+
+                    new_item_div.appendChild(checkbox_new_item);
+                    new_item_div.appendChild(label_checkbox);
+                    new_item_div.appendChild(more_button);
+                    new_item_div.appendChild(plus_quantity);
+                    new_item_div.appendChild(quantity_number);
+                    new_item_div.appendChild(minus_quantity);
+                    new_item_div.appendChild(document.createElement('hr'));
+
+                    place_to_add_item = document.getElementById('list-content')
+                    place_to_add_item.append(new_item_div);
+                })
+            })
+    })
+};
+
 // Creates new HTML for new list
 document.getElementById('create-new-list').addEventListener('click', function (event) {
     let list_name = prompt("Please enter a name for your new list:")
 
-    if (list_name != null) {
+    if (list_name != null && list_name.length != 0) {
         let dropdown_menu_ul = document.getElementById("dropdown-menu-ul")
 
         new_li = document.createElement("li")
@@ -125,11 +227,11 @@ document.getElementById('create-new-list').addEventListener('click', function (e
     }
 });
 
-// Creates new shopping list in firestore
+// Creates new pantry list in firestore
 function writeList(text) {
     firebase.auth().onAuthStateChanged(function (user) {
         db.collection('users').doc(user.uid)
-            .collection('lists').doc(text)
+            .collection('pantry').doc(text)
             .set({
                 'list_name': text,
                 'category': 'pantry',
@@ -142,7 +244,7 @@ function writeList(text) {
 function listsQuery() {
     firebase.auth().onAuthStateChanged(function (user) {
         db.collection('users').doc(user.uid)
-            .collection('lists')
+            .collection('pantry')
             .where('category', '==', 'pantry')
             .where('list', "==", true)
             .get()
@@ -180,101 +282,7 @@ function changeLists(current_object) {
     let current_list = document.getElementById('current-list').textContent;
     document.getElementById('current-list').textContent = current_object.firstChild.textContent;
     current_object.firstChild.textContent = current_list;
-}
-
-// Populates list with items from firestore
-function itemsQuery() {
-    firebase.auth().onAuthStateChanged(function (user) {
-        current_list = document.getElementById('current-list').textContent;
-
-        db.collection('users').doc(user.uid)
-            .collection('lists')
-            .where('list_name', '==', current_list)
-            .where('category', '==', 'pantry')
-            .where('name', '!=', 'undefined')
-            .get()
-            .then(function (snap) {
-                snap.forEach(function (doc) {
-                    let item = doc.data().name;
-                    let quantity_value = doc.data().quantity;
-
-                    let new_item_div = document.createElement('div');
-                    new_item_div.setAttribute('class', 'form-check');
-
-                    let checkbox_new_item = document.createElement('input');
-                    checkbox_new_item.setAttribute('class', 'form-check-input');
-                    checkbox_new_item.setAttribute('type', 'checkbox');
-                    checkbox_new_item.setAttribute('value', '');
-
-                    let label_checkbox = document.createElement('label');
-                    label_checkbox.setAttribute('class', 'form-check-label');
-                    label_checkbox.setAttribute('for', 'flexCheckDefault');
-                    label_checkbox.textContent = item;
-
-                    quantity_number = document.createElement('input');
-                    quantity_number.type = 'number';
-                    quantity_number.value = quantity_value;
-                    quantity_number.setAttribute('style', 'float: right; width: 25px; text-align: center;');
-
-                    minus_quantity = document.createElement('input');
-                    minus_quantity.type = 'button';
-                    minus_quantity.value = '-';
-                    minus_quantity.setAttribute('style', 'float: right; width: 25px;');
-
-                    minus_quantity.addEventListener('click', function () {
-                        decrementCounter(this);
-                    })
-
-                    plus_quantity = document.createElement('input');
-                    plus_quantity.type = 'button';
-                    plus_quantity.value = '+';
-                    plus_quantity.setAttribute('style', 'float: right; width: 25px; margin-right: 10px;');
-
-                    plus_quantity.addEventListener('click', function () {
-                        incrementCounter(this);
-                    })
-
-                    more_button = document.createElement('i');
-                    more_button.setAttribute('class', 'fas fa-ellipsis-h');
-                    more_button.setAttribute('id', 'more-button-' + item)
-                    more_button.setAttribute('style', 'float: right; width: 25px; height: 25px; padding-top: 5px;')
-                    more_button.type = 'button'
-                    more_button.setAttribute('data-bs-toggle', 'modal')
-                    more_button.setAttribute('data-bs-target', '#exampleModal')
-
-                    more_button.addEventListener('click', function () {
-                        itemDetailsPage(this);
-                        var test = document.getElementById('exampleModal');
-                        test.focus();
-                    })
-
-
-                    checkbox_new_item.addEventListener('click', function () {
-                        if (checkbox_new_item.checked === true) {
-                            checkCheckBoxes();
-                        }
-                        else if (checkbox_new_item.checked === false) {
-                            checkCheckBoxes();
-                        }
-                    })
-
-                    new_item_div.appendChild(checkbox_new_item);
-                    new_item_div.appendChild(label_checkbox);
-                    new_item_div.appendChild(more_button);
-                    new_item_div.appendChild(plus_quantity);
-                    new_item_div.appendChild(quantity_number);
-                    new_item_div.appendChild(minus_quantity);
-                    new_item_div.appendChild(document.createElement('hr'));
-
-                    place_to_add_item = document.getElementById('list-content')
-                    place_to_add_item.append(new_item_div);
-
-
-                })
-            })
-    })
 };
-
 
 // Function for Item Details
 function itemDetailsPage(current_object) {
@@ -289,7 +297,7 @@ function itemDetailsPage(current_object) {
 
     // get user saved info
     firebase.auth().onAuthStateChanged(function (user) {
-        db.collection("users").doc(user.uid).collection('lists')
+        db.collection("users").doc(user.uid).collection('pantry')
             .where('name', '==', item)
             .where('list_name', '==', current_list)
             .get()
@@ -360,7 +368,7 @@ function incrementCounter(current_object) {
         let item = current_object.previousSibling.previousSibling.textContent;
 
         db.collection('users').doc(user.uid)
-            .collection('lists').doc(current_list + '-' + item)
+            .collection('pantry').doc(current_list + '-' + item)
             .update({
                 'quantity': incremented_num
             })
@@ -379,7 +387,7 @@ function decrementCounter(current_object) {
             let item = current_object.previousSibling.previousSibling.previousSibling.previousSibling.textContent;
 
             db.collection('users').doc(user.uid)
-                .collection('lists').doc(current_list + '-' + item)
+                .collection('pantry').doc(current_list + '-' + item)
                 .update({
                     'quantity': decremented_num
                 })
@@ -417,7 +425,7 @@ document.getElementById('remove-button').addEventListener('click', function () {
             if (box.checked === true) {
                 box.parentNode.remove();
                 db.collection('users').doc(user.uid)
-                    .collection('lists')
+                    .collection('pantry')
                     .where('name', '==', box.nextSibling.textContent)
                     .where('list_name', '==', current_list)
                     .get()
@@ -449,7 +457,7 @@ document.getElementById('move-button').addEventListener('click', function () {
                 box.parentNode.remove();
 
                 db.collection('users').doc(user.uid)
-                    .collection('lists').doc('My Shopping List-' + item_name)
+                    .collection('shopping').doc('My Shopping List-' + item_name)
                     .set({
                         'name': item_name,
                         'list_name': 'My Shopping List',
@@ -458,7 +466,7 @@ document.getElementById('move-button').addEventListener('click', function () {
                     })
 
                 db.collection('users').doc(user.uid)
-                    .collection('lists')
+                    .collection('pantry')
                     .where('name', '==', item_name)
                     .where('list_name', '==', current_list)
                     .get()
