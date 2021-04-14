@@ -6,10 +6,10 @@
 
 ## General Info
 Team Member:
-* Brian: index.html
-* Lukasz: pantry.html
-* Subin: item-detail.html
-* Simron: shared_lists.html
+* Brian Romaniuk
+* Lukasz Bednarek
+* Subin Moon
+* Simron Adiwal
 	
 ## Technologies
 Technologies used for this project:
@@ -28,13 +28,27 @@ Content of the project folder:
 └── README.md
 
 It has the following subfolders and files:
-├── .git                     # Folder for git repo
+├── database                 # Folder for our food.json
+    /food.json               # contains json formatted information about foods
 ├── images                   # Folder for images
-    /blah.jpg                # 
+    /Logo.png                # ShopSmart logo
 ├── scripts                  # Folder for scripts
-    /blah.js                 # 
+    /foodsData.js            # only used once. to pre-load foods to food collection in database
+    /pantry.js              # scripts for pantry.html
+    /shopping-list.js       # scripts for shopping-list.html
+├── server
+    /firebase_api_team48.js  # firebase api key
 ├── styles                   # Folder for styles
-    /blah.css                # 
+    /login.css               # styles for index.html (the login page)
+    /manage-password.css     # styles for manage-password.html
+    /more.css               # styles for more-popup.html
+    /pantry-list.css        # styles for pantry-list.html
+    /shopping-list.css      # styles for shopping-list.html
+├── views
+    /manage-password.html    # manage password page
+    /more-popup.html        # more features page
+    /pantry.html            # pantry list page
+    /shopping-list.html     # shopping list page, main landing page
 
 Firebase hosting files: 
 ├── .firebaserc...
