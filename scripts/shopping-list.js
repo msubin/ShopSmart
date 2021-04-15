@@ -17,7 +17,6 @@ function createCheckbox() {
 function createCheckboxLabel(item) {
     let label_checkbox = document.createElement('label');
     label_checkbox.setAttribute('class', 'form-check-label');
-    label_checkbox.setAttribute('for', 'flexCheckDefault');
     label_checkbox.textContent = item;
     return label_checkbox;
 };
