@@ -21,6 +21,7 @@ Technologies used for this project:
 ## Content
 Content of the project folder:
 
+```
  Top level of project folder: 
 ├── .gitignore               # Git ignore file
 ├── index.html               # landing HTML file, this is what users see when you come to url
@@ -57,7 +58,7 @@ It has the following subfolders and files:
 
 Firebase hosting files: 
 ├── .firebaserc...
-
+```
 
 
 <!-- Tips for file naming files and folders:
