@@ -330,30 +330,30 @@ function itemDetailsPage(current_object) {
                 })
             })
     })
-
-    // Save Changes
-    document.getElementById("saveBtn").addEventListener("click", function (current_object) {
-        let quantity = document.getElementById("item-detail-quantity").value;
-        let scale = document.getElementById("inputGroupSelectUnit").value;
-        let input_food_group = document.getElementById("js-inputFoodGroup").value;
-        let input_shelf_life = document.getElementById("js-inputShelfLife").value;
-        let notify_switch = document.getElementById("flexSwitchCheckDefault").checked;
-
-        firebase.auth().onAuthStateChanged(function (user) {
-            let current_list = document.getElementById('current-list').textContent;
-            let item = document.getElementById("modal-header").textContent;
-
-            db.collection('users').doc(user.uid).collection('pantry').doc(current_list + '-' + item).update({
-                'quantity': quantity,
-                'scale': scale,
-                'food-group': input_food_group,
-                'shelf_life_user': input_shelf_life,
-                'notify-me': notify_switch
-            })
-        })
-        $('#exampleModal').modal('hide');
-    })
 }
+
+// Save Changes
+document.getElementById("saveBtn").addEventListener("click", function (current_object) {
+    let quantity = document.getElementById("item-detail-quantity").value;
+    let scale = document.getElementById("inputGroupSelectUnit").value;
+    let input_food_group = document.getElementById("js-inputFoodGroup").value;
+    let input_shelf_life = document.getElementById("js-inputShelfLife").value;
+    // let notify_switch = document.getElementById("flexSwitchCheckDefault").checked;
+
+    firebase.auth().onAuthStateChanged(function (user) {
+        let current_list = document.getElementById('current-list').textContent;
+        let item = document.getElementById("modal-header").textContent;
+
+        db.collection('users').doc(user.uid).collection('pantry').doc(current_list + '-' + item).update({
+            'quantity': quantity,
+            'scale': scale,
+            'food-group': input_food_group,
+            'shelf_life_user': input_shelf_life,
+            // 'notify-me': notify_switch
+        })
+    })
+    $('#exampleModal').modal('hide');
+})
 
 
 // Increment counter
