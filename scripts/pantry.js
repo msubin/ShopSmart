@@ -364,7 +364,7 @@ function incrementCounter(current_object) {
 
     firebase.auth().onAuthStateChanged(function (user) {
         let current_list = document.getElementById('current-list').textContent;
-        let item = current_object.previousSibling.previousSibling.textContent;
+        let item = current_object.previousSibling.textContent;
 
         db.collection('users').doc(user.uid)
             .collection('pantry').doc(current_list + '-' + item)
@@ -383,7 +383,7 @@ function decrementCounter(current_object) {
 
         firebase.auth().onAuthStateChanged(function (user) {
             let current_list = document.getElementById('current-list').textContent;
-            let item = current_object.previousSibling.previousSibling.previousSibling.previousSibling.textContent;
+            let item = current_object.previousSibling.previousSibling.previousSibling.textContent;
 
             db.collection('users').doc(user.uid)
                 .collection('pantry').doc(current_list + '-' + item)
