@@ -25,8 +25,9 @@ function createCheckboxLabel(item) {
 // Create quantity box to increment/decrement
 function createQuantityBox(value) {
     let quantity_number = document.createElement('span');
-    quantity_number.textContent = value
-    quantity_number.setAttribute('style', 'float: right; width: 25px; height: 30px; text-align: center; border-bottom: 1px solid black;');
+    quantity_number.textContent = value;
+    quantity_number.setAttribute('id', 'quantity-number');
+    quantity_number.setAttribute('style', 'float: right; width: 30px; height: 30px; text-align: center; border-bottom: 1px solid black;');
     return quantity_number;
 };
 
