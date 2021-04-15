@@ -441,7 +441,7 @@ document.getElementById('remove-button').addEventListener('click', function () {
     })
 });
 
-// If user clicks the Move Checked Items to Pantry button, will delete the items from this list and firestore
+// If user clicks the Move Checked Items to Shopping List button, will delete the items from this list and firestore
 // and add them to My Shopping List
 document.getElementById('move-button').addEventListener('click', function () {
     firebase.auth().onAuthStateChanged(function (user) {
@@ -451,7 +451,7 @@ document.getElementById('move-button').addEventListener('click', function () {
 
         Array.from(checkboxes).forEach((box) => {
             if (box.checked === true) {
-                let quantity_value = parseInt(box.nextSibling.nextSibling.nextSibling.nextSibling.textContent);
+                let quantity_value = parseInt(box.nextSibling.nextSibling.nextSibling.textContent);
                 let item_name = box.nextSibling.textContent;
                 box.parentNode.remove();
 
