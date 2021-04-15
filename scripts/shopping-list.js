@@ -377,20 +377,3 @@ document.getElementById('move-button').addEventListener('click', function () {
         document.getElementById('move-button').setAttribute('style', 'visibility: hidden;');
     })
 });
-
-// name customization in the header
-function userFirstName() {
-    firebase.auth().onAuthStateChanged(function (somebody) {
-        if (somebody) {
-            console.log(somebody.uid);
-            db.collection("users")
-                .doc(somebody.uid) //only getting one document. if this line wasn't here, we'd get whole collection and we'd need to loop over it. UID is in authentication in firebase
-                .get()             //READ !!!
-                .then(function (doc) {
-                    console.log(doc.data().name);
-                    var n = doc.data().name.split(' ')[0];
-                    $("#name-goes-here").text(n); //jquery points to id and says the text in there is n (which was name from line 11)
-                })
-        }
-    })
-}
