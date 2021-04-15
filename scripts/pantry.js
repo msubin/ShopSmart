@@ -323,13 +323,10 @@ function itemDetailsPage(current_object) {
                     let scale = doc.data()["scale"];
                     let food_group = doc.data()["food-group"];
                     let shelf_life_user = doc.data()["shelf_life_user"];
-                    let notify_me = doc.data()["notify-me"]
 
                     document.getElementById("inputGroupSelectUnit").value = scale;
                     document.getElementById("js-inputFoodGroup").value = food_group;
                     document.getElementById("js-inputShelfLife").value = shelf_life_user;
-                    document.getElementById["flexSwitchCheckDefault"].checked = notify_me;
-
                 })
             })
     })
