@@ -122,9 +122,7 @@ function writeNewItem(item) {
                 'list_name': current_list,
                 'category': 'pantry',
                 'quantity': 1,
-                'food-group': 'N/A',
-                'food_group_by_user': 'N/A',
-                'scale': 'N/A'
+                'food-group': 'Enter the food group'
             })
     })
 };
@@ -167,6 +165,9 @@ function itemsQuery() {
                         itemDetailsPage(this);
                         var test = document.getElementById('exampleModal');
                         test.focus();
+                        $('#exampleModal').on('hidden.bs.modal', function () {
+                            $(this).find('form').trigger('reset');
+                        })
                     })
 
                     checkbox_new_item.addEventListener('click', function () {
@@ -191,6 +192,7 @@ function itemsQuery() {
             })
     })
 };
+
 
 // Creates new HTML for new list
 document.getElementById('create-new-list').addEventListener('click', function (event) {
@@ -290,42 +292,44 @@ function itemDetailsPage(current_object) {
 
     var item = document.getElementById('modal-header').textContent;
 
-    // get user saved info
-    firebase.auth().onAuthStateChanged(function (user) {
-        db.collection("users").doc(user.uid).collection('pantry')
-            .where('name', '==', item)
-            .where('list_name', '==', current_list)
-            .get()
-            .then(function (snap) {
-                snap.forEach(function (doc) {
-                    var scale = doc.data().scale;
-                    var food_group_by_user = doc.data().food_group_by_user;
-                    var shelf_life_user = doc.data().shelf_life_user;
-                    var name = doc.data().name;
-
-                    if (item_name.toLowerCase() === name.toLowerCase()) {
-                        if (food_group_by_user != "N/A" && shelf_life_user != "N/A") {
-                            document.getElementById("inputGroupSelectUnit").value = scale;
-                            document.getElementById("js-inputFoodGroup").value = food_group_by_user;
-                            document.getElementById("js-inputShelfLife").value = shelf_life_user;
-                        }
-                    }
-                })
-            })
-    })
-
     // get preset food group from db
     db.collection("foods").get()
         .then(function (snap) {
             snap.forEach(function (doc) {
-                var name = doc.data()["name"];
-                var group = doc.data()["food-group"];
+                let name = doc.data()["name"];
+                let group = doc.data()["food-group"];
                 if (item_name.toLowerCase() === name.toLowerCase()) {
-                    document.getElementById('js-inputFoodGroup').setAttribute('placeholder', group);
-                    document.getElementById('js-inputFoodGroup').setAttribute('value', group);
+                    // document.getElementById('js-inputFoodGroup').setAttribute('placeholder', group);
+                    firebase.auth().onAuthStateChanged(function (user) {
+                        let current_list = document.getElementById("current-list").textContent;
+                        let item = document.getElementById("modal-header").textContent;
+
+                        db.collection('users').doc(user.uid).collection('pantry').doc(current_list + '-' + item).update({
+                            'food-group': group
+                        })
+                    })
                 }
             })
         })
+
+    // get user saved info
+    firebase.auth().onAuthStateChanged(function (user) {
+        db.collection("users").doc(user.uid).collection('pantry')
+            .where('list_name', '==', current_list)
+            .where('name', '==', item)
+            .get()
+            .then(function (snap) {
+                snap.forEach(function (doc) {
+                    let scale = doc.data()["scale"];
+                    let food_group = doc.data()["food-group"];
+                    let shelf_life_user = doc.data()["shelf_life_user"];
+
+                    document.getElementById("inputGroupSelectUnit").value = scale;
+                    document.getElementById("js-inputFoodGroup").value = food_group;
+                    document.getElementById("js-inputShelfLife").value = shelf_life_user;
+                })
+            })
+    })
 
     // Save Changes
     document.getElementById("saveBtn").addEventListener("click", function (current_object) {
@@ -333,7 +337,7 @@ function itemDetailsPage(current_object) {
         let scale = document.getElementById("inputGroupSelectUnit").value;
         let input_food_group = document.getElementById("js-inputFoodGroup").value;
         let input_shelf_life = document.getElementById("js-inputShelfLife").value;
-        let notify_switch = document.getElementById("notify_me_switch").checked;
+        let notify_switch = document.getElementById("flexSwitchCheckDefault").checked;
 
         firebase.auth().onAuthStateChanged(function (user) {
             let current_list = document.getElementById('current-list').textContent;
@@ -342,15 +346,11 @@ function itemDetailsPage(current_object) {
             db.collection('users').doc(user.uid).collection('pantry').doc(current_list + '-' + item).update({
                 'quantity': quantity,
                 'scale': scale,
-                'food_group_by_user': input_food_group,
+                'food-group': input_food_group,
                 'shelf_life_user': input_shelf_life,
-                'notify_me': notify_switch
+                'notify-me': notify_switch
             })
         })
-        item = document.getElementById('js-FoodGroup')
-        item.setAttribute('style', 'display: none;')
-        document.getElementById('js-inputFoodGroup').setAttribute('style', 'display: block;')
-
         $('#exampleModal').modal('hide');
     })
 }
@@ -441,7 +441,7 @@ document.getElementById('remove-button').addEventListener('click', function () {
     })
 });
 
-// If user clicks the Move Checked Items to Pantry button, will delete the items from this list and firestore
+// If user clicks the Move Checked Items to Shopping List button, will delete the items from this list and firestore
 // and add them to My Shopping List
 document.getElementById('move-button').addEventListener('click', function () {
     firebase.auth().onAuthStateChanged(function (user) {
