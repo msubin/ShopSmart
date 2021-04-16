@@ -58,8 +58,11 @@ document.getElementById('add_item_button').addEventListener('click', function (e
     let item_name = document.getElementById('add_item_input').value;
 
     if (item_name != '') {
+        // Capitalize the first word of input text
         item_name = capitalizeFirstLetter(item_name)
+        // Write to database
         writeNewItem(item_name);
+        // Update that new doc in database with the correct food group, if applicable
         getFoodGroup(item_name);
 
         let new_item_div = document.createElement('div');

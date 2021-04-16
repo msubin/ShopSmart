@@ -61,17 +61,21 @@ document.getElementById('add_item_button').addEventListener('click', function (e
     let item_name = document.getElementById('add_item_input').value;
 
     if (item_name != '') {
+        // Capitalize the first word of input text
         item_name = capitalizeFirstLetter(item_name)
+        // Write to database
         writeNewItem(item_name);
+        // Update that new doc in database with the correct food group, if applicable
         getFoodGroup(item_name);
+
         let new_item_div = document.createElement('div');
         new_item_div.setAttribute('class', 'form-check');
 
         let checkbox_new_item = createCheckbox(item_name);
         let label_checkbox = createCheckboxLabel(item_name);
 
+        // Event listener for clicking on item's label that will open the modal
         label_checkbox.addEventListener('click', function () {
-            //get_food_group(this);
             itemDetailsPage(this);
             var modal = document.getElementById('exampleModal');
             modal.focus();
@@ -185,7 +189,6 @@ function itemsQuery() {
 
 
                     label_checkbox.addEventListener('click', function () {
-                        //get_food_group(this);
                         itemDetailsPage(this);
                         var test = document.getElementById('exampleModal');
                         test.focus();
@@ -354,34 +357,6 @@ document.getElementById("saveBtn").addEventListener("click", function (current_o
     document.getElementById("checkbox-" + item).nextSibling.nextSibling.nextSibling.textContent = quantity;
     $('#exampleModal').modal('hide');
 })
-
-// // get preset food group from db
-// function get_food_group(current_object) {
-//     var item_name = current_object.textContent;
-//     document.getElementById('modal-header').textContent = item_name;
-
-//     var quantity = current_object.nextSibling.nextSibling.textContent;
-//     document.getElementById('item-detail-quantity').value = quantity;
-
-//     db.collection("foods").get()
-//         .then(function (snap) {
-//             snap.forEach(function (doc) {
-//                 let name = doc.data()["name"];
-//                 let group = doc.data()["food-group"];
-//                 if (item_name.toLowerCase() === name.toLowerCase()) {
-
-//                     firebase.auth().onAuthStateChanged(function (user) {
-//                         let current_list = document.getElementById("current-list").textContent;
-//                         let item = document.getElementById("modal-header").textContent;
-//                         db.collection('users').doc(user.uid).collection('pantry').doc(current_list + '-' + item).update({
-//                             'food-group': group
-//                         })
-//                     })
-//                 }
-//             })
-//         })
-// }
-
 
 // Increment counter
 function incrementCounter(current_object) {
