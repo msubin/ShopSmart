@@ -4,12 +4,12 @@ function capitalizeFirstLetter(string) {
 };
 
 // Create checkbox for new item
-function createCheckbox() {
+function createCheckbox(item) {
     let checkbox_new_item = document.createElement('input');
     checkbox_new_item.setAttribute('class', 'form-check-input');
     checkbox_new_item.setAttribute('type', 'checkbox');
     checkbox_new_item.setAttribute('value', '');
-    checkbox_new_item.setAttribute('id', 'flexCheckDefault');
+    checkbox_new_item.setAttribute('id', 'checkbox-' + item);
     return checkbox_new_item;
 };
 
@@ -63,14 +63,14 @@ document.getElementById('add_item_button').addEventListener('click', function (e
     if (item_name != '') {
         item_name = capitalizeFirstLetter(item_name)
         writeNewItem(item_name)
-
         let new_item_div = document.createElement('div');
         new_item_div.setAttribute('class', 'form-check');
 
-        let checkbox_new_item = createCheckbox();
+        let checkbox_new_item = createCheckbox(item_name);
         let label_checkbox = createCheckboxLabel(item_name);
 
         label_checkbox.addEventListener('click', function () {
+            get_food_group(this);
             itemDetailsPage(this);
             var modal = document.getElementById('exampleModal');
             modal.focus();
@@ -122,7 +122,9 @@ function writeNewItem(item) {
                 'list_name': current_list,
                 'category': 'pantry',
                 'quantity': 1,
-                'food-group': 'Enter the food group'
+                'food-group': 'Enter the food group',
+                'shelf_life': 0,
+                'scale': 'each'
             })
     })
 };
@@ -146,7 +148,7 @@ function itemsQuery() {
                     let new_item_div = document.createElement('div');
                     new_item_div.setAttribute('class', 'form-check');
 
-                    let checkbox_new_item = createCheckbox()
+                    let checkbox_new_item = createCheckbox(item)
                     let label_checkbox = createCheckboxLabel(item);
                     let quantity_number = createQuantityBox(quantity_value);
                     let minus_quantity = createPlusOrMinusButton('-');
@@ -300,11 +302,11 @@ function itemDetailsPage(current_object) {
                 snap.forEach(function (doc) {
                     let scale = doc.data()["scale"];
                     let food_group = doc.data()["food-group"];
-                    let shelf_life_user = doc.data()["shelf_life_user"];
+                    let shelf_life = doc.data()["shelf_life"];
 
                     document.getElementById("inputGroupSelectUnit").value = scale;
                     document.getElementById("js-inputFoodGroup").value = food_group;
-                    document.getElementById("js-inputShelfLife").value = shelf_life_user;
+                    document.getElementById("js-inputShelfLife").value = shelf_life;
                 })
             })
     })
@@ -316,19 +318,19 @@ document.getElementById("saveBtn").addEventListener("click", function (current_o
     let scale = document.getElementById("inputGroupSelectUnit").value;
     let input_food_group = document.getElementById("js-inputFoodGroup").value;
     let input_shelf_life = document.getElementById("js-inputShelfLife").value;
+    let item = document.getElementById("modal-header").textContent;
 
     firebase.auth().onAuthStateChanged(function (user) {
         let current_list = document.getElementById('current-list').textContent;
-        let item = document.getElementById("modal-header").textContent;
 
         db.collection('users').doc(user.uid).collection('pantry').doc(current_list + '-' + item).update({
             'quantity': quantity,
             'scale': scale,
             'food-group': input_food_group,
-            'shelf_life_user': input_shelf_life,
+            'shelf_life': input_shelf_life,
         })
     })
-    document.getElementById("quantity-number").value = quantity;
+    document.getElementById("checkbox-" + item).nextSibling.nextSibling.nextSibling.textContent = quantity;
     $('#exampleModal').modal('hide');
 })
 
