@@ -483,13 +483,24 @@ document.getElementById('move-button').addEventListener('click', function () {
                 box.parentNode.remove();
 
                 db.collection('users').doc(user.uid)
+                .collection('pantry').doc(current_list + '-' + item_name)
+                .get()
+                .then(function (doc) {
+                    let food_group = doc.data()['food-group']
+                    let scale_value = doc.data()['scale']
+                    let shelf_value = doc.data()['shelf_life']
+                    db.collection('users').doc(user.uid)
                     .collection('shopping').doc('My Shopping List-' + item_name)
                     .set({
                         'name': item_name,
                         'list_name': 'My Shopping List',
                         'category': 'shopping',
-                        'quantity': quantity_value
+                        'quantity': quantity_value,
+                        'food-group': food_group,
+                        'shelf_life': shelf_value,
+                        'scale': scale_value
                     })
+                })
 
                 db.collection('users').doc(user.uid)
                     .collection('pantry')

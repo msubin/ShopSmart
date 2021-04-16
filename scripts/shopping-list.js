@@ -409,25 +409,3 @@ document.getElementById('move-button').addEventListener('click', function () {
         document.getElementById('move-button').setAttribute('style', 'visibility: hidden;');
     })
 });
-
-// get preset food group from db
-function get_food_group(current_object, item_name) {
-    db.collection("foods").get()
-        .then(function (snap) {
-            snap.forEach(function (doc) {
-                let name = doc.data()["name"];
-                let group = doc.data()["food-group"];
-                if (item_name.toLowerCase() === name.toLowerCase()) {
-                    // document.getElementById('js-inputFoodGroup').setAttribute('placeholder', group);
-                    firebase.auth().onAuthStateChanged(function (user) {
-                        let current_list = document.getElementById("current-list").textContent;
-                        let item = document.getElementById("modal-header").textContent;
-
-                        db.collection('users').doc(user.uid).collection('pantry').doc(current_list + '-' + item).update({
-                            'food-group': group
-                        })
-                    })
-                }
-            })
-        })
-}
