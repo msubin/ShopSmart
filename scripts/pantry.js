@@ -162,8 +162,8 @@ function itemsQuery() {
 
 
                     label_checkbox.addEventListener('click', function () {
-                        itemDetailsPage(this);
                         get_food_group(this);
+                        itemDetailsPage(this);
                         var test = document.getElementById('exampleModal');
                         test.focus();
                     })
@@ -316,7 +316,6 @@ document.getElementById("saveBtn").addEventListener("click", function (current_o
     let scale = document.getElementById("inputGroupSelectUnit").value;
     let input_food_group = document.getElementById("js-inputFoodGroup").value;
     let input_shelf_life = document.getElementById("js-inputShelfLife").value;
-    // let notify_switch = document.getElementById("flexSwitchCheckDefault").checked;
 
     firebase.auth().onAuthStateChanged(function (user) {
         let current_list = document.getElementById('current-list').textContent;
@@ -327,7 +326,6 @@ document.getElementById("saveBtn").addEventListener("click", function (current_o
             'scale': scale,
             'food-group': input_food_group,
             'shelf_life_user': input_shelf_life,
-            // 'notify-me': notify_switch
         })
     })
     document.getElementById("quantity-number").value = quantity;
@@ -342,20 +340,16 @@ function get_food_group(current_object) {
     var quantity = current_object.nextSibling.nextSibling.textContent;
     document.getElementById('item-detail-quantity').value = quantity;
 
-    var item = document.getElementById('modal-header').textContent;
-
-
     db.collection("foods").get()
         .then(function (snap) {
             snap.forEach(function (doc) {
                 let name = doc.data()["name"];
                 let group = doc.data()["food-group"];
                 if (item_name.toLowerCase() === name.toLowerCase()) {
-                    // document.getElementById('js-inputFoodGroup').setAttribute('placeholder', group);
+
                     firebase.auth().onAuthStateChanged(function (user) {
                         let current_list = document.getElementById("current-list").textContent;
                         let item = document.getElementById("modal-header").textContent;
-
                         db.collection('users').doc(user.uid).collection('pantry').doc(current_list + '-' + item).update({
                             'food-group': group
                         })
