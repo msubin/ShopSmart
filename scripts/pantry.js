@@ -62,7 +62,8 @@ document.getElementById('add_item_button').addEventListener('click', function (e
 
     if (item_name != '') {
         item_name = capitalizeFirstLetter(item_name)
-        writeNewItem(item_name)
+        writeNewItem(item_name);
+        getFoodGroup(item_name);
         let new_item_div = document.createElement('div');
         new_item_div.setAttribute('class', 'form-check');
 
@@ -70,7 +71,7 @@ document.getElementById('add_item_button').addEventListener('click', function (e
         let label_checkbox = createCheckboxLabel(item_name);
 
         label_checkbox.addEventListener('click', function () {
-            get_food_group(this);
+            //get_food_group(this);
             itemDetailsPage(this);
             var modal = document.getElementById('exampleModal');
             modal.focus();
@@ -129,6 +130,26 @@ function writeNewItem(item) {
     })
 };
 
+// Update food group for item from foods database
+function getFoodGroup(item) {
+    let current_list = document.getElementById('current-list').textContent;
+    firebase.auth().onAuthStateChanged(function (user) {
+        db.collection('foods').get()
+        .then(function (snap) {
+            snap.forEach(function (doc) {
+                if (doc.data()["name"] == item) {
+                    food_group = doc.data()["food-group"];
+                    db.collection('users').doc(user.uid)
+                    .collection('pantry').doc(current_list + '-' + item)
+                    .update({
+                        'food-group': food_group
+                    })
+                }
+            })
+        })
+    })
+};
+
 // Populates list with items from firestore
 function itemsQuery() {
     firebase.auth().onAuthStateChanged(function (user) {
@@ -164,7 +185,7 @@ function itemsQuery() {
 
 
                     label_checkbox.addEventListener('click', function () {
-                        get_food_group(this);
+                        //get_food_group(this);
                         itemDetailsPage(this);
                         var test = document.getElementById('exampleModal');
                         test.focus();
@@ -334,32 +355,32 @@ document.getElementById("saveBtn").addEventListener("click", function (current_o
     $('#exampleModal').modal('hide');
 })
 
-// get preset food group from db
-function get_food_group(current_object) {
-    var item_name = current_object.textContent;
-    document.getElementById('modal-header').textContent = item_name;
+// // get preset food group from db
+// function get_food_group(current_object) {
+//     var item_name = current_object.textContent;
+//     document.getElementById('modal-header').textContent = item_name;
 
-    var quantity = current_object.nextSibling.nextSibling.textContent;
-    document.getElementById('item-detail-quantity').value = quantity;
+//     var quantity = current_object.nextSibling.nextSibling.textContent;
+//     document.getElementById('item-detail-quantity').value = quantity;
 
-    db.collection("foods").get()
-        .then(function (snap) {
-            snap.forEach(function (doc) {
-                let name = doc.data()["name"];
-                let group = doc.data()["food-group"];
-                if (item_name.toLowerCase() === name.toLowerCase()) {
+//     db.collection("foods").get()
+//         .then(function (snap) {
+//             snap.forEach(function (doc) {
+//                 let name = doc.data()["name"];
+//                 let group = doc.data()["food-group"];
+//                 if (item_name.toLowerCase() === name.toLowerCase()) {
 
-                    firebase.auth().onAuthStateChanged(function (user) {
-                        let current_list = document.getElementById("current-list").textContent;
-                        let item = document.getElementById("modal-header").textContent;
-                        db.collection('users').doc(user.uid).collection('pantry').doc(current_list + '-' + item).update({
-                            'food-group': group
-                        })
-                    })
-                }
-            })
-        })
-}
+//                     firebase.auth().onAuthStateChanged(function (user) {
+//                         let current_list = document.getElementById("current-list").textContent;
+//                         let item = document.getElementById("modal-header").textContent;
+//                         db.collection('users').doc(user.uid).collection('pantry').doc(current_list + '-' + item).update({
+//                             'food-group': group
+//                         })
+//                     })
+//                 }
+//             })
+//         })
+// }
 
 
 // Increment counter

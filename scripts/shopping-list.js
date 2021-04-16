@@ -59,7 +59,8 @@ document.getElementById('add_item_button').addEventListener('click', function (e
 
     if (item_name != '') {
         item_name = capitalizeFirstLetter(item_name)
-        writeNewItem(item_name)
+        writeNewItem(item_name);
+        getFoodGroup(item_name);
 
         let new_item_div = document.createElement('div');
         new_item_div.setAttribute('class', 'form-check');
@@ -112,8 +113,30 @@ function writeNewItem(item) {
                 'list_name': current_list,
                 'category': 'shopping',
                 'quantity': 1,
-                'food-group': 'Enter the food group'
+                'food-group': 'Enter the food group',
+                'shelf_life': 0,
+                'scale': 'each'
             })
+    })
+};
+
+// Update food group for item from foods database
+function getFoodGroup(item) {
+    let current_list = document.getElementById('current-list').textContent;
+    firebase.auth().onAuthStateChanged(function (user) {
+        db.collection('foods').get()
+        .then(function (snap) {
+            snap.forEach(function (doc) {
+                if (doc.data()["name"] == item) {
+                    food_group = doc.data()["food-group"];
+                    db.collection('users').doc(user.uid)
+                    .collection('shopping').doc(current_list + '-' + item)
+                    .update({
+                        'food-group': food_group
+                    })
+                }
+            })
+        })
     })
 };
 
@@ -351,18 +374,25 @@ document.getElementById('move-button').addEventListener('click', function () {
                 let quantity_value = parseInt(box.nextSibling.nextSibling.nextSibling.textContent);
                 let item_name = box.nextSibling.textContent;
                 box.parentNode.remove();
-
                 db.collection('users').doc(user.uid)
+                .collection('shopping').doc(current_list + '-' + item_name)
+                .get()
+                .then(function (doc) {
+                    let food_group = doc.data()['food-group']
+                    let scale_value = doc.data()['scale']
+                    let shelf_value = doc.data()['shelf_life']
+                    db.collection('users').doc(user.uid)
                     .collection('pantry').doc('My Pantry List-' + item_name)
                     .set({
                         'name': item_name,
                         'list_name': 'My Pantry List',
                         'category': 'pantry',
                         'quantity': quantity_value,
-                        'food-group': 'Enter the food group'
+                        'food-group': food_group,
+                        'shelf_life': shelf_value,
+                        'scale': scale_value
                     })
-                get_food_group(this, item_name);
-
+                })
                 db.collection('users').doc(user.uid)
                     .collection('shopping')
                     .where('name', '==', item_name)
